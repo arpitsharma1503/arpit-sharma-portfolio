@@ -1,0 +1,1019 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GroupBima — Health Insurance UX Case Study | Arpit Sharma</title>
+<meta name="description" content="GroupBima: making health insurance feel less like a burden, and more like a decision you're proud of. A product design case study by Arpit Sharma.">
+<link rel="canonical" href="https://www.arpit.design/groupbima.html">
+
+<!-- Link previews (Open Graph / Twitter) -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Arpit Sharma">
+<meta property="og:title" content="GroupBima — Health Insurance UX Case Study | Arpit Sharma">
+<meta property="og:description" content="GroupBima: making health insurance feel less like a burden, and more like a decision you're proud of. A product design case study by Arpit Sharma.">
+<meta property="og:url" content="https://www.arpit.design/groupbima.html">
+<meta property="og:image" content="https://www.arpit.design/assets/images/groupbima/groupbima_discovery.webp">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Structured data for search engines -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CreativeWork",
+      "@id": "https://www.arpit.design/groupbima.html#case-study",
+      "url": "https://www.arpit.design/groupbima.html",
+      "name": "GroupBima",
+      "headline": "GroupBima — Health Insurance UX Case Study | Arpit Sharma",
+      "description": "GroupBima: making health insurance feel less like a burden, and more like a decision you're proud of. A product design case study by Arpit Sharma.",
+      "genre": "Health insurance product design",
+      "inLanguage": "en",
+      "image": "https://www.arpit.design/assets/images/groupbima/groupbima_discovery.webp",
+      "author": {
+        "@id": "https://www.arpit.design/#person"
+      },
+      "creator": {
+        "@id": "https://www.arpit.design/#person"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Arpit Sharma",
+          "item": "https://www.arpit.design/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "GroupBima",
+          "item": "https://www.arpit.design/groupbima.html"
+        }
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.arpit.design/#person",
+      "name": "Arpit Sharma",
+      "url": "https://www.arpit.design/",
+      "jobTitle": "Product Designer",
+      "sameAs": [
+        "https://www.linkedin.com/in/arpitsharma1503/",
+        "https://www.instagram.com/arpit_arv_sharma/"
+      ]
+    }
+  ]
+}
+</script>
+
+<!-- Same feature flags as the home page: .js enables reveals, .motion enables the sky's twinkle -->
+<script>
+  (function (root) {
+    root.classList.add("js");
+    var reduced = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduced) root.classList.add("motion");
+    try { if (localStorage.getItem("theme") === "light") root.dataset.theme = "light"; } catch (e) {}
+  })(document.documentElement);
+</script>
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Lexend is only used to show GroupBima's own typeface in the design-system section -->
+<!-- Fonts load without blocking first paint; text shows in the fallback face until they arrive -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&family=Pacifico&family=Lexend:wght@400;500;700&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&family=Pacifico&family=Lexend:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&family=Pacifico&family=Lexend:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
+
+<style>
+/* ==========================================================================
+   1. Tokens (shared with the home page)
+   ========================================================================== */
+:root {
+  color-scheme: dark;
+
+  --bg: #140a15;
+  --bg-2: #1e1022;
+  --cream: #eff0dc;
+  --ink-rgb: 239, 240, 220;           /* --cream and --bg as r, g, b, for translucent tints */
+  --bg-rgb: 20, 10, 21;
+  --hair: rgba(var(--ink-rgb), .14);
+  --hair-strong: rgba(var(--ink-rgb), .5);
+  --ember: #e2622e;
+  --violet: #4a2bb0;
+
+  --sans: "Outfit", "Helvetica Neue", Arial, sans-serif;
+  --script: "Pacifico", "Brush Script MT", cursive;
+  --lexend: "Lexend", "Outfit", Arial, sans-serif;
+
+  --edge: clamp(20px, 5vw, 84px);
+  --grid-gap: clamp(12px, 1.6vw, 24px);
+  --measure: 62ch;
+  --reveal-duration: .8s;
+
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Light theme: the same tokens, flipped. Chosen with the sun/moon button in the
+   header (assets/theme.js) and remembered; dark stays the default. */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f5f2e7;
+  --bg-2: #ebe3ee;
+  --cream: #1c0f1e;                  /* the "ink" colour: dark on light here */
+  --ink-rgb: 28, 15, 30;
+  --bg-rgb: 245, 242, 231;
+  --ember: #cf5320;
+  --lime: #3d9f00;
+}
+[data-theme="light"] .sky { filter: invert(1); opacity: .5; }   /* stars become faint ink specks */
+
+/* ==========================================================================
+   2. Base
+   ========================================================================== */
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-padding-top: calc(72px + env(safe-area-inset-top, 0px)); }
+html, body { margin: 0; }
+
+body {
+  background: linear-gradient(135deg, var(--bg) 40%, var(--bg-2) 100%) fixed;
+  background-color: var(--bg);
+  color: var(--cream);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+a:focus-visible { outline: 2px solid var(--cream); outline-offset: 4px; }
+h1, h2, h3, h4, p, dl, dd, ul, ol, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+.script {
+  font-family: var(--script); color: var(--ember);
+  font-weight: 400; letter-spacing: 0; text-transform: none;
+}
+
+.js .reveal {
+  opacity: 0; filter: blur(8px);
+  transition: opacity var(--reveal-duration) ease, filter var(--reveal-duration) ease;
+}
+.js .reveal.is-in { opacity: 1; filter: none; }
+
+/* sky + reading progress */
+.sky { position: fixed; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; }
+.progress {
+  position: fixed; top: 0; left: 0; z-index: 10;
+  width: 100%; height: 2px; background: var(--ember);
+  transform-origin: 0 50%; transform: scaleX(0);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   3. Nav
+   ========================================================================== */
+.nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 50;
+  background: rgba(var(--bg-rgb), .72); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px var(--edge);              /* same inset as the page content, so the logo and links line up with it */
+}
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.35rem; letter-spacing: -.01em; }
+.brand__mark {
+  display: grid; place-items: center;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--cream); color: var(--bg);
+  font-size: .62rem; font-weight: 800; letter-spacing: 0;
+}
+.brand__mark::before { content: attr(data-mark); }
+.nav__links { display: flex; gap: clamp(18px, 2.4vw, 36px); font-size: .95rem; }
+.nav__links a { display: inline-flex; align-items: center; gap: 8px; opacity: .92; padding-block: 12px; margin-block: -12px; }   /* bigger tap area, same layout */
+.nav__links a:hover { opacity: 1; }
+.nav__links svg { width: 15px; height: 15px; flex: none; }
+
+/* ==========================================================================
+   4. Hero
+   ========================================================================== */
+.hero { padding: clamp(110px, 17vh, 170px) var(--edge) 0; }
+
+.crumbs { display: flex; align-items: center; gap: 12px; font-size: .9rem; opacity: .8; }
+.crumbs a { display: inline-flex; align-items: center; gap: 8px; padding-block: 12px; margin-block: -12px; }   /* bigger tap area, same layout */
+.crumbs a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+
+.tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(28px, 5vh, 48px); }
+.pill {
+  display: inline-flex; align-items: center;
+  padding: 7px 16px; border: 1px solid var(--violet); border-radius: 999px;
+  font-size: .8rem;
+}
+
+.hero__name {
+  margin-top: 26px;
+  font-weight: 800; letter-spacing: -.035em; line-height: .95;
+  font-size: clamp(3.4rem, 13vw, 12.5rem);
+}
+.hero__tag {
+  margin-top: 28px; max-width: 26ch; text-wrap: balance;
+  font-size: clamp(1.3rem, 2.8vw, 2.6rem); font-weight: 300; line-height: 1.25;
+}
+
+.facts {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  margin-top: clamp(48px, 9vh, 96px);
+  border-top: 1px solid var(--hair);
+}
+.facts > div { padding: 22px 24px 22px 0; }
+.facts dt { font-size: .85rem; opacity: .6; }
+.facts dd { margin-top: 6px; font-size: 1.05rem; line-height: 1.45; }
+@media (min-width: 900px) { .facts .wide { grid-column: span 2; } }
+
+/* ==========================================================================
+   5. Chapters
+   ========================================================================== */
+.chap { padding: clamp(72px, 13vh, 150px) var(--edge) 0; }
+
+.chapter {
+  display: flex; align-items: center; gap: 18px;
+  margin-bottom: 28px;
+  font-size: .85rem; letter-spacing: .02em; opacity: .8;
+}
+.chapter::after { content: ""; flex: 1; height: 1px; background: var(--hair); }
+
+.chap__title {
+  max-width: 24ch; text-wrap: balance;
+  margin-bottom: clamp(28px, 5vh, 56px);
+  font-weight: 600; letter-spacing: -.025em; line-height: 1.12;
+  font-size: clamp(1.9rem, 4.4vw, 4.2rem);
+}
+
+.prose p {
+  max-width: var(--measure);
+  margin-bottom: 1.2em;
+  font-size: clamp(1.02rem, 1.25vw, 1.18rem); font-weight: 300; line-height: 1.7;
+}
+.prose p:last-child { margin-bottom: 0; }
+
+.sub {
+  margin: clamp(48px, 8vh, 88px) 0 18px; max-width: 34ch; text-wrap: balance;
+  font-size: clamp(1.3rem, 2.1vw, 1.8rem); font-weight: 600; letter-spacing: -.015em; line-height: 1.2;
+}
+.sub + .prose, .sub + .grid, .sub + .chips { margin-top: 0; }
+
+/* big statements */
+.bigline {
+  margin-top: clamp(56px, 11vh, 120px);
+  font-weight: 800; text-transform: uppercase; letter-spacing: -.03em; line-height: 1;
+  font-size: clamp(2.2rem, 6.2vw, 6.4rem);
+}
+.pull {
+  max-width: 30ch; text-wrap: balance;
+  margin-top: clamp(32px, 6vh, 56px);
+  padding-left: clamp(16px, 2vw, 28px);
+  border-left: 1px solid var(--hair-strong);
+  font-size: clamp(1.4rem, 2.6vw, 2.4rem); font-weight: 400; line-height: 1.3;
+}
+.pull__label { display: block; margin-bottom: 12px; font-size: .85rem; opacity: .65; letter-spacing: .02em; }
+
+/* ==========================================================================
+   6. Cards and small pieces
+   ========================================================================== */
+.grid { display: grid; grid-template-columns: 1fr; gap: var(--grid-gap); margin-top: 28px; }
+@media (min-width: 700px) { .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1040px) { .grid--3 { grid-template-columns: repeat(3, 1fr); } .grid--4 { grid-template-columns: repeat(4, 1fr); } }
+
+.card { padding: clamp(18px, 2.2vw, 30px); border: 1px solid var(--hair); }
+.card__label { margin-bottom: 12px; font-size: .85rem; opacity: .6; letter-spacing: .02em; }
+.card h4 { margin-bottom: 10px; font-size: clamp(1.1rem, 1.5vw, 1.3rem); font-weight: 600; letter-spacing: -.01em; line-height: 1.25; }
+.card p { font-size: 1rem; font-weight: 300; line-height: 1.6; opacity: .9; }
+.card--large p { font-size: clamp(1.15rem, 1.9vw, 1.7rem); font-weight: 400; line-height: 1.35; opacity: 1; max-width: 26ch; text-wrap: balance; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.chip { padding: 8px 18px; border: 1px solid var(--hair); border-radius: 999px; font-size: .95rem; }
+
+.moods { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--grid-gap); margin-top: 28px; }
+@media (min-width: 700px) { .moods { grid-template-columns: repeat(4, 1fr); } }
+.mood { padding: 22px 12px; border: 1px solid var(--hair); text-align: center; }
+.mood span { display: block; font-size: 2.2rem; line-height: 1.2; }
+.mood small { display: block; margin-top: 10px; font-size: .9rem; opacity: .8; }
+
+
+/* ==========================================================================
+   7. Principles + flow
+   ========================================================================== */
+.principles { margin-top: 28px; border-top: 1px solid var(--hair); }
+.principle { display: grid; gap: 14px; padding: clamp(24px, 4vh, 40px) 0; border-bottom: 1px solid var(--hair); }
+@media (min-width: 900px) { .principle { grid-template-columns: 5fr 7fr; gap: clamp(28px, 4vw, 64px); } }
+.principle__n { font-size: .85rem; opacity: .65; }
+.principle h3 { margin-top: 8px; font-size: clamp(1.5rem, 2.6vw, 2.4rem); font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
+.principle p { max-width: 60ch; font-size: 1.05rem; font-weight: 300; line-height: 1.65; }
+.impact { margin-top: 16px; padding-left: 16px; border-left: 1px solid var(--ember); }
+.impact b { display: block; margin-bottom: 4px; font-size: .85rem; font-weight: 500; opacity: .7; }
+
+.flow { display: grid; grid-template-columns: 1fr; gap: var(--grid-gap); margin-top: 32px; }
+@media (min-width: 1040px) { .flow { grid-template-columns: repeat(5, 1fr); } }
+.flow li { padding: 22px; border: 1px solid var(--hair); }
+.flow__n { font-size: .85rem; opacity: .65; font-variant-numeric: tabular-nums; }
+.flow h4 { margin: 28px 0 8px; font-size: 1.2rem; font-weight: 600; }
+.flow p { font-size: .95rem; font-weight: 300; line-height: 1.45; opacity: .85; }
+.flow .risk { border-color: var(--ember); }
+.flow .risk p { color: var(--ember); opacity: 1; font-weight: 400; }
+.footnote { margin-top: 20px; font-size: .9rem; opacity: .7; }
+
+/* ==========================================================================
+   8. Brand + design system
+   ========================================================================== */
+.scales { display: grid; gap: 18px; max-width: 560px; margin-top: 28px; }
+.scales li { display: flex; align-items: center; gap: 16px; font-size: 1.05rem; }
+.scales i { flex: 1; height: 1px; background: var(--hair-strong); }
+.scales li span:first-child { min-width: 5.5em; }
+.scales li span:last-child { min-width: 5.5em; text-align: right; }
+
+.note { max-width: var(--measure); margin-top: 36px; padding-left: 16px; border-left: 1px solid var(--ember); font-size: 1.05rem; font-weight: 300; line-height: 1.6; }
+
+.swatches { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--grid-gap); margin-top: 28px; }
+@media (min-width: 900px) { .swatches { grid-template-columns: repeat(4, 1fr); } }
+.swatch { display: flex; flex-direction: column; justify-content: space-between; min-height: 200px; padding: 20px; border: 1px solid var(--hair); }
+.swatch b { font-size: 1.05rem; font-weight: 600; }
+.swatch code { display: block; margin: 4px 0 14px; font-family: var(--sans); font-size: 1.4rem; font-weight: 300; letter-spacing: .02em; }
+.swatch span { font-size: .9rem; opacity: .85; line-height: 1.4; }
+
+.type { margin-top: 28px; padding: clamp(20px, 3vw, 40px); border: 1px solid var(--hair); font-family: var(--lexend); }
+.type__note { margin-bottom: 28px; font-family: var(--sans); font-size: .9rem; opacity: .65; }
+.type__row + .type__row { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--hair); }
+.type__h { font-size: 32px; line-height: 40px; font-weight: 700; }
+.type__b { font-size: 16px; line-height: 24px; font-weight: 400; }
+.type__c { font-size: 12px; line-height: 18px; font-weight: 500; }
+
+/* ==========================================================================
+   9. Journeys, outcome, reflection
+   ========================================================================== */
+.journey { margin-top: clamp(56px, 10vh, 110px); }
+.journey__label { margin-bottom: 14px; font-size: .85rem; opacity: .7; letter-spacing: .02em; }
+.journey__title { max-width: 20ch; text-wrap: balance; margin-bottom: 20px; font-size: clamp(1.8rem, 3.6vw, 3.2rem); font-weight: 700; letter-spacing: -.025em; line-height: 1.08; }
+
+
+.next { margin-top: clamp(80px, 15vh, 170px); padding: clamp(40px, 8vh, 90px) var(--edge); border-top: 1px solid var(--hair); }
+.next__label { font-size: .85rem; opacity: .7; letter-spacing: .02em; }
+.next__link { display: block; width: fit-content; margin-top: 18px; }
+.next__title { font-size: clamp(2.6rem, 8vw, 8rem); font-weight: 800; letter-spacing: -.03em; line-height: 1; transition: color .3s ease; }
+.next__link:is(:hover, :focus-visible) .next__title { color: var(--ember); }
+.next__story { margin-top: 18px; max-width: 34ch; text-wrap: balance; font-size: clamp(1.05rem, 1.7vw, 1.5rem); font-weight: 300; line-height: 1.4; }
+
+.footer { padding: 0 var(--edge) 8vh; }
+.footer__links { display: flex; flex-wrap: wrap; gap: 14px clamp(20px, 3vw, 40px); padding-top: 32px; border-top: 1px solid var(--hair); font-size: 1rem; }
+.footer__links a { padding-bottom: 3px; border-bottom: 1px solid var(--cream); transition: color .3s ease, border-color .3s ease; }
+.footer__links a:is(:hover, :focus-visible) { color: var(--ember); border-color: var(--ember); }
+.footer__legal { display: block; margin-top: 7vh; font-size: .9rem; opacity: .6; }
+
+@media (max-width: 640px) {
+  .nav { padding-top: 20px; }
+  .nav__links { gap: 16px; font-size: .85rem; }
+  .brand { font-size: 1.1rem; }
+}
+
+/* very small phones: keep the logo and links on one row at the page inset */
+@media (max-width: 440px) {
+  .brand { gap: 6px; font-size: 1rem; }
+  .brand__mark { width: 26px; height: 26px; font-size: .56rem; }
+  .nav__links { gap: 14px; font-size: .82rem; }
+  .nav__links a { gap: 6px; }
+}
+
+@media (max-width: 380px) {
+  .nav__links a { white-space: nowrap; }
+  .nav__links svg { display: none; }       /* the text is enough at this width */
+  .nav__links { gap: 14px; }
+}
+@media (max-width: 340px) {
+  .brand { font-size: .9rem; }
+}
+/* ==========================================================================
+   Interaction feel — after Apple's "Designing Fluid Interfaces"
+   ========================================================================== */
+/* feedback starts the moment a finger or mouse goes down, not on release;
+   it replaces the browser's grey tap flash */
+a, button { -webkit-tap-highlight-color: transparent; }
+:is(button, .nav__links a, .footer__links a, .brand, .crumbs a, .next__link):active { scale: .96; transition: scale 100ms ease-out; }
+a.project:active { scale: .985; transition: scale 100ms ease-out; }
+
+/* visitors who ask their system for less transparency or more contrast */
+@media (prefers-reduced-transparency: reduce) {
+  .nav { background: var(--bg); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@media (prefers-contrast: more) {
+  :root { --hair: rgba(var(--ink-rgb), .45); --hair-strong: rgba(var(--ink-rgb), .85); }
+}
+</style>
+<link rel="stylesheet" href="assets/case-study.css">
+</head>
+<body>
+
+<canvas class="sky" id="sky" aria-hidden="true"></canvas>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="brand" href="index.html" aria-label="Arpit Sharma, home">
+    <span class="brand__mark" data-mark="AS" aria-hidden="true"></span>ARPIT SHARMA
+  </a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="#contact">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="2" fill="#e5322d"/><path d="M3 5l5 3.5L13 5" stroke="#fff" stroke-width="1.2" fill="none"/></svg>
+      Contact
+    </a>
+    <a href="assets/Arpit_Sharma_Resume.pdf" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z" fill="currentColor"/></svg>
+      Resume <span aria-hidden="true">↗</span>
+    </a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- Hero -->
+  <header class="hero">
+    <p class="crumbs">
+      <a href="index.html#work"><span aria-hidden="true">←</span> Projects</a>
+      <span aria-hidden="true">/</span>
+      <span>GroupBima</span>
+    </p>
+
+    <ul class="tags" aria-label="Project type">
+      <li class="pill">Health Insurance</li>
+      <li class="pill">Mobile</li>
+      <li class="pill">2019</li>
+    </ul>
+
+    <h1 class="hero__name">GroupBima</h1>
+    <p class="hero__tag">Making health insurance feel less like a burden — and more like a decision you’re proud of.</p>
+
+    <dl class="facts">
+      <div><dt>Role</dt><dd>Lead Product Designer</dd></div>
+      <div><dt>Timeline</dt><dd>2019</dd></div>
+      <div><dt>Platform</dt><dd>iOS &amp; Android (Mobile-first)</dd></div>
+      <div><dt>Team</dt><dd>Product, Engineering, Brand</dd></div>
+      <div class="wide"><dt>Responsibilities</dt><dd>Research, Strategy, IA, Brand, Design System, Prototyping</dd></div>
+    </dl>
+  </header>
+
+  <section class="chap chap--glance" aria-labelledby="t-glance">
+    <p class="chapter reveal"><span class="chapter__n">00</span> <span class="chapter__t" id="t-glance">At a glance</span></p>
+    <dl class="glance">
+    <div><dt>The challenge</dt><dd>Make insurance accessible, transparent, and digital-first — in a market where eight competitors had scale but none had earned trust.</dd></div>
+    <div><dt>What I did</dt><dd>Audited eight competitors, surveyed users on how insurance made them feel, interviewed four users — and designed the brand before the interface.</dd></div>
+    <div><dt>What shipped</dt><dd>An end-to-end system for two user types — a consumer app and a full agent portal — and a distinct, emotionally differentiated brand.</dd></div>
+  </dl>
+  </section>
+
+  <!-- 01 — Challenge -->
+  <section class="chap" aria-labelledby="t-challenge">
+    <p class="chapter reveal"><span class="chapter__n">01</span> <span class="chapter__t">Challenge</span></p>
+    <h2 class="chap__title reveal" id="t-challenge">Insurance in India is a trust problem, not a product problem.</h2>
+
+    <div class="prose">
+      <p class="lead">GroupBima is an IRDAI-approved insurance brokerage founded in 2018 with a clear ambition: make <strong>insurance accessible, transparent, and digital-first</strong> for Indian consumers. The product dream was real. The experience problem was too.</p>
+      <p>The user pain was threefold. Most Indians understood insurance was necessary, yet consistently deferred buying it — online or offline. <strong>The reasons weren’t financial. They were experiential.</strong> Existing platforms buried users under jargon. Agents were perceived as self-serving. Policy comparisons were overwhelming without being helpful. <strong>Trust, the most critical currency in financial services, was in short supply.</strong></p>
+      <p>The business problem was structural. The market already had established players — PolicyBazaar, Coverfox, Turtlemint — with years of brand equity and massive user bases. <strong>GroupBima needed a differentiated experience, not a me-too product, to earn its place.</strong></p>
+    </div>
+
+    <p class="pull reveal">
+      <span class="pull__label">The design brief, distilled</span>
+      Design an insurance platform that earns trust in the first minute, guides users to the right policy without overwhelming them, and scales a brand that feels like a warm, knowledgeable friend — not a corporate sales machine.
+    </p>
+
+    <p class="bigline reveal"><span aria-hidden="true" data-count="8">8</span><span class="sr-only">8</span> competitors.<br>0 of them solved trust.</p>
+
+    <figure class="viz viz-rings" data-viz>
+      <div class="rings" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span class="gap"></span><i class="us"></i>
+      </div>
+      <figcaption>The eight competitors I audited, and the space GroupBima set out to earn.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 02 — Research -->
+  <section class="chap" aria-labelledby="t-research">
+    <p class="chapter reveal"><span class="chapter__n">02</span> <span class="chapter__t">Research</span></p>
+    <h2 class="chap__title reveal" id="t-research">I started where the problem lived — in people’s hesitation.</h2>
+
+    <div class="prose">
+      <p class="lead">Research covered <strong>three distinct tracks</strong>: understanding the competitive landscape, mapping user sentiment, and defining brand positioning through direct input from potential users.</p>
+    </div>
+
+    <h3 class="sub">Competitive analysis — eight players, four real patterns</h3>
+    <div class="prose">
+      <p>I audited eight direct competitors. The findings weren’t about features — they were about failure modes: inconsistent UX, scattered information hierarchies, and over-reliance on price comparison without emotional scaffolding. <strong>The gap wasn’t functionality. It was clarity, consistency, and emotional tone.</strong></p>
+    </div>
+
+    <ul data-stagger class="chips" aria-label="Competitors audited">
+      <li class="chip">PolicyBazaar</li><li class="chip">Coverfox</li><li class="chip">Turtlemint</li><li class="chip">EasyPolicy</li>
+      <li class="chip">RenewBuy</li><li class="chip">CoverMitra</li><li class="chip">QuickBima</li><li class="chip">PayBima</li>
+    </ul>
+
+    <div data-stagger class="grid grid--2">
+      <div class="card">
+        <p class="card__label">What they had</p>
+        <p>Robust platforms, scale, and ad spend. PolicyBazaar alone drove 40,000 daily users; Coverfox ~9,000.</p>
+        <div class="bars" data-viz role="img" aria-label="Daily users: PolicyBazaar 40,000, Coverfox about 9,000">
+          <div class="bars__row" aria-hidden="true"><span>PolicyBazaar</span><i style="--w:100%"></i><b>40,000</b></div>
+          <div class="bars__row" aria-hidden="true"><span>Coverfox</span><i style="--w:22.5%"></i><b>~9,000</b></div>
+          <p class="bars__cap" aria-hidden="true">Daily users</p>
+        </div>
+      </div>
+      <div class="card">
+        <p class="card__label">What they lacked</p>
+        <p>Clarity, consistency, and emotional tone. None had an experience users trusted at a gut level.</p>
+      </div>
+    </div>
+
+    <div data-stagger class="grid grid--4">
+      <div class="card"><h4>Enhanced ease-of-use</h4><p>Reduce cognitive load at every decision point</p></div>
+      <div class="card"><h4>Engaging UX</h4><p>Design for a human being, not a transaction</p></div>
+      <div class="card"><h4>Consistent design</h4><p>A system that doesn’t confuse across flows</p></div>
+      <div class="card"><h4>Robust IA</h4><p>Make it impossible to get lost</p></div>
+    </div>
+
+    <h3 class="sub">Brand survey — I asked users how insurance made them feel</h3>
+    <div class="prose">
+      <p>Rather than jumping to feature preferences, I ran a brand-perception survey to surface emotional associations. It covered:</p>
+    </div>
+    <ul data-stagger class="chips" aria-label="What the survey covered">
+      <li class="chip">Generational segments</li><li class="chip">Online/offline preferences</li><li class="chip">Insurance status</li>
+      <li class="chip">Willingness to buy online</li><li class="chip">Emoji-based emotional response</li>
+      <li class="chip">Semantic differential scales: speed, clarity, trust, support, satisfaction</li>
+    </ul>
+    <ul data-stagger class="moods" aria-label="Emoji scale used in the survey">
+      <li class="mood mood--most"><span aria-hidden="true">😕</span><small>Doubt</small><em class="mood__tag">Most users</em></li>
+      <li class="mood mood--most"><span aria-hidden="true">😤</span><small>Frustrated</small><em class="mood__tag">Most users</em></li>
+      <li class="mood mood--rest"><span aria-hidden="true">🙂</span><small>Cared for</small></li>
+      <li class="mood mood--rest"><span aria-hidden="true">😍</span><small>Loved it</small></li>
+    </ul>
+    <p class="note"><b>The emotional map was most revealing</b>Most users associated insurance with frustration, indifference, and doubt — not security, care, or confidence.</p>
+
+    <h3 class="sub">Logo &amp; visual brand survey — five directions, tested with real users</h3>
+    <div class="prose">
+      <p>Five distinct logo directions were presented across typography, mark style, and brand personality. <strong>User input informed the final brand decision — not the other way around.</strong></p>
+    </div>
+    <figure class="shot shot--sheet" tabindex="0" role="region" aria-label="The five logo directions, scroll sideways on small screens">
+      <img src="assets/images/groupbima/5_direction.webp" width="2452" height="1066" loading="lazy" decoding="async" alt="Five sets of grayscale logo explorations for GroupBima, three marks in each set: monograms and people-shaped symbols, geometric marks and an elephant, a letterform, an umbrella and a rabbit, a hexagon and a swoosh, and an elephant with bold wordmarks">
+    </figure>
+
+    <h3 class="sub">User interviews — four users, four distinct mental models</h3>
+    <div class="prose">
+      <p><strong>The key tension:</strong> younger users were comfortable online but didn’t trust the process; older users trusted the process but feared going digital.</p>
+    </div>
+    <div data-stagger class="grid grid--4">
+      <div class="card"><h4>Digital-native</h4><p>Valued comparison features. Worried about data security. Wanted T&amp;C clarity.</p></div>
+      <div class="card"><h4>Recently converted</h4><p>Bought offline for decades; a helpful consultant changed the equation. Wants faster claims and fairer settlements.</p></div>
+      <div class="card"><h4>Price-led</h4><p>Prefers online for savings but felt offline agents gave better service. The trade-off felt unresolved.</p></div>
+      <div class="card"><h4>Offline loyalist</h4><p>Valued transparent policy exploration. Distrusted agents. Found large-insurer premiums prohibitively high.</p></div>
+    </div>
+  </section>
+
+  <!-- 03 — Key insights -->
+  <section class="chap" aria-labelledby="t-insights">
+    <p class="chapter reveal"><span class="chapter__n">03</span> <span class="chapter__t">Key insights</span></p>
+    <h2 class="chap__title reveal" id="t-insights">What the research actually told me.</h2>
+
+    <div data-stagger class="grid grid--3" style="margin-top:0">
+      <div class="card"><h4>Trust is earned before the first tap</h4><p>Users arrive skeptical. Tone — visual, verbal, interactive — must signal safety before asking for any input. First impressions are functional, not cosmetic.</p></div>
+      <div class="card"><h4>Comparison without context creates paralysis</h4><p>Everyone offered comparisons; none explained the so-what. The UI must act as an intelligent advisor, not a data dump.</p></div>
+      <div class="card"><h4>Mobile isn’t a channel — it’s the only channel</h4><p>Over 50% of target users access financial services on mobile exclusively. Mobile-first was a constraint, not a preference.</p></div>
+      <div class="card"><h4>Emotional engagement is a trust mechanism</h4><p>Positive experiences used emotional language — “I felt cared for.” Warmth needed to be woven into the logic, not just the visual skin.</p></div>
+      <div class="card"><h4>The agent layer is broken — but people want a guide</h4><p>Users didn’t distrust human guidance; they distrusted self-serving guidance. The opportunity: replicate the good agent, digitally.</p></div>
+      <div class="card"><h4>Millennials will buy online — if you make it legible</h4><p>Willingness existed. The blocker was execution: convoluted flows, ambiguous T&amp;C, and weak visual hierarchy eroded intent.</p></div>
+    </div>
+  </section>
+
+  <!-- 04 — Product strategy -->
+  <section class="chap" aria-labelledby="t-strategy">
+    <p class="chapter reveal"><span class="chapter__n">04</span> <span class="chapter__t">Product strategy</span></p>
+    <h2 class="chap__title reveal" id="t-strategy">Five principles. Every design decision ran through them.</h2>
+
+    <div class="prose">
+      <p class="lead">I used these as <strong>actual filters</strong> — things to argue against in design reviews, not decoration on a slide.</p>
+    </div>
+
+    <div class="principles">
+      <article class="principle">
+        <div><p class="principle__n">Principle 1</p><h3>Consistency over cleverness</h3></div>
+        <div>
+          <p>Users were already disoriented by competitors. Any inconsistency would erode fragile trust. Novelty was a liability; reliability was a feature.</p>
+          <p class="impact"><b>Decision impact</b>Single navigation pattern across all flows. Components behaved identically across screens.</p>
+        </div>
+      </article>
+      <article class="principle">
+        <div><p class="principle__n">Principle 2</p><h3>Minimalism as a trust signal</h3></div>
+        <div>
+          <p>Insurance is heavy with complexity. The worst response to complexity is more UI. Every element must earn its presence.</p>
+          <p class="impact"><b>Decision impact</b>Stripped the quote comparison screen to the three most decision-relevant data points per policy.</p>
+        </div>
+      </article>
+      <article class="principle">
+        <div><p class="principle__n">Principle 3</p><h3>Mobile-first, always</h3></div>
+        <div>
+          <p>Most users would never open a desktop browser. Designing for 375px first forced better prioritization.</p>
+          <p class="impact"><b>Decision impact</b>All flows designed and validated on 375px screens before any desktop consideration.</p>
+        </div>
+      </article>
+      <article class="principle">
+        <div><p class="principle__n">Principle 4</p><h3>Research closes every loop</h3></div>
+        <div>
+          <p>Insurance involves significant user anxiety. Assumptions are expensive.</p>
+          <p class="impact"><b>Decision impact</b>Brand survey, logo testing, and interviews all preceded visual design. No screen was final until tested.</p>
+        </div>
+      </article>
+      <article class="principle">
+        <div><p class="principle__n">Principle 5</p><h3>Design for emotional engagement</h3></div>
+        <div>
+          <p>The category default was clinical and cold. An emotionally engaging experience is not soft — it converts.</p>
+          <p class="impact"><b>Decision impact</b>First-person warm micro-copy. Onboarding framed as a conversation. Expressive iconography.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 05 — Information architecture -->
+  <section class="chap" aria-labelledby="t-ia">
+    <p class="chapter reveal"><span class="chapter__n">05</span> <span class="chapter__t">Information architecture</span></p>
+    <h2 class="chap__title reveal" id="t-ia">Two user types. Dozens of flows. Never let anyone get lost.</h2>
+
+    <div class="prose">
+      <p class="lead">GroupBima served the Customer — a first-time or switching buyer, anxious and skeptical — and the POS Agent, managing customers, commissions, recruitment, and claims. The same platform had to feel <span class="script">simple</span> to a nervous buyer and powerful for an agent managing a portfolio: <strong>a B2B product hidden inside a B2C shell</strong>.</p>
+      <p>Each gate was a trust checkpoint. <strong>Dropping out at medical disclosure was the highest-risk moment</strong> — users feared being penalized for honesty. The IA reduced this anxiety through progressive disclosure and transparent copy at every step.</p>
+    </div>
+
+    <figure class="viz viz-shell" data-viz>
+      <div class="shell">
+        <p class="shell__tag">The B2C shell</p>
+        <p class="shell__who">Customer</p>
+        <p class="shell__role">A first-time or switching buyer, anxious and skeptical.</p>
+        <div class="shell__core">
+          <p class="shell__tag">The B2B product inside</p>
+          <p class="shell__who">POS Agent</p>
+          <p class="shell__role">Managing customers, commissions, recruitment, and claims. Fully designed end-to-end, with 15+ flows documented.</p>
+        </div>
+      </div>
+      <figcaption>One platform, two very different users.</figcaption>
+    </figure>
+
+    <ol data-stagger class="flow" aria-label="Customer purchase flow">
+      <li><span class="flow__n">1</span><h4>Family details</h4><p>Who’s covered</p></li>
+      <li class="risk"><span class="flow__n">2</span><h4>Medical history</h4><p>Drop-off risk: privacy concern</p></li>
+      <li><span class="flow__n">3</span><h4>Personal info</h4><p>Framed as personalisation</p></li>
+      <li><span class="flow__n">4</span><h4>View quotes</h4><p>Guided, not overwhelming</p></li>
+      <li><span class="flow__n">5</span><h4>Purchase</h4><p>Trust gate → conversion</p></li>
+    </ol>
+    <p class="footnote">* The agent portal was also fully designed end-to-end (15+ flows documented).</p>
+  </section>
+
+  <!-- 06 — Design exploration -->
+  <section class="chap" aria-labelledby="t-explore">
+    <p class="chapter reveal"><span class="chapter__n">06</span> <span class="chapter__t">Design exploration</span></p>
+    <h2 class="chap__title reveal" id="t-explore">Brand before interface. Always.</h2>
+
+    <h3 class="sub" style="margin-top:0">Why the elephant?</h3>
+    <div class="prose">
+      <p>Fifteen directions were explored across typography, symbol style, and brand register. The winner: an elephant mark in brand crimson, set in a rounded square, with the wordmark “GroupBima” and “Connect to Happiness.” Elephants carry deep symbolic weight in Indian culture — wisdom, loyalty, good fortune, familial bonds, and protection. All map directly onto what insurance should feel like: <strong>a protective presence you can trust</strong>. <strong>Strategic, not decorative.</strong></p>
+    </div>
+    <figure class="shot shot--mark" style="border:0;max-width:240px">
+      <img src="assets/images/groupbima/elephant_mark.svg" width="228" height="228" loading="lazy" decoding="async" alt="The GroupBima elephant mark: an elephant face in a white rounded square">
+    </figure>
+
+    <h3 class="sub">Brand personality</h3>
+    <p class="pull reveal" style="margin-top:0">Nurturer. Communitarian. Maverick.</p>
+    <ul class="scales" aria-label="Brand personality scales">
+      <li><span>Classic</span><i></i><span>Modern</span></li>
+      <li><span>Mature</span><i></i><span>Youthful</span></li>
+      <li><span>Playful</span><i></i><span>Sophisticated</span></li>
+      <li><span>Loud</span><i></i><span>Quiet</span></li>
+      <li><span>Complex</span><i></i><span><span class="script">simple</span></span></li>
+    </ul>
+    <p class="note">The deliberate choice of cool colors (deep teal, deep crimson) over the category-default orange was a differentiation signal, not just an aesthetic one.</p>
+  </section>
+
+  <!-- 07 — Design system -->
+  <section class="chap" aria-labelledby="t-system">
+    <p class="chapter reveal"><span class="chapter__n">07</span> <span class="chapter__t">Design system</span></p>
+    <h2 class="chap__title reveal" id="t-system">A small system built to scale.</h2>
+
+    <ul data-stagger class="swatches" aria-label="Colour palette">
+      <li class="swatch" style="background:#042A37;color:#F7F4E8"><div><b>Primary Dark</b><code>#042A37</code></div><span>Backgrounds, navigation, authority</span><button type="button" class="copy" data-copy="#042A37" aria-label="Copy #042A37"></button></li>
+      <li class="swatch" style="background:#F7F4E8;color:#042A37"><div><b>Primary Light</b><code>#F7F4E8</code></div><span>Surface, cards, breathing space</span><button type="button" class="copy" data-copy="#F7F4E8" aria-label="Copy #F7F4E8"></button></li>
+      <li class="swatch" style="background:#980042;color:#F7F4E8"><div><b>Accent</b><code>#980042</code></div><span>CTAs, highlights, brand moments</span><button type="button" class="copy" data-copy="#980042" aria-label="Copy #980042"></button></li>
+      <li class="swatch" style="background:#760933;color:#F7F4E8"><div><b>Accent Deep</b><code>#760933</code></div><span>Hover states, emphasis</span><button type="button" class="copy" data-copy="#760933" aria-label="Copy #760933"></button></li>
+    </ul>
+
+    <div class="type">
+      <p class="type__note">Typeface — Lexend, chosen to reduce visual stress &amp; improve comprehension</p>
+      <p class="type__row type__h">Heading — 32/40, Bold</p>
+      <p class="type__row type__b">Body — 16/24, Regular</p>
+      <p class="type__row type__c">CAPTION — 12/18, MEDIUM</p>
+    </div>
+
+    <div data-stagger class="grid grid--3">
+      <div class="card"><h4>Policy card</h4><p>The primary decision surface — insurer logo, coverage, premium, top benefit, CTA. Comparable side-by-side on 375px.</p></div>
+      <div class="card">
+        <h4>Stepper</h4><p>Top-of-screen progress for multi-step onboarding. Signals “you’re almost there,” reducing drop-off.</p>
+        <div class="demo demo--stepper" data-stepper>
+          <div class="stepbar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          <p class="stepmsg" aria-live="polite"></p>
+          <div class="stepbtns"><button type="button" data-prev>Back</button><button type="button" data-next>Next</button></div>
+        </div>
+      </div>
+      <div class="card"><h4>Family member selector</h4><p>Checkbox multi-select with age input, built for single-thumb operation.</p></div>
+      <div class="card"><h4>Disease selector</h4><p>Pre-existing condition disclosure — the most carefully considered micro-copy in the product: non-judgmental and transparent.</p></div>
+      <div class="card"><h4>Support chip</h4><p>Persistent, one-tap human support on quote screens for users who stall before purchase.</p></div>
+    </div>
+  </section>
+
+  <!-- 08 — Final experience -->
+  <section class="chap" aria-labelledby="t-final">
+    <p class="chapter reveal"><span class="chapter__n">08</span> <span class="chapter__t">Final experience</span></p>
+    <h2 class="chap__title reveal" id="t-final">The experience, told as three journeys.</h2>
+
+    <div class="tabs tabs--split" data-tabs>
+      <div class="tabs__list" role="tablist" aria-label="The three journeys">
+        <button type="button" role="tab" id="tab-j1" aria-controls="panel-j1" aria-selected="true"><span class="tab__n">01</span>Onboarding</button>
+        <button type="button" role="tab" id="tab-j2" aria-controls="panel-j2" aria-selected="false"><span class="tab__n">02</span>Discovery</button>
+        <button type="button" role="tab" id="tab-j3" aria-controls="panel-j3" aria-selected="false"><span class="tab__n">03</span>Trust gate</button>
+      </div>
+      <article class="tabs__panel" role="tabpanel" id="panel-j1" aria-labelledby="tab-j1" tabindex="0">
+        <div class="journey__text">
+        <div class="journey__intro"><p class="journey__label">Journey 1 — Onboarding</p>
+        <h3 class="journey__title">From stranger to understood</h3>
+        <p class="journey__goal">Get a user from app open to a personalised quote in under 3 minutes by reframing onboarding as a conversation.</p></div>
+        <div class="journey__moves"><p class="moves__label">Key moves</p>
+        <ul class="moves">
+          <li>One question per screen, no scrolling forms</li>
+          <li>A persistent stepper and a pinned Next CTA</li>
+          <li>Warm first-person micro-copy</li>
+          <li>The splash screen makes a confident first impression</li>
+          <li>The family selector treats family structure as personal, not a database entry</li>
+          <li>The medical-history screen leads with the benefit (“This helps us find plans that actually cover you”), using tappable chips instead of form fields</li>
+          <li>Personal details are framed as personalisation, with a clearly surfaced skip</li>
+        </ul></div>
+        </div>
+        
+        <figure class="shot">
+          <img src="assets/images/groupbima/groupbima_onboarding.webp" width="768" height="960" loading="lazy" decoding="async" alt="A hand holding a phone that shows GroupBima’s splash screen: the crimson elephant mark, the GroupBima wordmark and the line “Connect to happiness”">
+        </figure>
+      </article>
+      <article class="tabs__panel" role="tabpanel" id="panel-j2" aria-labelledby="tab-j2" tabindex="0">
+        <div class="journey__text">
+        <div class="journey__intro"><p class="journey__label">Journey 2 — Discovery</p>
+        <h3 class="journey__title">From details to decision-ready</h3>
+        <p class="journey__goal">Transform raw inputs into options the user understands and trusts.</p></div>
+        <div class="journey__moves"><p class="moves__label">Key moves</p>
+        <ul class="moves">
+          <li>Each policy card leads with coverage amount, GST-inclusive premium, and one standout benefit; insurer name and a clear CTA (Go to ₹X/year)</li>
+          <li>Filters and discounts sit at the top for those who want to go deeper</li>
+          <li>Compact cards make comparison possible without scrolling between screens — editorial curation over information overload</li>
+          <li>A support chip is there if the user stalls</li>
+        </ul></div>
+        
+        <figure class="viz viz-policy">
+          <div class="policy__card" aria-hidden="true">
+            <div class="policy__top"><span class="policy__logo"></span>Insurer<b class="mk">4</b></div>
+            <div class="policy__row"><small>Coverage amount</small><i style="--w:70%"></i><b class="mk">1</b></div>
+            <div class="policy__row"><small>Premium (incl. GST)</small><i style="--w:48%"></i><b class="mk">2</b></div>
+            <div class="policy__row"><small>Standout benefit</small><i style="--w:86%"></i><b class="mk">3</b></div>
+            <span class="policy__cta">Go to ₹X/year<b class="mk">5</b></span>
+          </div>
+          <div>
+            <ol class="policy__legend">
+              <li><b>1</b>Coverage amount</li>
+              <li><b>2</b>GST-inclusive premium</li>
+              <li><b>3</b>One standout benefit</li>
+              <li><b>4</b>Insurer name</li>
+              <li><b>5</b>A clear CTA</li>
+            </ol>
+            <figcaption>Three data points per policy — the three most decision-relevant.</figcaption>
+          </div>
+        </figure>
+        </div>
+        <figure class="shot">
+          <img src="assets/images/groupbima/groupbima_discovery.webp" width="768" height="960" loading="lazy" decoding="async" alt="A hand holding a phone that shows GroupBima’s Health Insurance Plans screen: sort and filter controls, and policy cards with the cover, the share of the bill you pay, hospitals nearby and a Buy Plan button">
+        </figure>
+      </article>
+      <article class="tabs__panel" role="tabpanel" id="panel-j3" aria-labelledby="tab-j3" tabindex="0">
+        <div class="journey__text">
+        <div class="journey__intro"><p class="journey__label">Journey 3 — Trust gate</p>
+        <h3 class="journey__title">The moment that determines conversion</h3>
+        <p class="journey__goal">Move from intent to purchase without losing the user to anxiety.</p></div>
+        <div class="journey__moves"><p class="moves__label">Key moves</p>
+        <ul class="moves">
+          <li>Privacy and data-consent screens were treated as brand moments, not legal boxes</li>
+          <li>Plain-language, first-person copy</li>
+          <li>A file-upload screen explaining why each document is needed</li>
+          <li>No dark patterns — users can always go back without losing progress</li>
+        </ul></div>
+        <p class="pull">“We promise to respect your privacy and not bother you.”</p>
+        </div>
+        <figure class="shot">
+          <img src="assets/images/groupbima/groupbima_trust.webp" width="768" height="1154" loading="lazy" decoding="async" alt="A hand holding a phone that shows GroupBima’s Plan Details screen: ratings, hospitalisation cover, what is included, premium details and Add to Compare and Buy Plan buttons">
+        </figure>
+      </article>
+    </div>
+
+  </section>
+
+  <!-- 09 — Outcome -->
+  <section class="chap" aria-labelledby="t-outcome">
+    <p class="chapter reveal"><span class="chapter__n">09</span> <span class="chapter__t">Outcome</span></p>
+    <h2 class="chap__title reveal" id="t-outcome">What shipped. What it meant.</h2>
+
+    <div class="prose">
+      <p class="lead">No hard conversion metrics were available at project close — GroupBima was an early-stage product moving from brand to MVP. <strong>But the outcomes were real.</strong></p>
+    </div>
+
+    <div data-stagger class="grid grid--3">
+      <div class="card"><h4>Product</h4><p>End-to-end system for two user types — consumer onboarding and discovery, plus a full agent portal (commission, servicing, payment, recruitment, training).</p></div>
+      <div class="card"><h4>Brand</h4><p>A visually distinct, emotionally differentiated identity — validated through user surveys before a single screen was designed.</p></div>
+      <div class="card"><h4>UX</h4><p>Addressed every structural weakness identified in research: inconsistency, scattered information, cognitive overload, and trust erosion.</p></div>
+    </div>
+
+    <p class="note">Qualitative signal: research surfaced a consistent finding — users who wanted to buy insurance online were blocked by bad experiences, not bad intent. The product was designed to remove those blockers, one flow, one screen, one word at a time.</p>
+  </section>
+
+  <!-- 10 — Reflection -->
+  <section class="chap" aria-labelledby="t-reflect">
+    <p class="chapter reveal"><span class="chapter__n">10</span> <span class="chapter__t">Reflection</span></p>
+    <h2 class="chap__title reveal" id="t-reflect">What I know now that I didn’t know then.</h2>
+
+    <div class="principles" style="margin-top:0">
+      <article class="principle">
+        <div><h3>What worked</h3></div>
+        <div><p>Starting with brand before interface was the right call — it prevented UI that looks good in isolation but feels disconnected from what the product stands for. Running the brand survey before locking any visual direction gave every downstream decision a foundation in real user data. The dual-user architecture forced systems thinking that made the product more durable and surfaced edge cases in the consumer flows.</p></div>
+      </article>
+      <article class="principle">
+        <div><h3>What I learned</h3></div>
+        <div><p>Trust is a design material — not just a principle. Every interaction pattern, every piece of micro-copy, every visual decision either builds or erodes it. In a high-stakes, low-trust category, the designer is an architect of credibility. I also learned to treat research artefacts as deliverables in their own right — that’s how you build alignment with stakeholders who need the why before the what.</p></div>
+      </article>
+      <article class="principle">
+        <div><h3>What I’d improve today</h3></div>
+        <div><p>The onboarding still asks for too much before delivering value — I’d add a “show me what’s possible” moment (a price estimate or sample comparison) before collecting any data. The agent portal needed its own design sprint separate from the consumer product. And the wireframe-to-high-fidelity jump was too fast; today I’d build and test a mid-fidelity prototype to keep feedback on the UX, not the aesthetics.</p></div>
+      </article>
+    </div>
+
+    <div data-stagger class="grid grid--2">
+      <div class="card card--large">
+        <p class="card__label">What I’d change</p>
+        <p>Let people see the product’s promise before asking them to invest in it.</p>
+      </div>
+      <div class="card card--large">
+        <p class="card__label">With AI, today</p>
+        <p>Redesign discovery as a conversation — the right policy in under five exchanges, ranked by best fit, not highest commission.</p>
+        <p class="card__more">AI would also reshape the agent’s role: surfacing at-risk customers, flagging claims anomalies, generating renewal nudges, and drafting support responses — shifting the problem from information architecture to interaction design for AI-mediated workflows.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Next project -->
+  <aside class="next" aria-label="Next project">
+    <p class="next__label">Next up</p>
+    <a class="next__link" href="cardinal.html">
+      <span class="next__title">Cardinal</span>
+    </a>
+    <p class="next__story">From hundreds of credit cards to one <span class="script">simple</span> recommendation.</p>
+  </aside>
+</main>
+
+<footer class="footer" id="contact">
+  <nav class="footer__links" aria-label="Contact and profiles">
+    <a href="mailto:arpitsharma1503@gmail.com"><span aria-hidden="true">📮</span> Email</a>
+    <a href="https://www.linkedin.com/in/arpitsharma1503/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+    <a href="https://www.instagram.com/arpit_arv_sharma/" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a>
+    <a href="assets/Arpit_Sharma_Resume.pdf" target="_blank" rel="noopener noreferrer">Resume <span aria-hidden="true">↗</span></a>
+  </nav>
+  <small class="footer__legal">© 2026 Arpit Sharma — Designed with intention.</small>
+</footer>
+
+<script>
+(() => {
+  "use strict";
+
+  const root = document.documentElement;
+  const motion = root.classList.contains("motion");
+  const clamp = (v, min = 0, max = 1) => Math.min(max, Math.max(min, v));
+
+  /* Scroll reveals: chapter labels, titles and pull-quotes only, so reading stays calm */
+  (function initReveals() {
+    const items = document.querySelectorAll(".reveal");
+    const showAll = () => items.forEach(el => el.classList.add("is-in"));
+    if (!motion || !("IntersectionObserver" in window)) return showAll();
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-in");
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0 });
+    items.forEach(el => io.observe(el));
+  })();
+
+  /* Reading progress: a thin line along the top edge */
+  (function initProgress() {
+    const bar = document.getElementById("progress");
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const max = root.scrollHeight - window.innerHeight;
+      bar.style.transform = `scaleX(${max > 0 ? clamp(window.scrollY / max).toFixed(4) : 0})`;
+    };
+    const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    window.addEventListener("scroll", request, { passive: true });
+    window.addEventListener("resize", request);
+    update();
+  })();
+
+  /* Sky: the same quiet starfield as the home page, a touch dimmer for long reading */
+  (function initSky() {
+    const canvas = document.getElementById("sky");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const TINTS = [[239, 240, 220], [255, 196, 160], [168, 150, 255]];
+    const PARALLAX = [.012, .03, .06];
+    const DIM = .9;
+    const frameMs = 1000 / 30;
+    let W = 0, H = 0, stars = [], last = 0, rafId = 0;
+
+    function seed() {
+      const count = Math.round(clamp(W * H / 9000, 70, 190));
+      stars = Array.from({ length: count }, () => {
+        const depth = Math.random() < .6 ? 0 : Math.random() < .75 ? 1 : 2;
+        const tint = Math.random() < .84 ? 0 : Math.random() < .5 ? 1 : 2;
+        return {
+          x: Math.random(), y: Math.random(), depth,
+          r: [.5, .75, 1.05][depth] * (.8 + Math.random() * .5),
+          alpha: [.36, .52, .74][depth] * (.7 + Math.random() * .3),
+          speed: .25 + Math.random() * .55,
+          phase: Math.random() * Math.PI * 2,
+          rgb: TINTS[tint]
+        };
+      });
+    }
+
+    function resize() {
+      const widthChanged = window.innerWidth !== W;
+      W = window.innerWidth; H = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (widthChanged || !stars.length) seed();
+    }
+
+    function draw(t) {
+      ctx.clearRect(0, 0, W, H);
+      const sy = window.scrollY;
+      for (const st of stars) {
+        const tw = motion ? .68 + .32 * Math.sin(t * st.speed + st.phase) : 1;
+        const a = st.alpha * tw * DIM;
+        let y = (st.y * H - sy * PARALLAX[st.depth]) % H;
+        if (y < 0) y += H;
+        const [r, g, b] = st.rgb;
+        ctx.fillStyle = `rgba(${r},${g},${b},${a.toFixed(3)})`;
+        ctx.beginPath(); ctx.arc(st.x * W, y, st.r, 0, Math.PI * 2); ctx.fill();
+        if (st.depth === 2) {
+          ctx.fillStyle = `rgba(${r},${g},${b},${(a * .1).toFixed(3)})`;
+          ctx.beginPath(); ctx.arc(st.x * W, y, st.r * 4.5, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+    }
+
+    function frame(now) {
+      rafId = requestAnimationFrame(frame);
+      if (now - last < frameMs) return;
+      last = now;
+      draw(now / 1000);
+    }
+
+    resize();
+    window.addEventListener("resize", () => { resize(); if (!motion) draw(0); });
+    if (!motion) { draw(0); return; }
+    document.addEventListener("visibilitychange", () => {
+      cancelAnimationFrame(rafId);
+      if (!document.hidden) rafId = requestAnimationFrame(frame);
+    });
+    rafId = requestAnimationFrame(frame);
+  })();
+})();
+</script>
+<script src="assets/case-study.js" defer></script>
+<script src="assets/theme.js" defer></script>
+<script src="assets/music.js" defer></script>
+<!-- Vercel Web Analytics: page views only, no cookies. The script is served by Vercel
+     itself, so it only loads on the deployed site (it is a harmless 404 when run locally). -->
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

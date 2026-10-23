@@ -1,0 +1,610 @@
+/* ==========================================================================
+   Case-study pages (GroupBima, Cardinal)
+   Layout, reading typography and interactive pieces. Loaded after each page's
+   own <style>, so these rules win on equal specificity.
+   ========================================================================== */
+
+:root { --cs-ink: rgba(var(--ink-rgb), .8); }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ==========================================================================
+   1. Reading typography
+   A large lead sentence per chapter, calmer body text, and highlighted key
+   phrases, so the page can be skimmed before it is read.
+   ========================================================================== */
+.prose p {
+  max-width: 58ch;
+  color: var(--cs-ink);
+  font-weight: 400; line-height: 1.72;
+}
+.prose p.lead {
+  max-width: 44ch; margin-bottom: 1em;
+  color: var(--cream);
+  font-size: clamp(1.3rem, 2.1vw, 1.85rem);
+  font-weight: 300; line-height: 1.4; letter-spacing: -.01em;
+}
+
+.prose strong, .note strong {
+  color: var(--cream); font-weight: 500;
+  background: linear-gradient(transparent 64%, rgba(226, 98, 46, .3) 64%);
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+
+.card p, .principle p, .points li, .note { color: var(--cs-ink); font-weight: 400; opacity: 1; }
+.card--large p { color: var(--cream); }
+.note b { display: block; margin-bottom: 6px; font-size: .85rem; font-weight: 500; opacity: .7; letter-spacing: .02em; }
+
+/* ==========================================================================
+   2. Chapter label
+   Wide screens: a sticky column with a large outlined number, so the page has
+   an editorial rhythm and you always know where you are.
+   Narrow screens: a compact inline label.
+   ========================================================================== */
+.chapter__n { display: inline-block; font-size: 1.5rem; font-weight: 800; letter-spacing: -.02em; line-height: 1; font-variant-numeric: tabular-nums; }
+.chapter__t { font-size: .85rem; }
+
+@media (min-width: 1100px) {
+  .chap {
+    display: grid;
+    grid-template-columns: minmax(150px, 200px) minmax(0, 1fr);
+    column-gap: clamp(32px, 4vw, 72px);
+  }
+  .chap > .chapter {
+    grid-column: 1; grid-row: 1 / span 80; align-self: start;
+    position: sticky; top: 96px;
+    display: block; margin: 0;
+  }
+  .chap > .chapter::after { display: none; }
+  .chap > :not(.chapter) { grid-column: 2; }
+
+  .chapter__n {
+    display: block;
+    font-size: clamp(3.6rem, 6.4vw, 6.6rem); letter-spacing: -.05em;
+    color: transparent; -webkit-text-stroke: 1px rgba(var(--ink-rgb), .55);
+  }
+  .chapter__t { display: block; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--hair); font-size: .95rem; opacity: .75; }
+
+}
+.stat { padding: 20px; }
+.stat strong { font-size: clamp(2rem, 2.8vw, 2.8rem); }
+
+/* ==========================================================================
+   2b. Alignment
+   · the facts strip uses a 6-column grid
+   · the summary ("At a glance") is a chapter like every other: label in the
+     left column, content in the shared content column
+   · card rows never leave a hole: a short last row stretches to fill the row
+   ========================================================================== */
+@media (min-width: 900px) {
+  .facts { grid-template-columns: repeat(6, 1fr); }
+  .facts .wide { grid-column: span 2; }
+}
+.glance { row-gap: 28px; }
+.glance > div { position: relative; padding-top: 18px; border-top: 0; }
+.glance > div::before { content: ""; position: absolute; top: 0; right: 0; left: 0; border-top: 1px solid var(--hair-strong); }
+/* side by side: keep a gap between the columns, but let the last one run to the page padding */
+@media (min-width: 800px) {
+  .glance { grid-template-columns: repeat(3, 1fr); column-gap: 0; }
+  .glance > div:not(:last-child) { padding-right: clamp(20px, 3vw, 40px); }
+  .glance > div:not(:last-child)::before { right: clamp(20px, 3vw, 40px); }
+}
+
+/* Stats: a flex row, so a short last row stretches to fill it */
+.stats { display: flex; flex-wrap: wrap; gap: var(--grid-gap); --cols: 2; }
+.stats > * { flex: 1 1 calc((100% - (var(--cols) - 1) * var(--grid-gap)) / var(--cols) - .5px); min-width: 0; }
+@media (min-width: 700px)  { .stats { --cols: 3; } }
+@media (min-width: 1100px) { .stats { --cols: 5; } }
+
+/* Card grids: a 12-column grid. Every card is a subgrid, so across a row all the
+   titles share one row and all the bodies share the next. A title that wraps to a
+   second line no longer pushes its card's text out of line with its neighbours.
+   A short last row stretches to fill the row. Vertical space between rows is each
+   card's bottom margin (so the card's internal rows stay tight). */
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0 var(--grid-gap); margin-bottom: calc(var(--grid-gap) * -1); --card-rows: 1; }
+.grid:has(> .card > :nth-child(2)) { --card-rows: 2; }
+.grid:has(> .card > :nth-child(3)) { --card-rows: 3; }
+.grid > * { grid-column: span 12; margin-bottom: var(--grid-gap); }
+.grid > .card { display: grid; grid-template-rows: subgrid; grid-row: span var(--card-rows); align-content: start; }
+
+/* two columns */
+@media (min-width: 700px) {
+  .grid--2 > * { grid-column: span 6; }
+  .grid--2 > :nth-child(2n+1):last-child { grid-column: span 12; }
+}
+@media (min-width: 700px) and (max-width: 1039px), (min-width: 1100px) and (max-width: 1279px) {
+  .grid--3 > * { grid-column: span 6; }
+  .grid--3 > :nth-child(2n+1):last-child { grid-column: span 12; }
+}
+@media (min-width: 700px) and (max-width: 1399px) {
+  .grid--4 > * { grid-column: span 6; }
+  .grid--4 > :nth-child(2n+1):last-child { grid-column: span 12; }
+}
+/* three columns */
+@media (min-width: 1040px) and (max-width: 1099px), (min-width: 1280px) {
+  .grid--3 > * { grid-column: span 4; }
+  .grid--3 > :nth-child(3n+1):last-child { grid-column: span 12; }
+  .grid--3 > :nth-child(3n+1):nth-last-child(2), .grid--3 > :nth-child(3n+2):last-child { grid-column: span 6; }
+}
+/* four columns */
+@media (min-width: 1400px) {
+  .grid--4 > * { grid-column: span 3; }
+  .grid--4 > :nth-child(4n+1):last-child { grid-column: span 12; }
+  .grid--4 > :nth-child(4n+1):nth-last-child(2), .grid--4 > :nth-child(4n+2):last-child { grid-column: span 6; }
+  .grid--4 > :nth-child(4n+1):nth-last-child(3), .grid--4 > :nth-child(4n+2):nth-last-child(2), .grid--4 > :nth-child(4n+3):last-child { grid-column: span 4; }
+}
+
+/* The five-step flow: same idea, so the notes under the titles line up */
+.flow { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 var(--grid-gap); margin-bottom: calc(var(--grid-gap) * -1); --flow-rows: 2; }
+.flow:has(> li > :nth-child(3)) { --flow-rows: 3; }
+.flow > li { display: grid; grid-template-rows: subgrid; grid-row: span var(--flow-rows); align-content: start; margin-bottom: var(--grid-gap); padding: 16px; }
+@media (min-width: 700px) { .flow { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+.flow h4 { margin-top: 24px; font-size: 1.05rem; }
+@media (min-width: 1400px) { .flow > li { padding: 22px; } .flow h4 { font-size: 1.2rem; } }
+
+@media (max-width: 380px) {
+  .swatches { grid-template-columns: 1fr; }
+  .swatch { min-height: 120px; }
+}
+
+/* ==========================================================================
+   3. At a glance
+   ========================================================================== */
+.chap--glance { padding-top: clamp(56px, 10vh, 110px); }
+/* below 1100px the chapter label is a row with its own hairline, so the summary's
+   first line would double it: drop that line (and its padding) */
+@media (min-width: 800px) and (max-width: 1099px) {
+  .glance > div { padding-top: 0; }
+  .glance > div::before { display: none; }
+}
+@media (max-width: 799px) {
+  .glance > div:first-child { padding-top: 0; }
+  .glance > div:first-child::before { display: none; }
+}
+.glance { display: grid; margin: 0; }
+.glance dt { font-size: .85rem; opacity: .65; letter-spacing: .02em; }
+.glance dd { margin: 10px 0 0; max-width: 34ch; font-size: clamp(1.05rem, 1.4vw, 1.25rem); font-weight: 400; line-height: 1.5; }
+
+/* ==========================================================================
+   4. Journey tabs
+   One journey at a time instead of three long blocks of text.
+   ========================================================================== */
+.tabs__list {
+  display: flex; flex-wrap: wrap; gap: 4px 8px;
+  border-bottom: 1px solid var(--hair);
+}
+.tabs__list button {
+  appearance: none; margin-bottom: -1px; padding: 14px 18px;
+  border: 0; border-bottom: 2px solid transparent; background: none;
+  color: inherit; font: inherit; font-size: 1.05rem; cursor: pointer;
+  opacity: .6; transition: opacity .25s ease, border-color .25s ease;
+}
+.tabs__list button:hover { opacity: .9; }
+.tabs__list button[aria-selected="true"] { opacity: 1; border-bottom-color: var(--ember); }
+.tabs__list button:focus-visible { outline: 2px solid var(--cream); outline-offset: -2px; }
+.tab__n { margin-right: 8px; font-size: .8rem; opacity: .7; font-variant-numeric: tabular-nums; }
+@media (max-width: 480px) {
+  .tab__n { display: none; }
+  .tabs__list button { padding: 14px 12px; }
+}
+
+.tabs__panel { padding-top: clamp(28px, 5vh, 48px); }
+.tabs__panel[hidden] { display: none; }
+.tabs__panel:focus-visible { outline: 2px solid var(--cream); outline-offset: 6px; }
+.motion .tabs__panel:not([hidden]) { animation: cs-rise .5s ease both; }
+@keyframes cs-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+.journey__goal {
+  max-width: 40ch; margin-bottom: 28px;
+  font-size: clamp(1.15rem, 1.7vw, 1.5rem); font-weight: 300; line-height: 1.45;
+}
+.moves__label { font-size: .85rem; opacity: .65; letter-spacing: .02em; }
+.moves { max-width: 62ch; margin-top: 10px; border-bottom: 1px solid var(--hair); }
+.moves li {
+  position: relative; padding: 14px 0 14px 30px; border-top: 1px solid var(--hair);
+  color: var(--cs-ink); font-size: 1.05rem; line-height: 26px;   /* whole pixels keep the 1px ticks crisp */
+}
+.moves li::before { content: ""; position: absolute; left: 0; top: 27px; width: 14px; height: 1px; background: var(--ember); }
+
+/* ==========================================================================
+   5. Click-to-copy colours
+   ========================================================================== */
+.swatch { position: relative; }
+.copy {
+  position: absolute; inset: 0; width: 100%; height: 100%; padding: 0;
+  border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer;
+}
+.copy::after {
+  content: "Copy"; position: absolute; top: 18px; right: 18px;
+  font-size: .8rem; opacity: 0; transition: opacity .25s ease;
+}
+.swatch:hover .copy::after, .copy:focus-visible::after { opacity: .75; }
+.copy[data-state="copied"]::after { content: "Copied"; opacity: 1; }
+.copy:focus-visible { outline: 2px solid currentColor; outline-offset: -6px; }
+
+.copy-code {
+  padding: 0; border: 0; background: none; color: inherit; text-align: left; cursor: pointer;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9rem;
+}
+.copy-code:hover { text-decoration: underline; text-underline-offset: 4px; }
+.copy-code[data-state="copied"]::after { content: " — copied"; font-family: var(--sans); opacity: .7; }
+.copy-code:focus-visible { outline: 2px solid var(--cream); outline-offset: 3px; }
+
+/* ==========================================================================
+   6. Small working demos inside the design-system cards
+   ========================================================================== */
+.demo { align-items: center; }
+.demo--offer, .demo--nav, .demo--stepper { width: 100%; }
+.demo--stepper { margin-top: 18px; }
+
+.offer {
+  display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px;
+  border: 1px solid var(--hair); border-radius: 14px;
+  background: color-mix(in srgb, #0E1A2B 94%, #fff 6%);
+}
+.offer__logo { flex: none; width: 38px; height: 38px; border-radius: 10px; background: rgba(255, 255, 255, .14); }
+.offer__body { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: 6px; min-width: 0; }
+.offer__body b { font-size: 1.05rem; font-weight: 600; }
+.offer__badge { padding: 2px 10px; border: 1px solid rgba(244, 196, 48, .7); border-radius: 999px; color: #F4C430; font-size: .75rem; }
+.heart {
+  flex: none; display: grid; place-items: center; width: 44px; height: 44px;
+  border: 0; border-radius: 50%; background: transparent; color: rgba(255, 255, 255, .7); cursor: pointer;
+}
+.heart svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; transition: transform .2s ease, fill .15s ease; }
+.heart[aria-pressed="true"] { color: #F4C430; }
+.heart[aria-pressed="true"] svg { fill: #F4C430; transform: scale(1.12); }
+.heart:focus-visible { outline: 2px solid var(--cream); outline-offset: 2px; }
+
+.demo--nav {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 6px;
+  border: 1px solid var(--hair); border-radius: 16px;
+  background: color-mix(in srgb, #0E1A2B 94%, #fff 6%);
+}
+.demo--nav { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.demo--nav button {
+  min-width: 0; padding: 10px 2px; border: 0; border-radius: 11px; background: transparent;
+  color: #fff; font: inherit; font-size: .8rem; opacity: .5; cursor: pointer;
+  transition: background .2s ease, color .2s ease, opacity .2s ease;
+}
+.demo--nav button[aria-current="true"] { background: #F4C430; color: #0E1A2B; opacity: 1; font-weight: 600; }
+.demo--nav button:focus-visible { outline: 2px solid var(--cream); outline-offset: 2px; }
+
+.demo--chips { gap: 8px; }
+.demo button.chip { background: none; color: inherit; font: inherit; font-size: .85rem; cursor: pointer; transition: background .2s ease, color .2s ease, border-color .2s ease; }
+.demo button.chip[aria-pressed="true"] { border-color: #F4C430; background: #F4C430; color: #0E1A2B; font-weight: 500; }
+.demo button.chip:focus-visible { outline: 2px solid var(--cream); outline-offset: 2px; }
+
+.demo--stepper {
+  display: block; padding: 14px 16px; border: 1px solid rgba(247, 244, 232, .15); border-radius: 14px;
+  background: #042A37; color: #F7F4E8;
+}
+.stepbar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.stepbar i { height: 4px; border-radius: 2px; background: rgba(247, 244, 232, .2); transition: background .3s ease; }
+.stepbar i.on { background: #F7F4E8; }
+.stepmsg { margin: 12px 0; font-size: .9rem; line-height: 1.4; opacity: .9; }
+.stepbtns { display: flex; gap: 8px; }
+.stepbtns button {
+  padding: 9px 18px; border: 1px solid rgba(247, 244, 232, .35); border-radius: 10px;
+  background: transparent; color: inherit; font: inherit; font-size: .9rem; cursor: pointer;
+}
+.stepbtns button[data-next] { border-color: #980042; background: #980042; }
+.stepbtns button:disabled { opacity: .4; cursor: default; }
+.stepbtns button:focus-visible { outline: 2px solid #F7F4E8; outline-offset: 2px; }
+
+/* ==========================================================================
+   7. Gentle staggered entrance for groups of cards
+   (the cs-ready class is added by case-study.js, so nothing is ever hidden
+   if the script does not run)
+   ========================================================================== */
+.cs-ready.motion [data-stagger] > * {
+  opacity: 0; transform: translateY(14px);
+  transition: opacity .7s ease, transform .7s ease;
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+.cs-ready.motion [data-stagger].is-in > * { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .heart svg, .stepbar i { transition: none; }
+}
+
+/* ==========================================================================
+   8. Visuals drawn from each project's own content
+   Everything here uses only numbers and terms that are in the case study.
+   Entrance animations only run when motion is allowed (.cs-ready.motion).
+   ========================================================================== */
+.viz { margin: 0; }
+.viz svg text { font-family: var(--sans); }
+.viz figcaption { max-width: 54ch; margin-top: 14px; font-size: .9rem; line-height: 1.5; opacity: .7; }
+
+/* ---------- GroupBima: the eight competitors ---------- */
+.viz-rings { margin-top: clamp(36px, 6vh, 64px); }
+.rings { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.rings i {
+  width: clamp(34px, 4vw, 48px); aspect-ratio: 1; border: 1.5px dashed rgba(var(--ink-rgb), .45); border-radius: 50%;
+  transition: opacity .5s ease, transform .5s ease; transition-delay: calc(var(--i, 0) * 80ms);
+}
+.rings i.us { border: 0; background: var(--ember); box-shadow: 0 0 0 6px rgba(226, 98, 46, .18); }
+.rings .gap { width: 1px; height: 30px; margin: 0 6px; background: var(--hair-strong); }
+.cs-ready.motion .viz-rings:not(.is-in) .rings i { opacity: 0; transform: scale(.6); }
+
+/* GroupBima: daily users */
+.bars { display: grid; gap: 10px; margin-top: 20px; }
+.bars__row { display: grid; grid-template-columns: 6.5em 1fr auto; gap: 12px; align-items: center; font-size: .9rem; }
+.bars__row i { display: block; height: 10px; width: var(--w); border-radius: 5px; background: var(--ember); transform-origin: left; transition: transform 1s ease; }
+.bars__row b { font-weight: 500; font-variant-numeric: tabular-nums; }
+.card .bars__cap { margin-top: 2px; font-size: .8rem; line-height: 1.4; opacity: .6; }
+.cs-ready.motion .bars:not(.is-in) .bars__row i { transform: scaleX(0); }
+
+/* GroupBima: how the survey answers lean */
+.mood--most { border-color: var(--ember); }
+.mood--rest { opacity: .55; }
+.mood__tag { display: block; margin-top: 8px; color: var(--ember); font-size: .75rem; font-style: normal; }
+
+/* GroupBima: mobile share */
+
+/* GroupBima: a B2B product inside a B2C shell */
+.viz-shell { margin-top: 32px; }
+.shell { max-width: 640px; padding: clamp(18px, 3vw, 32px); border: 1px dashed var(--hair-strong); border-radius: 20px; }
+.shell__tag { margin-bottom: 6px; font-size: .8rem; opacity: .65; letter-spacing: .02em; }
+.shell__who { font-size: 1.15rem; font-weight: 600; }
+.shell__role { margin-top: 4px; color: var(--cs-ink); font-size: .95rem; line-height: 1.5; }
+.shell__core { margin-top: 22px; padding: 18px 20px; border: 1px solid rgba(152, 0, 66, .75); border-radius: 14px; background: rgba(152, 0, 66, .26); }
+
+/* GroupBima: policy card anatomy */
+.viz-policy { display: flex; flex-wrap: wrap; align-items: center; gap: 28px 56px; margin-top: 32px; }
+.policy__card { position: relative; width: min(300px, calc(100% - 40px)); padding: 18px; border: 1px solid rgba(247, 244, 232, .18); border-radius: 18px; background: #042A37; color: #F7F4E8; }
+.policy__top { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; font-size: .9rem; }
+.policy__logo { width: 28px; height: 28px; border-radius: 8px; background: rgba(247, 244, 232, .18); }
+.policy__row { position: relative; margin-bottom: 14px; }
+.policy__row small { display: block; font-size: .75rem; opacity: .65; }
+.policy__row i { display: block; width: var(--w); height: 8px; margin-top: 6px; border-radius: 4px; background: rgba(247, 244, 232, .85); }
+.policy__cta { position: relative; display: block; margin-top: 18px; padding: 11px; border-radius: 11px; background: #980042; font-size: .9rem; font-weight: 500; text-align: center; }
+.mk, .policy__legend b {
+  display: grid; place-items: center; flex: none; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--ember); color: #140a15; font-size: .75rem; font-weight: 600;
+}
+.mk { position: absolute; top: 2px; right: -32px; }
+.policy__top .mk { top: 3px; }
+.policy__cta .mk { top: 50%; transform: translateY(-50%); }
+.policy__legend { display: grid; gap: 12px; max-width: 34ch; }
+.policy__legend li { display: flex; align-items: baseline; gap: 12px; color: var(--cs-ink); }
+
+/* ---------- Cardinal: market numbers as 100-dot charts ---------- */
+.stat { display: flex; flex-direction: column; }
+.stat > span { margin-bottom: 16px; }
+.waffle {
+  position: relative; display: block; width: 100%; max-width: 112px; aspect-ratio: 1; margin-top: auto;
+  background: radial-gradient(circle, rgba(var(--ink-rgb), .2) 0 36%, transparent 40%) 0 0 / 10% 10%;
+}
+.waffle::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle, #F4C430 0 36%, transparent 40%) 0 0 / 10% 10%;
+  clip-path: inset(calc(100% - var(--pct)) 0 0 0);
+  transition: clip-path 1.2s ease;
+}
+.meter { position: relative; display: block; height: 10px; margin-top: auto; margin-bottom: 4px; border-radius: 5px; background: rgba(var(--ink-rgb), .18); overflow: hidden; }
+.meter::after { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--w); border-radius: 5px; background: #F4C430; transform-origin: left; transition: transform 1.2s ease; }
+.cs-ready.motion .stats:not(.is-in) .waffle::after { clip-path: inset(100% 0 0 0); }
+.cs-ready.motion .stats:not(.is-in) .meter::after { transform: scaleX(0); }
+
+/* Cardinal: the decision window */
+.viz-time { display: grid; gap: 14px; margin-bottom: 28px; padding: clamp(18px, 2.4vw, 30px); border: 1px solid var(--hair); }
+.viz-time__row { display: grid; grid-template-columns: 7.5em 1fr 6em; gap: 14px; align-items: center; }
+.viz-time__label { font-size: .9rem; opacity: .75; }
+.viz-time__bar { display: block; width: var(--w); min-width: 4px; height: 12px; border-radius: 6px; background: #F4C430; transform-origin: left; transition: transform 1.3s ease; }
+.viz-time__value { font-weight: 600; font-variant-numeric: tabular-nums; }
+.viz-time figcaption { margin-top: 2px; }
+.cs-ready.motion .viz-time:not(.is-in) .viz-time__bar { transform: scaleX(0); }
+@media (max-width: 520px) { .viz-time__row { grid-template-columns: 5.5em 1fr 5em; gap: 10px; } }
+
+/* Cardinal: pick a brand, not 16 digits */
+.viz-privacy { margin-top: 22px; }
+.viz-privacy__flow { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; }
+.viz-privacy__no { position: relative; padding: 12px 16px; border: 1px solid var(--hair); border-radius: 12px; font-variant-numeric: tabular-nums; letter-spacing: .12em; opacity: .75; }
+.viz-privacy__no::after { content: ""; position: absolute; top: 50%; right: 8px; left: 8px; height: 2px; background: var(--ember); transform: rotate(-4deg); }
+.viz-privacy__yes { display: inline-flex; align-items: center; gap: 14px; padding: 12px 16px; border: 1px solid #F4C430; border-radius: 12px; background: color-mix(in srgb, #0E1A2B 94%, #fff 6%); font-weight: 600; }
+.viz-privacy__yes span { font-weight: 400; opacity: .7; }
+
+/* Cardinal: the four onboarding illustrations */
+.viz-story { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--grid-gap); margin: 32px 0 0; }
+@media (min-width: 700px) { .viz-story { grid-template-columns: repeat(4, 1fr); } }
+.viz-story li { padding: 14px 14px 18px; border: 1px solid var(--hair); border-radius: 16px; background: #0E1A2B; }
+.viz-story li.last { border-color: rgba(244, 196, 48, .6); }
+.viz-story svg { display: block; width: 100%; max-width: 84px; margin: 6px auto 14px; }
+.viz-story b { display: block; font-size: 1rem; font-weight: 600; }
+.viz-story span { display: block; margin-top: 4px; font-size: .85rem; line-height: 1.4; opacity: .7; }
+
+/* Cardinal: offers within walking distance */
+.viz-radar { margin: 32px 0; }
+.viz-radar svg { display: block; width: min(340px, 100%); height: auto; }
+.pulse { transform-box: fill-box; transform-origin: center; }
+.motion .pulse { animation: cs-pulse 3.2s ease-out infinite; }
+@keyframes cs-pulse { from { transform: scale(1); opacity: .55; } to { transform: scale(3.2); opacity: 0; } }
+
+/* ==========================================================================
+   9. Night sky
+   A soft full moon that drifts slowly as you read, two small constellations in
+   the empty left margin, and a rare shooting star. All of it sits behind the
+   content, ignores the mouse, and is dim enough to keep text readable.
+   ========================================================================== */
+.moon, .constellations, .shooting-star { position: fixed; z-index: -1; pointer-events: none; }
+
+.moon {
+  --d: clamp(150px, 16vw, 260px);
+  top: calc(9vh + var(--mp, 0) * 26vh);
+  right: calc(var(--d) * -.2);                /* partly off-screen, like a rising moon */
+  width: var(--d); height: var(--d);
+  opacity: .3;                                /* measured: keeps body text above 4.5:1 even over the brightest part */
+}
+.moon::before {                                /* soft halo */
+  content: ""; position: absolute; inset: -55%; border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--ink-rgb), .1) 0%, rgba(var(--ink-rgb), .04) 38%, transparent 66%);
+}
+.moon svg { position: relative; display: block; width: 100%; height: 100%; filter: drop-shadow(0 0 22px rgba(var(--ink-rgb), .28)); }
+@media (max-width: 640px) {
+  .moon { --d: 96px; top: calc(14vh + var(--mp, 0) * 22vh); right: calc(var(--d) * -.35); opacity: .3; }
+}
+
+/* constellations: only where the left margin is empty */
+.constellations { display: none; top: 52vh; left: var(--edge); width: clamp(150px, 14vw, 200px); height: auto; opacity: 0; transition: opacity .9s ease; }
+.constellations.is-on { opacity: 1; }
+@media (min-width: 1100px) { .constellations { display: block; } }
+.constellations line { stroke: rgba(var(--ink-rgb), .16); stroke-width: 1; }
+.constellations circle { fill: rgba(var(--ink-rgb), .85); }
+.motion .constellations circle { animation: cs-glint 5.5s ease-in-out infinite; animation-delay: calc(var(--k) * -.9s); }
+@media (prefers-reduced-motion: reduce) { .constellations { transition: none; } }
+@keyframes cs-glint { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
+
+/* one slow streak every so often */
+.shooting-star {
+  top: 0; left: 0; width: 150px; height: 2px; border-radius: 2px; opacity: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, .9), rgba(255, 255, 255, 0));
+  box-shadow: 0 0 8px rgba(255, 255, 255, .35);
+}
+.shooting-star.go { animation: cs-shoot 1.5s ease-out forwards; }
+@keyframes cs-shoot {
+  0%   { opacity: 0; transform: translate(var(--x), var(--y)) rotate(-24deg) translateX(0); }
+  12%  { opacity: .9; }
+  100% { opacity: 0; transform: translate(var(--x), var(--y)) rotate(-24deg) translateX(-380px); }
+}
+
+/* ==========================================================================
+   10. Final experience, outcome and reflection: alignment
+   ========================================================================== */
+
+/* Journey tabs: the first tab's text starts exactly where the content below starts */
+.tabs__list button:first-child { padding-left: 0; }
+
+/* Journey panels: the intro and the key moves sit side by side, so both edges meet the
+   page grid. Anything else in a panel (policy card, quote, screens) spans the full width. */
+.tabs__panel { display: grid; grid-template-columns: minmax(0, 1fr); }
+.tabs__panel[hidden] { display: none; }
+@media (min-width: 1000px) {
+  .tabs__panel { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 4vw, 64px); align-items: start; }
+  .tabs__panel > * { grid-column: 1 / -1; }
+  .tabs__panel > .journey__intro { grid-column: 1; }
+  .tabs__panel > .journey__moves { grid-column: 2; }
+  .journey__moves .moves { max-width: none; }
+  .journey__intro .journey__goal { margin-bottom: 0; }
+}
+
+/* Policy-card callouts: one x for every number, each centred on its own row */
+.policy__top, .policy__row, .policy__cta { position: relative; }
+.policy__card .mk { top: 50%; right: -29px; transform: translateY(-50%); }
+
+/* Longer rows of screens scroll sideways, but show a whole number of them (four) so the edge is never a half-cut card */
+@media (min-width: 700px) {
+  .rail:has(> :nth-child(6)) > * { flex: 0 0 calc((100% - 3 * var(--grid-gap)) / 4); }
+}
+
+/* Reflection rows (no number above the title): the title and the text share a baseline */
+.principle:not(:has(.principle__n)) { align-items: baseline; }
+
+/* Two large statement cards: the caption stays a caption, and the follow-on text lives in its card */
+.card--large p.card__label { margin-bottom: 12px; max-width: none; font-size: .85rem; font-weight: 400; line-height: 1.4; letter-spacing: .02em; opacity: .6; }
+.card--large p:not(.card__label):not(.card__more) { max-width: 30ch; }
+.card--large .card__more { max-width: 48ch; margin-top: 18px; color: var(--cs-ink); font-size: 1rem; font-weight: 400; line-height: 1.6; text-wrap: pretty; }
+
+/* ==========================================================================
+   11. Journey panels: one grid for everything inside
+   Every block in a panel sits on the same two columns as the intro / key-moves row,
+   and the space between blocks is one value set by the grid (not each block's own margin).
+   ========================================================================== */
+.tabs__panel { row-gap: clamp(32px, 5vh, 48px); }
+.tabs__panel > * { margin-top: 0; margin-bottom: 0; }
+.tabs__panel .viz > .viz-story { margin-top: 0; }
+
+/* picture + notes (the policy card and its callout list): the card sits in the first column
+   and the list in the second, exactly under the intro and the key moves */
+.tabs__panel > .viz-policy { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px clamp(32px, 4vw, 64px); align-items: center; }
+@media (min-width: 1000px) {
+  .tabs__panel > .viz-policy { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ==========================================================================
+   12. Final experience (GroupBima): text on the left, screens on the right
+   Text sizes and spacing are the page's own: sub-heading, body paragraph and list rows
+   match the rest of the chapters. The placeholder stays in view beside the longer text.
+   ========================================================================== */
+.tabs--split .tabs__panel { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 32px; }
+.tabs--split .tabs__panel[hidden] { display: none; }
+
+.tabs--split .journey__text { display: grid; align-content: start; row-gap: 28px; }
+.tabs--split .journey__text > * { margin: 0; }
+
+/* caption, title, goal: the page's caption / sub-heading / body-paragraph styles */
+.tabs--split .journey__label,
+.tabs--split .moves__label { margin: 0 0 12px; font-size: .85rem; line-height: 1.4; letter-spacing: .02em; opacity: .65; }
+.tabs--split .journey__title { max-width: 34ch; margin: 0 0 18px; font-size: clamp(1.3rem, 2.1vw, 1.8rem); font-weight: 600; letter-spacing: -.015em; line-height: 1.2; text-wrap: balance; }
+.tabs--split .journey__goal { max-width: 58ch; margin: 0; color: var(--cs-ink); font-size: clamp(1.02rem, 1.25vw, 1.18rem); font-weight: 400; line-height: 1.72; letter-spacing: normal; }
+.tabs--split .moves { max-width: none; margin-top: 0; }
+.tabs--split .viz-policy { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
+.tabs--split .viz-policy .policy__card { margin: 0; }
+.tabs--split .pull { max-width: 30ch; margin: 0; }
+/* the same space above a quote as everywhere else on the page (the 28px row gap is already part of it) */
+.tabs--split .journey__text > .pull { margin-top: calc(clamp(32px, 6vh, 56px) - 28px); }
+
+/* the placeholder image */
+/* a real photo in the split layout: always a 4:5 portrait frame (a taller image is cropped evenly top and bottom);
+   stacked, it is capped so a portrait picture does not stretch across a tablet */
+.tabs--split .shot { aspect-ratio: 4 / 5; max-width: 520px; }
+.tabs--split .shot img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+
+@media (min-width: 1000px) {
+  .tabs--split .tabs__panel { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 4vw, 64px); align-items: start; }
+  .tabs--split .tabs__panel > .journey__text { grid-column: 1; }
+  .tabs--split .tabs__panel > .shot { grid-column: 2; grid-row: 1; position: sticky; top: 96px; max-width: none; }
+}
+
+/* ==========================================================================
+   13. Real images
+   ========================================================================== */
+:root { --radius-ui: 16px; }
+
+/* a photograph: full width of its column, a hairline like every other card */
+.shot { margin: 0; border: 1px solid var(--hair); overflow: hidden; }
+.shot img { display: block; width: 100%; height: auto; }
+
+/* an app screen. Every screen sits in a frame as tall as the tallest one (969px), so a row of them lines up;
+   shorter screens are extended at the bottom with their own edge colour, so nothing is cropped */
+.screen {
+  --screen-bg: var(--bg-2);
+  flex: 0 0 clamp(170px, 22vw, 250px); margin: 0; scroll-snap-align: start;
+  aspect-ratio: 414 / 969; overflow: hidden;
+  border: 1px solid var(--hair); border-radius: var(--radius-ui); background: var(--screen-bg);
+}
+.screen img { display: block; width: 100%; height: auto; }
+
+/* On phones a row of screens scrolls, so size each frame to show one whole screen and a clear part of the next:
+   a deliberate hint that there is more, rather than a card that is cut by a stray couple of pixels */
+@media (max-width: 699px) {
+  .rail > .screen { flex: 0 0 calc((100% - var(--grid-gap)) / 1.7); }
+}
+
+
+/* a picture sitting directly in a chapter: the page's standard 28px of space above it;
+   the elephant mark keeps its natural proportions and is not stretched across the column */
+.chap > .shot { margin-top: 28px; }
+.chap > .shot--mark { max-width: min(100%, 480px); }
+
+/* the logo sheet holds fifteen small marks: on a phone it keeps a readable width and scrolls sideways */
+.shot--sheet:focus-visible { outline: 2px solid var(--cream); outline-offset: 4px; }
+@media (max-width: 699px) {
+  .shot--sheet { overflow-x: auto; overscroll-behavior-x: contain; }
+  .shot--sheet img { width: 760px; max-width: none; }
+}
+
+/* ==========================================================================
+   Light theme: no night sky — the moon and shooting star are put away
+   ========================================================================== */
+[data-theme="light"] .moon, [data-theme="light"] .shooting-star { display: none; }
+/* product mock-ups keep their own dark surfaces, so text and hairlines inside them stay light */
+[data-theme="light"] :is(.offer, .demo--nav, .viz-privacy__yes, .viz-story li) {
+  --cream: #eff0dc; --ink-rgb: 239, 240, 220;
+  --hair: rgba(239, 240, 220, .14); --hair-strong: rgba(239, 240, 220, .5); --cs-ink: rgba(239, 240, 220, .8);
+  color: var(--cream);
+}
+[data-theme="light"] .wordmark { background: #1e1022; }   /* the logos shown here are drawn in white */

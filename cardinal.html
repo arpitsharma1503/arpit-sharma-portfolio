@@ -1,0 +1,1176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cardinal — Fintech Mobile App UX Case Study | Arpit Sharma</title>
+<meta name="description" content="Cardinal: be card smart. A fintech mobile app case study by Arpit Sharma — a privacy-first, location-aware app that shows which card gives the best deal.">
+<link rel="canonical" href="https://www.arpit.design/cardinal.html">
+
+<!-- Link previews (Open Graph / Twitter) -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Arpit Sharma">
+<meta property="og:title" content="Cardinal — Fintech Mobile App UX Case Study | Arpit Sharma">
+<meta property="og:description" content="Cardinal: be card smart. A fintech mobile app case study by Arpit Sharma — a privacy-first, location-aware app that shows which card gives the best deal.">
+<meta property="og:url" content="https://www.arpit.design/cardinal.html">
+<meta property="og:image" content="https://www.arpit.design/assets/images/cardinal/home.webp">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Structured data for search engines -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CreativeWork",
+      "@id": "https://www.arpit.design/cardinal.html#case-study",
+      "url": "https://www.arpit.design/cardinal.html",
+      "name": "Cardinal",
+      "headline": "Cardinal — Fintech Mobile App UX Case Study | Arpit Sharma",
+      "description": "Cardinal: be card smart. A fintech mobile app case study by Arpit Sharma — a privacy-first, location-aware app that shows which card gives the best deal.",
+      "genre": "Fintech mobile product design",
+      "inLanguage": "en",
+      "image": "https://www.arpit.design/assets/images/cardinal/home.webp",
+      "author": {
+        "@id": "https://www.arpit.design/#person"
+      },
+      "creator": {
+        "@id": "https://www.arpit.design/#person"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Arpit Sharma",
+          "item": "https://www.arpit.design/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Cardinal",
+          "item": "https://www.arpit.design/cardinal.html"
+        }
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.arpit.design/#person",
+      "name": "Arpit Sharma",
+      "url": "https://www.arpit.design/",
+      "jobTitle": "Product Designer",
+      "sameAs": [
+        "https://www.linkedin.com/in/arpitsharma1503/",
+        "https://www.instagram.com/arpit_arv_sharma/"
+      ]
+    }
+  ]
+}
+</script>
+
+<!-- Same feature flags as the home page: .js enables reveals, .motion enables the sky's twinkle -->
+<script>
+  (function (root) {
+    root.classList.add("js");
+    var reduced = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduced) root.classList.add("motion");
+    try { if (localStorage.getItem("theme") === "light") root.dataset.theme = "light"; } catch (e) {}
+  })(document.documentElement);
+</script>
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Fonts load without blocking first paint; text shows in the fallback face until they arrive -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&family=Pacifico&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&family=Pacifico&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&family=Pacifico&display=swap" rel="stylesheet"></noscript>
+
+<style>
+/* ==========================================================================
+   1. Tokens (shared with the home page)
+   ========================================================================== */
+:root {
+  color-scheme: dark;
+
+  --bg: #140a15;
+  --bg-2: #1e1022;
+  --cream: #eff0dc;
+  --ink-rgb: 239, 240, 220;           /* --cream and --bg as r, g, b, for translucent tints */
+  --bg-rgb: 20, 10, 21;
+  --hair: rgba(var(--ink-rgb), .14);
+  --hair-strong: rgba(var(--ink-rgb), .5);
+  --ember: #e2622e;
+  --violet: #4a2bb0;
+
+  --sans: "Outfit", "Helvetica Neue", Arial, sans-serif;
+  --script: "Pacifico", "Brush Script MT", cursive;
+
+  --edge: clamp(20px, 5vw, 84px);
+  --grid-gap: clamp(12px, 1.6vw, 24px);
+  --measure: 62ch;
+  --reveal-duration: .8s;
+
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Light theme: the same tokens, flipped. Chosen with the sun/moon button in the
+   header (assets/theme.js) and remembered; dark stays the default. */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f5f2e7;
+  --bg-2: #ebe3ee;
+  --cream: #1c0f1e;                  /* the "ink" colour: dark on light here */
+  --ink-rgb: 28, 15, 30;
+  --bg-rgb: 245, 242, 231;
+  --ember: #cf5320;
+  --lime: #3d9f00;
+}
+[data-theme="light"] .sky { filter: invert(1); opacity: .5; }   /* stars become faint ink specks */
+
+/* ==========================================================================
+   2. Base
+   ========================================================================== */
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-padding-top: calc(72px + env(safe-area-inset-top, 0px)); }
+html, body { margin: 0; }
+
+body {
+  background: linear-gradient(135deg, var(--bg) 40%, var(--bg-2) 100%) fixed;
+  background-color: var(--bg);
+  color: var(--cream);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+a:focus-visible, .rail:focus-visible { outline: 2px solid var(--cream); outline-offset: 4px; }
+h1, h2, h3, h4, p, dl, dd, ul, ol, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+.script {
+  font-family: var(--script); color: var(--ember);
+  font-weight: 400; letter-spacing: 0; text-transform: none;
+}
+
+.js .reveal {
+  opacity: 0; filter: blur(8px);
+  transition: opacity var(--reveal-duration) ease, filter var(--reveal-duration) ease;
+}
+.js .reveal.is-in { opacity: 1; filter: none; }
+
+/* sky + reading progress */
+.sky { position: fixed; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; }
+.progress {
+  position: fixed; top: 0; left: 0; z-index: 10;
+  width: 100%; height: 2px; background: var(--ember);
+  transform-origin: 0 50%; transform: scaleX(0);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   3. Nav
+   ========================================================================== */
+.nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 50;
+  background: rgba(var(--bg-rgb), .72); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px var(--edge);              /* same inset as the page content, so the logo and links line up with it */
+}
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.35rem; letter-spacing: -.01em; }
+.brand__mark {
+  display: grid; place-items: center;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--cream); color: var(--bg);
+  font-size: .62rem; font-weight: 800; letter-spacing: 0;
+}
+.brand__mark::before { content: attr(data-mark); }
+.nav__links { display: flex; gap: clamp(18px, 2.4vw, 36px); font-size: .95rem; }
+.nav__links a { display: inline-flex; align-items: center; gap: 8px; opacity: .92; padding-block: 12px; margin-block: -12px; }   /* bigger tap area, same layout */
+.nav__links a:hover { opacity: 1; }
+.nav__links svg { width: 15px; height: 15px; flex: none; }
+
+/* ==========================================================================
+   4. Hero
+   ========================================================================== */
+.hero { padding: clamp(110px, 17vh, 170px) var(--edge) 0; }
+
+.crumbs { display: flex; align-items: center; gap: 12px; font-size: .9rem; opacity: .8; }
+.crumbs a { display: inline-flex; align-items: center; gap: 8px; padding-block: 12px; margin-block: -12px; }   /* bigger tap area, same layout */
+.crumbs a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+
+.tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(28px, 5vh, 48px); }
+.pill {
+  display: inline-flex; align-items: center;
+  padding: 7px 16px; border: 1px solid var(--violet); border-radius: 999px;
+  font-size: .8rem;
+}
+
+.hero__name {
+  margin-top: 26px;
+  font-weight: 800; letter-spacing: -.035em; line-height: .95;
+  font-size: clamp(3.4rem, 13vw, 12.5rem);
+}
+.hero__tag {
+  margin-top: 28px; max-width: 26ch; text-wrap: balance;
+  font-size: clamp(1.3rem, 2.8vw, 2.6rem); font-weight: 300; line-height: 1.25;
+}
+
+.facts {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  margin-top: clamp(48px, 9vh, 96px);
+  border-top: 1px solid var(--hair);
+}
+.facts > div { padding: 22px 24px 22px 0; }
+.facts dt { font-size: .85rem; opacity: .6; }
+.facts dd { margin-top: 6px; font-size: 1.05rem; line-height: 1.45; }
+@media (min-width: 900px) { .facts .wide { grid-column: span 2; } }
+
+/* ==========================================================================
+   5. Chapters
+   ========================================================================== */
+.chap { padding: clamp(72px, 13vh, 150px) var(--edge) 0; }
+
+.chapter {
+  display: flex; align-items: center; gap: 18px;
+  margin-bottom: 28px;
+  font-size: .85rem; letter-spacing: .02em; opacity: .8;
+}
+.chapter::after { content: ""; flex: 1; height: 1px; background: var(--hair); }
+
+.chap__title {
+  max-width: 24ch; text-wrap: balance;
+  margin-bottom: clamp(28px, 5vh, 56px);
+  font-weight: 600; letter-spacing: -.025em; line-height: 1.12;
+  font-size: clamp(1.9rem, 4.4vw, 4.2rem);
+}
+
+.prose p {
+  max-width: var(--measure);
+  margin-bottom: 1.2em;
+  font-size: clamp(1.02rem, 1.25vw, 1.18rem); font-weight: 300; line-height: 1.7;
+}
+.prose p:last-child { margin-bottom: 0; }
+
+.sub {
+  margin: clamp(48px, 8vh, 88px) 0 18px; max-width: 34ch; text-wrap: balance;
+  font-size: clamp(1.3rem, 2.1vw, 1.8rem); font-weight: 600; letter-spacing: -.015em; line-height: 1.2;
+}
+.sub + .prose, .sub + .grid, .sub + .chips { margin-top: 0; }
+
+/* big statements */
+.bigline {
+  margin-top: clamp(56px, 11vh, 120px);
+  font-weight: 800; text-transform: uppercase; letter-spacing: -.03em; line-height: 1;
+  font-size: clamp(2.2rem, 6.2vw, 6.4rem);
+}
+.pull {
+  max-width: 30ch; text-wrap: balance;
+  margin-top: clamp(32px, 6vh, 56px);
+  padding-left: clamp(16px, 2vw, 28px);
+  border-left: 1px solid var(--hair-strong);
+  font-size: clamp(1.4rem, 2.6vw, 2.4rem); font-weight: 400; line-height: 1.3;
+}
+.pull__label { display: block; margin-bottom: 12px; font-size: .85rem; opacity: .65; letter-spacing: .02em; }
+
+/* ==========================================================================
+   6. Cards and small pieces
+   ========================================================================== */
+.grid { display: grid; grid-template-columns: 1fr; gap: var(--grid-gap); margin-top: 28px; }
+@media (min-width: 700px) { .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1040px) { .grid--3 { grid-template-columns: repeat(3, 1fr); } .grid--4 { grid-template-columns: repeat(4, 1fr); } }
+
+.card { padding: clamp(18px, 2.2vw, 30px); border: 1px solid var(--hair); }
+.card__label { margin-bottom: 12px; font-size: .85rem; opacity: .6; letter-spacing: .02em; }
+.card h4 { margin-bottom: 10px; font-size: clamp(1.1rem, 1.5vw, 1.3rem); font-weight: 600; letter-spacing: -.01em; line-height: 1.25; }
+.card p { font-size: 1rem; font-weight: 300; line-height: 1.6; opacity: .9; }
+.card--large p { font-size: clamp(1.15rem, 1.9vw, 1.7rem); font-weight: 400; line-height: 1.35; opacity: 1; max-width: 26ch; text-wrap: balance; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.chip { padding: 8px 18px; border: 1px solid var(--hair); border-radius: 999px; font-size: .95rem; }
+
+.moods { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--grid-gap); margin-top: 28px; }
+@media (min-width: 700px) { .moods { grid-template-columns: repeat(4, 1fr); } }
+.mood { padding: 22px 12px; border: 1px solid var(--hair); text-align: center; }
+.mood span { display: block; font-size: 2.2rem; line-height: 1.2; }
+.mood small { display: block; margin-top: 10px; font-size: .9rem; opacity: .8; }
+
+.ph {
+  display: grid; place-items: center; padding: 16px;
+  border: 1px dashed var(--hair-strong); border-radius: 4px;
+  font-size: .85rem; opacity: .6; text-align: center;
+}
+.wordmark { margin-top: 28px; display: grid; place-items: center; aspect-ratio: 16 / 6; border: 1px solid var(--hair-strong); border-radius: 4px; background: var(--bg-2); }
+.wordmark img { width: clamp(150px, 32%, 300px); height: auto; }
+.illus { margin-top: 28px; }
+.illus img { display: block; width: 100%; height: auto; border-radius: 4px; }
+.ph--wide { margin-top: 28px; aspect-ratio: 16 / 6; }
+.ph--journey { margin-top: 32px; aspect-ratio: 16 / 8; }
+.ph--mark { margin-top: 28px; aspect-ratio: 1 / 1; max-width: 360px; }
+
+/* ==========================================================================
+   7. Principles + flow
+   ========================================================================== */
+.principles { margin-top: 28px; border-top: 1px solid var(--hair); }
+.principle { display: grid; gap: 14px; padding: clamp(24px, 4vh, 40px) 0; border-bottom: 1px solid var(--hair); }
+@media (min-width: 900px) { .principle { grid-template-columns: 5fr 7fr; gap: clamp(28px, 4vw, 64px); } }
+.principle__n { font-size: .85rem; opacity: .65; }
+.principle h3 { margin-top: 8px; font-size: clamp(1.5rem, 2.6vw, 2.4rem); font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
+.principle p { max-width: 60ch; font-size: 1.05rem; font-weight: 300; line-height: 1.65; }
+.impact { margin-top: 16px; padding-left: 16px; border-left: 1px solid var(--ember); }
+.impact b { display: block; margin-bottom: 4px; font-size: .85rem; font-weight: 500; opacity: .7; }
+
+.flow { display: grid; grid-template-columns: 1fr; gap: var(--grid-gap); margin-top: 32px; }
+@media (min-width: 1040px) { .flow { grid-template-columns: repeat(5, 1fr); } }
+.flow li { padding: 22px; border: 1px solid var(--hair); }
+.flow__n { font-size: .85rem; opacity: .65; font-variant-numeric: tabular-nums; }
+.flow h4 { margin: 28px 0 8px; font-size: 1.2rem; font-weight: 600; }
+.flow p { font-size: .95rem; font-weight: 300; line-height: 1.45; opacity: .85; }
+.flow .risk { border-color: var(--ember); }
+.flow .risk p { color: var(--ember); opacity: 1; font-weight: 400; }
+.footnote { margin-top: 20px; font-size: .9rem; opacity: .7; }
+
+/* ==========================================================================
+   8. Brand + design system
+   ========================================================================== */
+.scales { display: grid; gap: 18px; max-width: 560px; margin-top: 28px; }
+.scales li { display: flex; align-items: center; gap: 16px; font-size: 1.05rem; }
+.scales i { flex: 1; height: 1px; background: var(--hair-strong); }
+.scales li span:first-child { min-width: 5.5em; }
+.scales li span:last-child { min-width: 5.5em; text-align: right; }
+
+.note { max-width: var(--measure); margin-top: 36px; padding-left: 16px; border-left: 1px solid var(--ember); font-size: 1.05rem; font-weight: 300; line-height: 1.6; }
+
+.swatches { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--grid-gap); margin-top: 28px; }
+@media (min-width: 900px) { .swatches { grid-template-columns: repeat(4, 1fr); } }
+.swatch { display: flex; flex-direction: column; justify-content: space-between; min-height: 200px; padding: 20px; border: 1px solid var(--hair); }
+.swatch b { font-size: 1.05rem; font-weight: 600; }
+.swatch code { display: block; margin: 4px 0 14px; font-family: var(--sans); font-size: 1.4rem; font-weight: 300; letter-spacing: .02em; }
+.swatch span { font-size: .9rem; opacity: .85; line-height: 1.4; }
+
+.type { margin-top: 28px; padding: clamp(20px, 3vw, 40px); border: 1px solid var(--hair); font-family: var(--lexend); }
+.type__note { margin-bottom: 28px; font-family: var(--sans); font-size: .9rem; opacity: .65; }
+.type__row + .type__row { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--hair); }
+.type__h { font-size: 32px; line-height: 40px; font-weight: 700; }
+.type__b { font-size: 16px; line-height: 24px; font-weight: 400; }
+.type__c { font-size: 12px; line-height: 18px; font-weight: 500; }
+
+/* ==========================================================================
+   9. Journeys, outcome, reflection
+   ========================================================================== */
+.journey { margin-top: clamp(56px, 10vh, 110px); }
+.journey__label { margin-bottom: 14px; font-size: .85rem; opacity: .7; letter-spacing: .02em; }
+.journey__title { max-width: 20ch; text-wrap: balance; margin-bottom: 20px; font-size: clamp(1.8rem, 3.6vw, 3.2rem); font-weight: 700; letter-spacing: -.025em; line-height: 1.08; }
+
+.rail {
+  display: flex; gap: var(--grid-gap); margin-top: 32px; padding-bottom: 14px;
+  overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+}
+.rail .ph { flex: 0 0 clamp(170px, 22vw, 250px); aspect-ratio: 9 / 19; scroll-snap-align: start; }
+
+.next { margin-top: clamp(80px, 15vh, 170px); padding: clamp(40px, 8vh, 90px) var(--edge); border-top: 1px solid var(--hair); }
+.next__label { font-size: .85rem; opacity: .7; letter-spacing: .02em; }
+.next__link { display: block; width: fit-content; margin-top: 18px; }
+.next__title { font-size: clamp(2.6rem, 8vw, 8rem); font-weight: 800; letter-spacing: -.03em; line-height: 1; transition: color .3s ease; }
+.next__link:is(:hover, :focus-visible) .next__title { color: var(--ember); }
+.next__story { margin-top: 18px; max-width: 34ch; text-wrap: balance; font-size: clamp(1.05rem, 1.7vw, 1.5rem); font-weight: 300; line-height: 1.4; }
+
+.footer { padding: 0 var(--edge) 8vh; }
+.footer__links { display: flex; flex-wrap: wrap; gap: 14px clamp(20px, 3vw, 40px); padding-top: 32px; border-top: 1px solid var(--hair); font-size: 1rem; }
+.footer__links a { padding-bottom: 3px; border-bottom: 1px solid var(--cream); transition: color .3s ease, border-color .3s ease; }
+.footer__links a:is(:hover, :focus-visible) { color: var(--ember); border-color: var(--ember); }
+.footer__legal { display: block; margin-top: 7vh; font-size: .9rem; opacity: .6; }
+
+@media (max-width: 640px) {
+  .nav { padding-top: 20px; }
+  .nav__links { gap: 16px; font-size: .85rem; }
+  .brand { font-size: 1.1rem; }
+}
+
+/* ==========================================================================
+   Cardinal additions
+   ========================================================================== */
+.hero__tag { max-width: 32ch; font-size: clamp(1.25rem, 2.4vw, 2.2rem); }
+
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--grid-gap); margin-top: 28px; }
+@media (min-width: 700px)  { .stats { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1040px) { .stats { grid-template-columns: repeat(5, 1fr); } }
+.stat { padding: clamp(18px, 2vw, 28px); border: 1px solid var(--hair); }
+.stat strong { display: block; font-size: clamp(2.2rem, 4vw, 3.8rem); font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.stat > span { display: block; margin-top: 12px; font-size: .95rem; font-weight: 300; line-height: 1.4; opacity: .85; }
+
+.principle .points li:first-child { border-top: 0; padding-top: 0; }
+.principle .points li:last-child { border-bottom: 0; padding-bottom: 0; }
+.note b { display: block; margin-bottom: 6px; font-size: .85rem; font-weight: 500; opacity: .7; letter-spacing: .02em; }
+.note + .note { margin-top: 20px; }
+
+.points { max-width: var(--measure); }
+.points li { padding: 14px 0; border-top: 1px solid var(--hair); font-size: 1.02rem; font-weight: 300; line-height: 1.6; }
+.points li:last-child { border-bottom: 1px solid var(--hair); }
+.points b { font-weight: 600; }
+
+/* site map */
+.tree { margin-top: 32px; font-size: 1rem; line-height: 1.5; }
+.tree__root { margin-bottom: 4px; font-size: 1.25rem; font-weight: 800; letter-spacing: -.01em; }
+.tree ul { margin-left: 10px; padding-left: 26px; }
+.tree ul > li { position: relative; padding: 5px 0; }
+.tree ul > li::before { content: ""; position: absolute; left: -26px; top: 0; bottom: 0; border-left: 1px solid var(--hair-strong); }
+.tree ul > li:last-child::before { bottom: auto; height: 17px; }
+.tree ul > li::after { content: ""; position: absolute; left: -26px; top: 17px; width: 18px; border-top: 1px solid var(--hair-strong); }
+.tree b { font-weight: 600; }
+.tree span { font-weight: 300; opacity: .85; }
+.tree__note { opacity: .65; }
+
+/* colour tokens */
+.tokens { margin-top: 28px; border-top: 1px solid var(--hair); }
+.tokens li { display: grid; grid-template-columns: 28px 1fr; gap: 4px 16px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--hair); }
+.tokens i { grid-row: span 3; align-self: start; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--hair-strong); }
+.tokens code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9rem; }
+.tokens b { font-weight: 500; }
+.tokens span { font-size: .95rem; opacity: .75; }
+@media (min-width: 900px) {
+  .tokens li { grid-template-columns: 28px minmax(0, 2fr) minmax(0, 1.2fr) minmax(0, 2fr); gap: 20px; }
+  .tokens i { grid-row: auto; align-self: center; }
+}
+
+.type--cardinal { font-family: Avenir, "Avenir Next", var(--sans); }
+.type--cardinal .type__h { font-size: 24px; line-height: 32px; font-weight: 700; }
+.type--cardinal .type__s { font-size: 16px; line-height: 24px; font-weight: 600; }
+.type--cardinal .type__b { font-size: 12px; line-height: 18px; font-weight: 400; }
+
+/* small illustrations of components */
+.demo { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 22px; border-radius: 12px; font-size: .95rem; font-weight: 600; }
+.btn--primary { background: #F4C430; color: #0E1A2B; }
+.btn--secondary { background: #2B313C; color: #fff; }
+.demo .chip { padding: 5px 12px; font-size: .85rem; }
+
+/* very small phones: keep the logo and links on one row at the page inset */
+@media (max-width: 440px) {
+  .brand { gap: 6px; font-size: 1rem; }
+  .brand__mark { width: 26px; height: 26px; font-size: .56rem; }
+  .nav__links { gap: 14px; font-size: .82rem; }
+  .nav__links a { gap: 6px; }
+}
+
+@media (max-width: 380px) {
+  .nav__links a { white-space: nowrap; }
+  .nav__links svg { display: none; }       /* the text is enough at this width */
+  .nav__links { gap: 14px; }
+}
+@media (max-width: 340px) {
+  .brand { font-size: .9rem; }
+}
+/* ==========================================================================
+   Interaction feel — after Apple's "Designing Fluid Interfaces"
+   ========================================================================== */
+/* feedback starts the moment a finger or mouse goes down, not on release;
+   it replaces the browser's grey tap flash */
+a, button { -webkit-tap-highlight-color: transparent; }
+:is(button, .nav__links a, .footer__links a, .brand, .crumbs a, .next__link):active { scale: .96; transition: scale 100ms ease-out; }
+a.project:active { scale: .985; transition: scale 100ms ease-out; }
+
+/* visitors who ask their system for less transparency or more contrast */
+@media (prefers-reduced-transparency: reduce) {
+  .nav { background: var(--bg); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@media (prefers-contrast: more) {
+  :root { --hair: rgba(var(--ink-rgb), .45); --hair-strong: rgba(var(--ink-rgb), .85); }
+}
+</style>
+<link rel="stylesheet" href="assets/case-study.css">
+</head>
+<body>
+
+<canvas class="sky" id="sky" aria-hidden="true"></canvas>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="brand" href="index.html" aria-label="Arpit Sharma, home">
+    <span class="brand__mark" data-mark="AS" aria-hidden="true"></span>ARPIT SHARMA
+  </a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="#contact">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="2" fill="#e5322d"/><path d="M3 5l5 3.5L13 5" stroke="#fff" stroke-width="1.2" fill="none"/></svg>
+      Contact
+    </a>
+    <a href="assets/Arpit_Sharma_Resume.pdf" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z" fill="currentColor"/></svg>
+      Resume <span aria-hidden="true">↗</span>
+    </a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- Hero -->
+  <header class="hero">
+    <p class="crumbs">
+      <a href="index.html#work"><span aria-hidden="true">←</span> Projects</a>
+      <span aria-hidden="true">/</span>
+      <span>Cardinal</span>
+    </p>
+
+    <ul class="tags" aria-label="Project type">
+      <li class="pill">Fintech</li>
+      <li class="pill">Mobile</li>
+      <li class="pill">2017–2020</li>
+    </ul>
+
+    <h1 class="hero__name">Cardinal</h1>
+    <p class="hero__tag">Be card smart — how do you help people spend smarter when they carry five cards but barely understand one?</p>
+
+    <dl class="facts">
+      <div><dt>Role</dt><dd>Lead Product Designer (Solo)</dd></div>
+      <div><dt>Timeline</dt><dd>2017–2020 (Concept to Prototype)</dd></div>
+      <div><dt>Platform</dt><dd>iOS (Mobile)</dd></div>
+      <div><dt>Tools</dt><dd>Adobe XD, Illustrator, Sketch</dd></div>
+      <div class="wide"><dt>Responsibilities</dt><dd>Product Strategy, UX Research, IA, Visual Design, Design System, Prototyping</dd></div>
+    </dl>
+  </header>
+
+  <section class="chap chap--glance" aria-labelledby="t-glance">
+    <p class="chapter reveal"><span class="chapter__n">00</span> <span class="chapter__t" id="t-glance">At a glance</span></p>
+    <dl class="glance">
+    <div><dt>The challenge</dt><dd>Most people carried several cards and almost none knew which to use where, leaving real money on the table at every checkout.</dd></div>
+    <div><dt>What I did</dt><dd>Researched the market and competitors, observed three behavioral archetypes, and designed a privacy-first, location-aware offers app — solo.</dd></div>
+    <div><dt>Where it landed</dt><dd>A concept and prototype that answers “which of my cards gives the best deal here?” in under three taps.</dd></div>
+  </dl>
+  </section>
+
+  <!-- 01 — Challenge -->
+  <section class="chap" aria-labelledby="t-challenge">
+    <p class="chapter reveal"><span class="chapter__n">01</span> <span class="chapter__t">Challenge</span></p>
+    <h2 class="chap__title reveal" id="t-challenge">The problem wasn’t having too few cards. It was knowing too little about the ones you had.</h2>
+
+    <div class="prose">
+      <p class="lead">By 2020, the average consumer carried multiple credit and debit cards — each promising benefits, cashback, and discounts from different banks. But there was a catch: <strong>almost no one knew which card to use where</strong>.</p>
+      <p>The mental overhead of tracking 3–5 card benefit programs is enormous. Banks communicate offers through emails no one reads, apps no one opens, and PDFs no one downloads. The result? People defaulted to whichever card was on top of their wallet — <strong>leaving real money on the table at every checkout</strong>.</p>
+      <p>COVID-19 made this worse. Businesses flooded the market with time-limited cashback promotions, exclusive card deals, and location-specific discounts. <strong>The signal-to-noise ratio collapsed entirely.</strong></p>
+    </div>
+
+    <div data-stagger class="grid grid--2">
+      <div class="card">
+        <p class="card__label">The business problem</p>
+        <p>Merchants needed card-eligible customers at their door. Banks needed their cards to be the preferred choice at POS. Neither had a clear channel to reach users at the moment of decision.</p>
+      </div>
+      <div class="card">
+        <p class="card__label">The user problem</p>
+        <p>Consumers had no single, neutral, low-friction place to ask: “Which of my cards gets me the best deal, right here, right now?” Cardinal was designed to answer exactly that question.</p>
+      </div>
+    </div>
+
+    <ul class="stats" data-viz aria-label="Market numbers">
+      <li class="stat"><strong><span aria-hidden="true" data-count="1.06" data-decimals="2" data-suffix="B">1.06B</span><span class="sr-only">1.06B</span></strong><span>credit/debit cards in the USA</span><i class="meter" style="--w:37.9%" aria-hidden="true"></i></li>
+      <li class="stat"><strong><span aria-hidden="true" data-count="2.8" data-decimals="1" data-suffix="B">2.8B</span><span class="sr-only">2.8B</span></strong><span>cards in use worldwide</span><i class="meter" style="--w:100%" aria-hidden="true"></i></li>
+      <li class="stat"><strong><span aria-hidden="true" data-count="70" data-suffix="%">70%</span><span class="sr-only">70%</span></strong><span>of adults carry a card</span><i class="waffle" style="--pct:70%" aria-hidden="true"></i></li>
+      <li class="stat"><strong><span aria-hidden="true" data-count="40" data-suffix="%">40%</span><span class="sr-only">40%</span></strong><span>use cards consistently</span><i class="waffle" style="--pct:40%" aria-hidden="true"></i></li>
+      <li class="stat"><strong><span aria-hidden="true" data-count="60" data-suffix="%">60%</span><span class="sr-only">60%</span></strong><span>believe payments will be cashless</span><i class="waffle" style="--pct:60%" aria-hidden="true"></i></li>
+    </ul>
+
+    <p class="note"><b>So what?</b>The market was enormous and growing cashless — but the UX layer between cardholders and their benefits was completely broken. A genuine product gap, not a marginal improvement.</p>
+  </section>
+
+  <!-- 02 — Research -->
+  <section class="chap" aria-labelledby="t-research">
+    <p class="chapter reveal"><span class="chapter__n">02</span> <span class="chapter__t">Research</span></p>
+    <h2 class="chap__title reveal" id="t-research">Starting with the market, then listening to people.</h2>
+
+    <h3 class="sub" style="margin-top:0">Market research</h3>
+    <div class="prose">
+      <p>With 2.8 billion cards globally and growing cashless adoption, the infrastructure for card-linked offers existed — but the consumer-facing discovery layer didn’t. Banks and merchants both had motivation to close this gap. The question was: <strong>who was already trying?</strong></p>
+    </div>
+
+    <h3 class="sub">Competitive audit</h3>
+    <div class="prose">
+      <p>Most card-management apps were either bank-owned (biased toward their own products) or aggregators (feature-heavy, overwhelming, poorly designed). None solved the <span class="script">simple</span> question of “which card should I use at this merchant, right now.”</p>
+    </div>
+    <div data-stagger class="grid grid--2">
+      <div class="card"><p>No competitor offered real-time, location-aware offer discovery</p></div>
+      <div class="card"><p>Existing apps required sharing full card numbers or linking accounts — a major trust barrier</p></div>
+      <div class="card"><p>Category-based browsing (food, travel, groceries) was rare; most used bank-centric navigation</p></div>
+      <div class="card"><p>None designed for the moment of purchase — the 5 seconds before you tap</p></div>
+    </div>
+    <p class="note"><b>So what?</b>The competitive white space wasn’t in features — it was in framing. Cardinal could win by being radically simpler and privacy-respecting.</p>
+
+    <h3 class="sub">User observations — three behavioral archetypes</h3>
+    <div data-stagger class="grid grid--3" style="margin-top:0">
+      <div class="card"><h4>The Passive Spender</h4><p>Uses one card for everything. Doesn’t know their benefits. Not opposed to offers, just never in the mindset to seek them.</p></div>
+      <div class="card"><h4>The Frustrated Optimizer</h4><p>Knows their cards have offers. Spends mental energy remembering which is which. Gets it wrong regularly. Mildly resentful of banks.</p></div>
+      <div class="card"><h4>The Lapsed Chaser</h4><p>Downloaded 2–3 bank apps. Got overwhelmed. Now ignores all of them. Has mentally given up despite wanting to optimize.</p></div>
+    </div>
+    <p class="note"><b>Key finding</b>Users didn’t want to manage their cards. They wanted to use them better — with minimal overhead at the moment of decision. The product had to intercept users before they paid, not review data after.</p>
+  </section>
+
+  <!-- 03 — Key insights -->
+  <section class="chap" aria-labelledby="t-insights">
+    <p class="chapter reveal"><span class="chapter__n">03</span> <span class="chapter__t">Key insights</span></p>
+    <h2 class="chap__title reveal" id="t-insights">What the research actually told us.</h2>
+
+    <figure class="viz viz-time" data-viz>
+      <div class="viz-time__row"><span class="viz-time__label">At a register</span><span class="viz-time__bar" style="--w:1.7%"></span><span class="viz-time__value">5 seconds</span></div>
+      <div class="viz-time__row"><span class="viz-time__label">At home</span><span class="viz-time__bar" style="--w:100%"></span><span class="viz-time__value">5 minutes</span></div>
+      <figcaption>Drawn to scale: the window to decide at the door is one-sixtieth of the time at home.</figcaption>
+    </figure>
+
+    <div data-stagger class="grid grid--3" style="margin-top:0">
+      <div class="card"><h4>The decision happens at the door</h4><p>“Which card?” is a 5-second question asked at a register, not a 5-minute one asked at home. Cardinal had to be fast, local, and contextual.</p></div>
+      <div class="card"><h4>Privacy is a non-negotiable unlock</h4><p>Users distrusted sharing card numbers with third-party apps. Cardinal needed to work with card names, not card numbers.</p></div>
+      <div class="card"><h4>Location is the killer feature</h4><p>The highest-value moment was “show me what’s near me, with my cards, right now.” Location-aware surfacing was the differentiator.</p></div>
+      <div class="card"><h4>Category thinking beats card thinking</h4><p>Users thought in categories — food, travel, groceries — not card names. “Best food deal today?” is how people actually think.</p></div>
+      <div class="card"><h4>Favourites are a retention mechanism</h4><p>Power users wanted to bookmark offers and merchants. A Favourites tab brings users back when they aren’t actively shopping.</p></div>
+      <div class="card"><h4>Onboarding anxiety is real</h4><p>First-time setup was the biggest drop-off risk. Onboarding had to be short and low-commitment: no linking, no numbers — just “which cards do you carry.”</p></div>
+    </div>
+  </section>
+
+  <!-- 04 — Product strategy -->
+  <section class="chap" aria-labelledby="t-strategy">
+    <p class="chapter reveal"><span class="chapter__n">04</span> <span class="chapter__t">Product strategy</span></p>
+    <h2 class="chap__title reveal" id="t-strategy">Four principles that drove every design decision.</h2>
+
+    <div class="principles" style="margin-top:0">
+      <article class="principle">
+        <div><p class="principle__n">Principle 1</p><h3>Radical simplicity over completeness</h3></div>
+        <div>
+          <p>Cardinal deliberately didn’t show every offer from every bank — it surfaced the most relevant offer at the right moment. A curated, fast experience beats a comprehensive, slow one.</p>
+          <p class="impact"><b>Design decision</b>Bottom nav limited to four tabs — Home, Nearby, Favourite, Profile. No hamburger menu. Every feature within two taps.</p>
+        </div>
+      </article>
+      <article class="principle">
+        <div><p class="principle__n">Principle 2</p><h3>Privacy by architecture, not policy</h3></div>
+        <div>
+          <p>No card numbers, no account linking, no bank login. Cardinal only needed to know which cards a user carried.</p>
+          <p class="impact"><b>Design decision</b>“Add a card” meant selecting a brand from a dropdown, not entering 16 digits — surfaced in onboarding as “Absolutely safe — no need to share card numbers.”</p>
+          <figure class="viz viz-privacy">
+            <div class="viz-privacy__flow" aria-hidden="true">
+              <span class="viz-privacy__no">•••• •••• •••• ••••</span>
+              <span>→</span>
+              <span class="viz-privacy__yes">DBS card <span>▾</span></span>
+            </div>
+            <figcaption>Add a card: pick a brand from a dropdown, not 16 digits.</figcaption>
+          </figure>
+        </div>
+      </article>
+      <article class="principle">
+        <div><p class="principle__n">Principle 3</p><h3>Location as default context</h3></div>
+        <div>
+          <p>Instead of making users navigate to nearby offers, Cardinal defaulted to location-aware suggestions.</p>
+          <p class="impact"><b>Design decision</b>The Nearby tab loaded with current location pre-set and offers pre-filtered to walking distance; permission requested in context.</p>
+        </div>
+      </article>
+      <article class="principle">
+        <div><p class="principle__n">Principle 4</p><h3>Card-attributed, not bank-attributed</h3></div>
+        <div>
+          <p>Offers displayed as “20% off on DBS card” — tied to the specific card in the user’s wallet, not the bank broadly.</p>
+          <p class="impact"><b>Design decision</b>Offer cards always showed the card type alongside the value, turning abstract promotions into personal savings.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 05 — Information architecture -->
+  <section class="chap" aria-labelledby="t-ia">
+    <p class="chapter reveal"><span class="chapter__n">05</span> <span class="chapter__t">Information architecture</span></p>
+    <h2 class="chap__title reveal" id="t-ia">One clear path, five destinations.</h2>
+
+    <div class="prose">
+      <p class="lead">Cardinal’s architecture was <strong>deliberately flat</strong> — three levels maximum from any screen to any action, with everything living in the bottom navigation.</p>
+    </div>
+
+    <div class="tree" role="group" aria-label="Cardinal site map">
+      <p class="tree__root">Cardinal</p>
+      <ul>
+        <li><b>Splash screen</b></li>
+        <li><b>Onboarding</b> <span class="tree__note">(new users only)</span>
+          <ul>
+            <li>Welcome 1 — <span>Discover offers on your card</span></li>
+            <li>Welcome 2 — <span>Find the right card in your wallet</span></li>
+            <li>Welcome 3 — <span>Never miss an offer nearby</span></li>
+            <li>Welcome 4 — <span>Absolutely safe, no card numbers</span></li>
+          </ul>
+        </li>
+        <li><b>Auth</b>
+          <ul>
+            <li>Login</li>
+            <li>Registration</li>
+          </ul>
+        </li>
+        <li><b>Main app</b> <span class="tree__note">(bottom nav)</span>
+          <ul>
+            <li><b>Home</b> — <span>Personalized offers feed → Add Card → Notifications</span></li>
+            <li><b>Nearby</b> — <span>Location-aware offer map</span>
+              <ul>
+                <li><span>Set Location · Search · Categories · New Offers</span></li>
+                <li><span>Hotel · Flight · Taxi · Train · Real Estate · Groceries · Food · Bus</span></li>
+              </ul>
+            </li>
+            <li><b>Favourite</b> — <span>Saved offers</span></li>
+            <li><b>Profile</b> — <span>Account, Cards, Security, Help, Terms, About, Logout</span></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <ol data-stagger class="flow" aria-label="Core path from opening the app to redeeming an offer">
+      <li><span class="flow__n">1</span><h4>Open app</h4></li>
+      <li><span class="flow__n">2</span><h4>Tap Nearby</h4></li>
+      <li><span class="flow__n">3</span><h4>Location loads</h4></li>
+      <li><span class="flow__n">4</span><h4>Tap offer → See card</h4></li>
+      <li><span class="flow__n">5</span><h4>Walk in → Redeem</h4></li>
+    </ol>
+    <p class="footnote">* Keeping everything in the bottom nav (no hamburger menu) was the right call; consolidating the Profile tab’s 10+ items would help at V2.</p>
+  </section>
+
+  <!-- 06 — Design exploration -->
+  <section class="chap" aria-labelledby="t-explore">
+    <p class="chapter reveal"><span class="chapter__n">06</span> <span class="chapter__t">Design exploration</span></p>
+    <h2 class="chap__title reveal" id="t-explore">Building a brand that felt premium, not predatory.</h2>
+
+    <h3 class="sub" style="margin-top:0">Brand identity</h3>
+    <div class="prose">
+      <p>The name Cardinal — a bird known for vivid red plumage and sharp navigational instinct — gave the brand its foundation: <strong>directional, confident, sure of where to go</strong>. The wordmark =cardinal used a custom equals-sign prefix — a nod to equivalence and comparison (which card equals better value here?).</p>
+    </div>
+    <div class="wordmark"><img src="assets/images/cardinal/cardinal_logo.svg" width="190" height="64" loading="lazy" decoding="async" alt="=cardinal wordmark"></div>
+
+    <ul data-stagger class="chips" aria-label="Brand personality">
+      <li class="chip">Smart</li><li class="chip">Precise</li><li class="chip">Trustworthy</li><li class="chip">Calm</li><li class="chip">Helpful</li>
+    </ul>
+    <p class="pull reveal">Tone: knowledgeable friend, not corporate bank.</p>
+
+    <h3 class="sub">Color strategy</h3>
+    <div class="prose">
+      <p>The palette inverted the typical fintech aesthetic. Most banking apps are white, blue, and corporate — <strong>Cardinal went dark</strong>, making every offer card pop with warmth. <strong>The yellow-gold primary reads as reward, not warning</strong>: the color of value and return. A dark UI is also easier to read in the variable lighting of shops and streets — and signals premium.</p>
+    </div>
+    <ul data-stagger class="swatches" aria-label="Colour palette">
+      <li class="swatch" style="background:#0E1A2B;color:#fff"><div><b>Deep Navy</b><code>#0E1A2B</code></div><span>Background</span><button type="button" class="copy" data-copy="#0E1A2B" aria-label="Copy #0E1A2B"></button></li>
+      <li class="swatch" style="background:#F4C430;color:#0E1A2B"><div><b>Yellow Gold</b><code>#F4C430</code></div><span>Primary / CTA</span><button type="button" class="copy" data-copy="#F4C430" aria-label="Copy #F4C430"></button></li>
+      <li class="swatch" style="background:#2F6FED;color:#fff"><div><b>Blue Accent</b><code>#2F6FED</code></div><span>Navigation / info</span><button type="button" class="copy" data-copy="#2F6FED" aria-label="Copy #2F6FED"></button></li>
+      <li class="swatch" style="background:#E0413E;color:#fff"><div><b>Red Accent</b><code>#E0413E</code></div><span>Alerts / notifications</span><button type="button" class="copy" data-copy="#E0413E" aria-label="Copy #E0413E"></button></li>
+    </ul>
+
+    <div class="type type--cardinal">
+      <p class="type__note">Typeface — Avenir (geometric clarity, warm neutrality)</p>
+      <p class="type__row type__h">Page Heading — 24, Bold</p>
+      <p class="type__row type__s">Section Heading — 16, Semibold</p>
+      <p class="type__row type__b">Body Text — 12, Regular</p>
+    </div>
+
+    <h3 class="sub">Illustrations</h3>
+    <div class="prose">
+      <p>Onboarding used bold, geometric yellow objects on dark backgrounds — a wallet, a pin, a card, a shield — communicating each value proposition instantly, without photography. Custom illustration in fintech is rare and signals real craft: <strong>someone cared how this feels, not just how it works</strong>.</p>
+    </div>
+    <div class="illus"><img src="assets/images/cardinal/onboarding_illustration.svg" width="1869" height="413" loading="lazy" decoding="async" alt="Onboarding illustrations: bold geometric yellow objects on dark backgrounds"></div>
+  </section>
+
+  <!-- 07 — Design system -->
+  <section class="chap" aria-labelledby="t-system">
+    <p class="chapter reveal"><span class="chapter__n">07</span> <span class="chapter__t">Design system</span></p>
+    <h2 class="chap__title reveal" id="t-system">A system built for speed, legibility, and trust.</h2>
+
+    <ul data-stagger class="tokens" aria-label="Colour tokens">
+      <li><i style="background:#0E1A2B"></i><button type="button" class="copy-code" data-copy="color-bg-primary">color-bg-primary</button><b>Deep Navy</b><span>App background</span></li>
+      <li><i style="background:color-mix(in srgb, #0E1A2B 96%, #fff 4%)"></i><button type="button" class="copy-code" data-copy="color-bg-surface">color-bg-surface</button><b>Dark Navy +4%</b><span>Cards, modals</span></li>
+      <li><i style="background:#F4C430"></i><button type="button" class="copy-code" data-copy="color-accent-primary">color-accent-primary</button><b>Yellow Gold</b><span>CTAs, active states, highlights</span></li>
+      <li><i style="background:#2F6FED"></i><button type="button" class="copy-code" data-copy="color-accent-secondary">color-accent-secondary</button><b>Blue</b><span>Navigation, info states</span></li>
+      <li><i style="background:#E0413E"></i><button type="button" class="copy-code" data-copy="color-accent-alert">color-accent-alert</button><b>Red</b><span>Notifications, expiring offers</span></li>
+      <li><i style="background:#fff"></i><button type="button" class="copy-code" data-copy="color-text-primary">color-text-primary</button><b>White</b><span>Primary text</span></li>
+      <li><i style="background:rgba(255,255,255,.6)"></i><button type="button" class="copy-code" data-copy="color-text-secondary">color-text-secondary</button><b>White 60%</b><span>Captions, labels</span></li>
+    </ul>
+
+    <div data-stagger class="grid grid--3">
+      <div class="card">
+        <h4>Offer card</h4><p>The atomic unit — merchant logo, offer headline, card-name badge, favourite icon. Two states: full-width list and compact map tooltip.</p>
+        <div class="demo demo--offer" role="group" aria-label="Offer card example">
+          <div class="offer">
+            <span class="offer__logo" aria-hidden="true"></span>
+            <span class="offer__body"><b>20% off</b><span class="offer__badge">DBS card</span></span>
+            <button type="button" class="heart" aria-pressed="false" aria-label="Favourite this offer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.9a4.3 4.3 0 0 1 7.5 2.4C19.5 15.9 12 20.5 12 20.5z"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h4>CTA — Primary</h4>
+        <p>Yellow-gold background, dark text, full-width. For primary actions: Get Started, Add Card, See Offer.</p>
+        <div class="demo" aria-hidden="true"><span class="btn btn--primary">Get started</span></div>
+      </div>
+      <div class="card">
+        <h4>CTA — Secondary</h4>
+        <p>Dark-gray background, white text. For alternative actions: Skip, Cancel, Back.</p>
+        <div class="demo" aria-hidden="true"><span class="btn btn--secondary">Skip</span></div>
+      </div>
+      <div class="card">
+        <h4>Bottom navigation</h4><p>Four tabs — Home, Nearby, Favourite, Profile. Active tab fills yellow-gold; inactive at 50% opacity.</p>
+        <div class="demo demo--nav" role="group" aria-label="Bottom navigation example">
+          <button type="button" aria-current="true">Home</button><button type="button">Nearby</button><button type="button">Favourite</button><button type="button">Profile</button>
+        </div>
+      </div>
+      <div class="card">
+        <h4>Category chips</h4>
+        <p>Horizontal-scroll pills on Nearby: Hotel, Flight, Taxi, Train, Real Estate, Groceries, Food, Bus.</p>
+        <div class="demo demo--chips" role="group" aria-label="Category chips example">
+          <button type="button" class="chip" aria-pressed="true">Hotel</button><button type="button" class="chip" aria-pressed="false">Flight</button><button type="button" class="chip" aria-pressed="false">Taxi</button><button type="button" class="chip" aria-pressed="false">Train</button><button type="button" class="chip" aria-pressed="false">Groceries</button><button type="button" class="chip" aria-pressed="false">Food</button>
+        </div>
+      </div>
+      <div class="card"><h4>Map view</h4><p>Native map with offer pins using the Cardinal “C” mark. Tapping a pin expands the offer tooltip.</p></div>
+    </div>
+
+    <div data-stagger class="grid grid--2">
+      <div class="card"><h4>Onboarding</h4><p>Swipe-right pagination with dot indicators — each screen earns its view.</p></div>
+      <div class="card"><h4>Offer cards</h4><p>Heart tap = instant favourite, no confirmation. The micro-interaction feels immediate.</p></div>
+      <div class="card"><h4>Map pins</h4><p>Tap to expand tooltip, tap tooltip for detail — two taps to conversion intent.</p></div>
+      <div class="card"><h4>Location permission</h4><p>Requested in context on first Nearby visit, with a clear why.</p></div>
+    </div>
+  </section>
+
+  <!-- 08 — Final experience -->
+  <section class="chap" aria-labelledby="t-final">
+    <p class="chapter reveal"><span class="chapter__n">08</span> <span class="chapter__t">Final experience</span></p>
+    <h2 class="chap__title reveal" id="t-final">Three journeys. One product.</h2>
+
+    <div class="tabs" data-tabs>
+      <div class="tabs__list" role="tablist" aria-label="The three journeys">
+        <button type="button" role="tab" id="tab-j1" aria-controls="panel-j1" aria-selected="true"><span class="tab__n">01</span>Onboarding</button>
+        <button type="button" role="tab" id="tab-j2" aria-controls="panel-j2" aria-selected="false"><span class="tab__n">02</span>Home</button>
+        <button type="button" role="tab" id="tab-j3" aria-controls="panel-j3" aria-selected="false"><span class="tab__n">03</span>Nearby</button>
+      </div>
+      <article class="tabs__panel" role="tabpanel" id="panel-j1" aria-labelledby="tab-j1" tabindex="0">
+        <div class="journey__intro"><p class="journey__label">Journey 1 — First-time onboarding</p>
+        <h3 class="journey__title">Zero to first offer in under 60 seconds</h3>
+        <p class="journey__goal">Fintech onboarding is historically the most abandoned stage — users expect friction, forms, card linking, KYC.</p></div>
+        <div class="journey__moves"><p class="moves__label">Key moves</p>
+        <ul class="moves">
+          <li>Cardinal stripped it to two moments: understand the value, and tell us which cards you carry</li>
+          <li>Four illustration-led walkthrough screens tell a story — discover, organize, find nearby, stay safe</li>
+          <li>The “no card numbers needed” safety screen is placed last, after desire is established</li>
+        </ul></div>
+        <figure class="viz">
+          <ol class="viz viz-story" data-viz aria-label="The four walkthrough screens">
+          <li>
+            <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="14" width="52" height="36" rx="7" fill="#F4C430"/><rect x="6" y="23" width="52" height="8" fill="#0E1A2B"/><rect x="12" y="38" width="16" height="6" rx="3" fill="#0E1A2B" opacity=".7"/></svg>
+            <b>Discover</b><span>Discover offers on your card</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="16" width="52" height="34" rx="7" fill="#F4C430"/><rect x="34" y="27" width="24" height="14" rx="7" fill="#0E1A2B"/><circle cx="43" cy="34" r="2.6" fill="#F4C430"/></svg>
+            <b>Organize</b><span>Find the right card in your wallet</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6c-10 0-18 8-18 18 0 13 18 34 18 34s18-21 18-34c0-10-8-18-18-18z" fill="#F4C430"/><circle cx="32" cy="24" r="7" fill="#0E1A2B"/></svg>
+            <b>Find nearby</b><span>Never miss an offer nearby</span>
+          </li>
+          <li class="last">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 5l22 8v15c0 15-9 26-22 31C19 54 10 43 10 28V13z" fill="#F4C430"/><path d="M22 31l8 8 13-15" fill="none" stroke="#0E1A2B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <b>Stay safe</b><span>Absolutely safe, no card numbers</span>
+          </li>
+        </ol>
+          <figcaption>The safety screen comes last, after desire is established.</figcaption>
+        </figure>
+        <p class="pull">You earn trust after you’ve earned attention.</p>
+        <figure class="shot">
+          <img src="assets/images/cardinal/onboarding.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="A hand holding a phone that shows Cardinal’s Add New Card screen: a yellow card illustration, card type, bank name, card type and network, and a Save Card button">
+        </figure>
+      </article>
+      <article class="tabs__panel" role="tabpanel" id="panel-j2" aria-labelledby="tab-j2" tabindex="0">
+        <div class="journey__intro"><p class="journey__label">Journey 2 — Home: personalized offers</p>
+        <h3 class="journey__title">The right offer within 3 seconds of opening</h3>
+        <p class="journey__goal">Generic feeds create noise, not value — if the first offer isn’t relevant, users never reach the second.</p></div>
+        <div class="journey__moves"><p class="moves__label">Key moves</p>
+        <ul class="moves">
+          <li>The card-attributed feed, titled “Offers For You,” tied every offer to a specific card the user added</li>
+          <li>Each card showed merchant, discount value, and which card it applied to — transforming abstract bank offers into personal value</li>
+          <li>A “What’s New” section and an always-available Add Card CTA created freshness and a reason to return</li>
+        </ul></div>
+        
+        <figure class="shot">
+          <img src="assets/images/cardinal/home.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="A hand holding a phone that shows Cardinal’s home screen: a search bar, Offers For You with a featured offer, offer categories and a What’s New carousel">
+        </figure>
+      </article>
+      <article class="tabs__panel" role="tabpanel" id="panel-j3" aria-labelledby="tab-j3" tabindex="0">
+        <div class="journey__intro"><p class="journey__label">Journey 3 — Nearby: offers in the real world</p>
+        <h3 class="journey__title">“What can I save on, right here, right now?” in two taps</h3>
+        <p class="journey__goal">The Nearby tab loaded with location pre-set, map view visible, and offer pins already populated — no “search first” friction.</p></div>
+        <div class="journey__moves"><p class="moves__label">Key moves</p>
+        <ul class="moves">
+          <li>A map-first layout matched how people navigate physically, with a scannable list below for those who prefer it</li>
+          <li>Broad category filters covered daily and occasional spend</li>
+          <li>Nearby sat second in the nav to signal its strategic importance as the core differentiator</li>
+        </ul></div>
+        
+        <figure class="viz viz-radar" data-viz>
+          <svg viewBox="0 0 320 320" role="img" aria-labelledby="cd-radar-t">
+            <title id="cd-radar-t">Offer pins around you: those inside the ring are within walking distance</title>
+            <circle cx="160" cy="160" r="150" fill="none" style="stroke:rgba(var(--ink-rgb), .14)"/>
+            <circle cx="160" cy="160" r="100" fill="rgba(244,196,48,.05)" stroke="rgba(244,196,48,.6)" stroke-dasharray="4 5"/>
+            <circle cx="160" cy="160" r="50" fill="none" style="stroke:rgba(var(--ink-rgb), .14)"/>
+            <text x="160" y="54" text-anchor="middle" font-size="11" style="fill:rgba(var(--ink-rgb), .8)">walking distance</text>
+            <g font-size="11" font-weight="700" text-anchor="middle" fill="#0E1A2B">
+              <g><circle cx="200" cy="112" r="12" fill="#F4C430"/><text x="200" y="116">C</text></g>
+              <g><circle cx="112" cy="126" r="12" fill="#F4C430"/><text x="112" y="130">C</text></g>
+              <g><circle cx="216" cy="196" r="12" fill="#F4C430"/><text x="216" y="200">C</text></g>
+              <g><circle cx="122" cy="212" r="12" fill="#F4C430"/><text x="122" y="216">C</text></g>
+              <g><circle cx="246" cy="132" r="12" fill="#F4C430"/><text x="246" y="136">C</text></g>
+              <g opacity=".3"><circle cx="276" cy="78" r="12" fill="#F4C430"/><text x="276" y="82">C</text></g>
+              <g opacity=".3"><circle cx="44" cy="238" r="12" fill="#F4C430"/><text x="44" y="242">C</text></g>
+            </g>
+            <circle class="pulse" cx="160" cy="160" r="8" fill="#2F6FED"/>
+            <circle cx="160" cy="160" r="8" fill="#2F6FED" stroke="#ffffff" stroke-width="2.5"/>
+          </svg>
+          <figcaption>Offers are pre-filtered to walking distance, with your location already set.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="assets/images/cardinal/nearby.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="A hand holding a phone that shows Cardinal’s Nearby screen: a map with offer pins and a list of the 32 offers around you">
+        </figure>
+      </article>
+    </div>
+
+
+    <div class="rail" tabindex="0" role="region" aria-label="Final Cardinal screens, scroll sideways">
+      <figure class="screen" style="--screen-bg:#1c1c25">
+        <img src="assets/images/cardinal/screen1.webp" width="414" height="896" loading="lazy" decoding="async" alt="Cardinal splash screen: the wordmark and the line “Be card-smart!”">
+      </figure>
+      <figure class="screen" style="--screen-bg:#1c1c25">
+        <img src="assets/images/cardinal/screen2.webp" width="414" height="896" loading="lazy" decoding="async" alt="Onboarding, first slide: “Discover offers on your card”, with a yellow price-tag illustration">
+      </figure>
+      <figure class="screen" style="--screen-bg:#1c1c25">
+        <img src="assets/images/cardinal/screen3.webp" width="414" height="896" loading="lazy" decoding="async" alt="Onboarding, second slide: “Find the right card in your wallet”, with a yellow wallet illustration">
+      </figure>
+      <figure class="screen" style="--screen-bg:#1c1c25">
+        <img src="assets/images/cardinal/screen4.webp" width="414" height="896" loading="lazy" decoding="async" alt="Onboarding, last slide: “Absolutely safe, no need to share card numbers”, with Sign in and Sign up buttons">
+      </figure>
+      <figure class="screen" style="--screen-bg:#1c1c25">
+        <img src="assets/images/cardinal/screen5.webp" width="414" height="896" loading="lazy" decoding="async" alt="Onboarding, third slide: a yellow location pin and the line about never missing an offer nearby">
+      </figure>
+      <figure class="screen" style="--screen-bg:#ffffff">
+        <img src="assets/images/cardinal/screen6.webp" width="414" height="896" loading="lazy" decoding="async" alt="Add New Card: choose credit card, debit card or wallet, then the bank, card type and network, and save">
+      </figure>
+      <figure class="screen" style="--screen-bg:#1c1c25">
+        <img src="assets/images/cardinal/screen7.webp" width="414" height="896" loading="lazy" decoding="async" alt="My Wallet: three cards, a yellow DBS Gold Plus, a blue ICICI Business Plus and a grey Citi Platinum">
+      </figure>
+      <figure class="screen" style="--screen-bg:#1c1c25">
+        <img src="assets/images/cardinal/screen8.webp" width="414" height="896" loading="lazy" decoding="async" alt="My Wallet with a card swiped open to show See Offers, Edit and Delete">
+      </figure>
+      <figure class="screen" style="--screen-bg:#1d242f">
+        <img src="assets/images/cardinal/screen9.webp" width="414" height="969" loading="lazy" decoding="async" alt="Home: the search bar, offers for you, offer categories and a What’s New carousel">
+      </figure>
+      <figure class="screen" style="--screen-bg:#1d242f">
+        <img src="assets/images/cardinal/screen10.webp" width="414" height="962" loading="lazy" decoding="async" alt="Nearby: a map with offer pins and a list of the 32 offers around you">
+      </figure>
+      <figure class="screen" style="--screen-bg:#1d242f">
+        <img src="assets/images/cardinal/screen11.webp" width="414" height="896" loading="lazy" decoding="async" alt="Offer detail: 20% off at Café Coffee Day with 30 reward points on a DBS Gold card, with details and directions">
+      </figure>
+      <figure class="screen" style="--screen-bg:#1d242f">
+        <img src="assets/images/cardinal/screen12.webp" width="414" height="896" loading="lazy" decoding="async" alt="Nearby with the map expanded and a single offer card open at the bottom">
+      </figure>
+    </div>
+  </section>
+
+  <!-- 09 — Outcome -->
+  <section class="chap" aria-labelledby="t-outcome">
+    <p class="chapter reveal"><span class="chapter__n">09</span> <span class="chapter__t">Outcome</span></p>
+    <h2 class="chap__title reveal" id="t-outcome">Did Cardinal solve the problem it set out to solve?</h2>
+
+    <div class="prose">
+      <p class="lead">Cardinal was <strong>a concept and prototype</strong> — not a shipped product with measured KPIs. But the outcomes were real at the design level.</p>
+    </div>
+
+    <div data-stagger class="grid grid--2">
+      <div class="card"><h4>Product value</h4><p>“Which of my cards gives the best deal here?” was answerable in under three taps — a claim no product on market could make in 2020.</p></div>
+      <div class="card"><h4>User value</h4><p>The onboarding-to-offer funnel was designed for under 60 seconds. Replacing card numbers with card-name selection structurally removed the primary adoption barrier.</p></div>
+      <div class="card"><h4>Business value</h4><p>Cardinal created a neutral aggregation layer between users, banks, and merchants — a position banks and merchants couldn’t credibly occupy, which is why users would trust it.</p></div>
+      <div class="card"><h4>Design recognition</h4><p>112 views on Behance at publication; community feedback “clean and neat work,” validating the premium, minimal aesthetic against typical fintech density.</p></div>
+    </div>
+
+    <h3 class="sub">What the prototype proved</h3>
+    <ul class="points">
+      <li>Dark fintech UI is viable and desirable when executed with care.</li>
+      <li>Card-attributed offer surfacing is a coherent, legible pattern.</li>
+      <li>Location + card ownership is a genuinely novel combination.</li>
+      <li>Privacy-first architecture is a differentiator, not just compliance.</li>
+    </ul>
+  </section>
+
+  <!-- 10 — Reflection -->
+  <section class="chap" aria-labelledby="t-reflect">
+    <p class="chapter reveal"><span class="chapter__n">10</span> <span class="chapter__t">Reflection</span></p>
+    <h2 class="chap__title reveal" id="t-reflect">What I’d do differently. What I still believe.</h2>
+
+    <div class="principles" style="margin-top:0">
+      <article class="principle">
+        <div><h3>What worked</h3></div>
+        <ul class="points">
+          <li>The dark-first aesthetic made yellow offer cards feel like rewards — every offer appeared as something earned.</li>
+          <li>Onboarding earned trust before asking — placing “no card numbers needed” after showing value was the right sequencing.</li>
+          <li>Card-attributed offers (“20% off on DBS card”) were personal, not a bank ad. Framing matters.</li>
+        </ul>
+      </article>
+      <article class="principle">
+        <div><h3>What I’d improve today</h3></div>
+        <ul class="points">
+          <li><b>Personalization transparency</b> — surface the reason for each recommendation (“because you have a DBS card”).</li>
+          <li><b>Empty states</b> — design for no nearby offers or no card matches; that’s where trust is won or lost.</li>
+          <li><b>Offer expiry &amp; a real detail screen</b> — add expiry badges and a full offer-detail view (address, terms, how to redeem).</li>
+        </ul>
+      </article>
+      <article class="principle">
+        <div><h3>What I learned</h3></div>
+        <div><p>The most important design decisions aren’t visual. The privacy architecture (no card numbers), the card-attribution framing, the Nearby tab being second in the nav — these structural choices shaped the entire experience before a single pixel was placed. And constraint produces clarity: with no backend or business model yet, the design had to ask only “if this worked, what would it feel like?”</p></div>
+      </article>
+    </div>
+
+    <h3 class="sub">How AI would change this today</h3>
+    <p class="pull reveal" style="margin-top:0">Cardinal in 2020 asked users to bring their own context. Cardinal with AI brings the context to users.</p>
+    <ul class="points" style="margin-top:32px">
+      <li><b>Contextual intent:</b> “heading to lunch in Connaught Place” surfaces card offers before you open a map.</li>
+      <li><b>Smart ranking:</b> given location, merchant, and amount — “Use your HDFC card here, save ₹340.”</li>
+      <li><b>Natural-language search</b> replaces category chips: “best cashback for groceries this week.”</li>
+      <li>Proactive expiry alerts and spending-pattern nudges for benefits you keep missing.</li>
+    </ul>
+  </section>
+
+  <!-- More work -->
+  <aside class="next" aria-label="Next project">
+    <p class="next__label">Next up</p>
+    <a class="next__link" href="vedvasan.html">
+      <span class="next__title">Ved Vasan</span>
+    </a>
+    <p class="next__story">Blending Indian heritage with a <span class="script">simple,</span> modern identity.</p>
+  </aside>
+</main>
+
+<footer class="footer" id="contact">
+  <nav class="footer__links" aria-label="Contact and profiles">
+    <a href="mailto:arpitsharma1503@gmail.com"><span aria-hidden="true">📮</span> Email</a>
+    <a href="https://www.linkedin.com/in/arpitsharma1503/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+    <a href="https://www.instagram.com/arpit_arv_sharma/" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a>
+    <a href="assets/Arpit_Sharma_Resume.pdf" target="_blank" rel="noopener noreferrer">Resume <span aria-hidden="true">↗</span></a>
+  </nav>
+  <small class="footer__legal">© 2026 Arpit Sharma — Designed with intention.</small>
+</footer>
+
+<script>
+(() => {
+  "use strict";
+
+  const root = document.documentElement;
+  const motion = root.classList.contains("motion");
+  const clamp = (v, min = 0, max = 1) => Math.min(max, Math.max(min, v));
+
+  /* Scroll reveals: chapter labels, titles and pull-quotes only, so reading stays calm */
+  (function initReveals() {
+    const items = document.querySelectorAll(".reveal");
+    const showAll = () => items.forEach(el => el.classList.add("is-in"));
+    if (!motion || !("IntersectionObserver" in window)) return showAll();
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-in");
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0 });
+    items.forEach(el => io.observe(el));
+  })();
+
+  /* Reading progress: a thin line along the top edge */
+  (function initProgress() {
+    const bar = document.getElementById("progress");
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const max = root.scrollHeight - window.innerHeight;
+      bar.style.transform = `scaleX(${max > 0 ? clamp(window.scrollY / max).toFixed(4) : 0})`;
+    };
+    const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    window.addEventListener("scroll", request, { passive: true });
+    window.addEventListener("resize", request);
+    update();
+  })();
+
+  /* Sky: the same quiet starfield as the home page, a touch dimmer for long reading */
+  (function initSky() {
+    const canvas = document.getElementById("sky");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const TINTS = [[239, 240, 220], [255, 196, 160], [168, 150, 255]];
+    const PARALLAX = [.012, .03, .06];
+    const DIM = .9;
+    const frameMs = 1000 / 30;
+    let W = 0, H = 0, stars = [], last = 0, rafId = 0;
+
+    function seed() {
+      const count = Math.round(clamp(W * H / 9000, 70, 190));
+      stars = Array.from({ length: count }, () => {
+        const depth = Math.random() < .6 ? 0 : Math.random() < .75 ? 1 : 2;
+        const tint = Math.random() < .84 ? 0 : Math.random() < .5 ? 1 : 2;
+        return {
+          x: Math.random(), y: Math.random(), depth,
+          r: [.5, .75, 1.05][depth] * (.8 + Math.random() * .5),
+          alpha: [.36, .52, .74][depth] * (.7 + Math.random() * .3),
+          speed: .25 + Math.random() * .55,
+          phase: Math.random() * Math.PI * 2,
+          rgb: TINTS[tint]
+        };
+      });
+    }
+
+    function resize() {
+      const widthChanged = window.innerWidth !== W;
+      W = window.innerWidth; H = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (widthChanged || !stars.length) seed();
+    }
+
+    function draw(t) {
+      ctx.clearRect(0, 0, W, H);
+      const sy = window.scrollY;
+      for (const st of stars) {
+        const tw = motion ? .68 + .32 * Math.sin(t * st.speed + st.phase) : 1;
+        const a = st.alpha * tw * DIM;
+        let y = (st.y * H - sy * PARALLAX[st.depth]) % H;
+        if (y < 0) y += H;
+        const [r, g, b] = st.rgb;
+        ctx.fillStyle = `rgba(${r},${g},${b},${a.toFixed(3)})`;
+        ctx.beginPath(); ctx.arc(st.x * W, y, st.r, 0, Math.PI * 2); ctx.fill();
+        if (st.depth === 2) {
+          ctx.fillStyle = `rgba(${r},${g},${b},${(a * .1).toFixed(3)})`;
+          ctx.beginPath(); ctx.arc(st.x * W, y, st.r * 4.5, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+    }
+
+    function frame(now) {
+      rafId = requestAnimationFrame(frame);
+      if (now - last < frameMs) return;
+      last = now;
+      draw(now / 1000);
+    }
+
+    resize();
+    window.addEventListener("resize", () => { resize(); if (!motion) draw(0); });
+    if (!motion) { draw(0); return; }
+    document.addEventListener("visibilitychange", () => {
+      cancelAnimationFrame(rafId);
+      if (!document.hidden) rafId = requestAnimationFrame(frame);
+    });
+    rafId = requestAnimationFrame(frame);
+  })();
+})();
+</script>
+<script src="assets/case-study.js" defer></script>
+<script src="assets/theme.js" defer></script>
+<script src="assets/music.js" defer></script>
+<!-- Vercel Web Analytics: page views only, no cookies. The script is served by Vercel
+     itself, so it only loads on the deployed site (it is a harmless 404 when run locally). -->
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
