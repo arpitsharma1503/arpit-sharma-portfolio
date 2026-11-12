@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jogger Sports — Activewear E-commerce UX Case Study | Arpit Sharma</title>
+<meta name="description" content="How I designed a premium, story-led storefront for activewear label Jogger Sports, with 296 products, 22 collections and a complete shopping journey.">
+<link rel="canonical" href="https://www.arpit.design/jogger.html">
+
+<!-- Link previews (Open Graph / Twitter) -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Arpit Sharma">
+<meta property="og:title" content="Jogger Sports — Activewear E-commerce UX Case Study | Arpit Sharma">
+<meta property="og:description" content="How I designed a premium, story-led storefront for activewear label Jogger Sports, with 296 products, 22 collections and a complete shopping journey.">
+<meta property="og:url" content="https://www.arpit.design/jogger.html">
+<meta property="og:image" content="https://www.arpit.design/assets/images/jogger/cover.webp">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Structured data for search engines -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CreativeWork",
+      "@id": "https://www.arpit.design/jogger.html#case-study",
+      "url": "https://www.arpit.design/jogger.html",
+      "name": "Jogger Sports",
+      "headline": "Jogger Sports — Activewear E-commerce UX Case Study | Arpit Sharma",
+      "description": "How I designed a premium, story-led storefront for activewear label Jogger Sports, with 296 products, 22 collections and a complete shopping journey.",
+      "genre": "E-commerce UX",
+      "inLanguage": "en",
+      "image": "https://www.arpit.design/assets/images/jogger/cover.webp",
+      "author": {
+        "@id": "https://www.arpit.design/#person"
+      },
+      "creator": {
+        "@id": "https://www.arpit.design/#person"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Arpit Sharma",
+          "item": "https://www.arpit.design/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Jogger Sports",
+          "item": "https://www.arpit.design/jogger.html"
+        }
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.arpit.design/#person",
+      "name": "Arpit Sharma",
+      "url": "https://www.arpit.design/",
+      "jobTitle": "Product Designer",
+      "sameAs": [
+        "https://www.linkedin.com/in/arpitsharma1503/",
+        "https://www.instagram.com/arpit_arv_sharma/"
+      ]
+    }
+  ]
+}
+</script>
+
+<!-- Same feature flags as the home page: .js enables reveals, .motion enables the sky's twinkle -->
+<script>
+  (function (root) {
+    root.classList.add("js");
+    var reduced = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduced) root.classList.add("motion");
+    try { if (localStorage.getItem("theme") === "light") root.dataset.theme = "light"; } catch (e) {}
+  })(document.documentElement);
+</script>
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Fonts load without blocking first paint; text shows in the fallback face until they arrive -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&family=Pacifico&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&family=Pacifico&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&family=Pacifico&display=swap" rel="stylesheet"></noscript>
+
+<style>
+/* ==========================================================================
+   1. Tokens (shared with the home page)
+   ========================================================================== */
+:root {
+  color-scheme: dark;
+
+  --bg: #140a15;
+  --bg-2: #1e1022;
+  --cream: #eff0dc;
+  --ink-rgb: 239, 240, 220;           /* --cream and --bg as r, g, b, for translucent tints */
+  --bg-rgb: 20, 10, 21;
+  --hair: rgba(var(--ink-rgb), .14);
+  --hair-strong: rgba(var(--ink-rgb), .5);
+  --ember: #e2622e;
+  --violet: #4a2bb0;
+
+  --sans: "Outfit", "Helvetica Neue", Arial, sans-serif;
+  --script: "Pacifico", "Brush Script MT", cursive;
+
+  --edge: clamp(20px, 5vw, 84px);
+  --grid-gap: clamp(12px, 1.6vw, 24px);
+  --measure: 62ch;
+  --reveal-duration: .8s;
+
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Light theme: the same tokens, flipped. Chosen with the sun/moon button in the
+   header (assets/theme.js) and remembered; dark stays the default. */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f5f2e7;
+  --bg-2: #ebe3ee;
+  --cream: #1c0f1e;                  /* the "ink" colour: dark on light here */
+  --ink-rgb: 28, 15, 30;
+  --bg-rgb: 245, 242, 231;
+  --ember: #cf5320;
+  --lime: #3d9f00;
+}
+[data-theme="light"] .sky { filter: invert(1); opacity: .5; }   /* stars become faint ink specks */
+
+/* ==========================================================================
+   2. Base
+   ========================================================================== */
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-padding-top: calc(72px + env(safe-area-inset-top, 0px)); }
+html, body { margin: 0; }
+
+body {
+  background: linear-gradient(135deg, var(--bg) 40%, var(--bg-2) 100%) fixed;
+  background-color: var(--bg);
+  color: var(--cream);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+a:focus-visible, .rail:focus-visible { outline: 2px solid var(--cream); outline-offset: 4px; }
+h1, h2, h3, h4, p, dl, dd, ul, ol, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+.script {
+  font-family: var(--script); color: var(--ember);
+  font-weight: 400; letter-spacing: 0; text-transform: none;
+}
+
+.js .reveal {
+  opacity: 0; filter: blur(8px);
+  transition: opacity var(--reveal-duration) ease, filter var(--reveal-duration) ease;
+}
+.js .reveal.is-in { opacity: 1; filter: none; }
+
+/* sky + reading progress */
+.sky { position: fixed; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; }
+.progress {
+  position: fixed; top: 0; left: 0; z-index: 10;
+  width: 100%; height: 2px; background: var(--ember);
+  transform-origin: 0 50%; transform: scaleX(0);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   3. Nav
+   ========================================================================== */
+.nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 50;
+  background: rgba(var(--bg-rgb), .72); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px var(--edge);              /* same inset as the page content, so the logo and links line up with it */
+}
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.35rem; letter-spacing: -.01em; }
+.brand__mark {
+  display: grid; place-items: center;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--cream); color: var(--bg);
+  font-size: .62rem; font-weight: 800; letter-spacing: 0;
+}
+.brand__mark::before { content: attr(data-mark); }
+.nav__links { display: flex; gap: clamp(18px, 2.4vw, 36px); font-size: .95rem; }
+.nav__links a { display: inline-flex; align-items: center; gap: 8px; opacity: .92; padding-block: 12px; margin-block: -12px; }   /* bigger tap area, same layout */
+.nav__links a:hover { opacity: 1; }
+.nav__links svg { width: 15px; height: 15px; flex: none; }
+
+/* ==========================================================================
+   4. Hero
+   ========================================================================== */
+.hero { padding: clamp(110px, 17vh, 170px) var(--edge) 0; }
+
+.crumbs { display: flex; align-items: center; gap: 12px; font-size: .9rem; opacity: .8; }
+.crumbs a { display: inline-flex; align-items: center; gap: 8px; padding-block: 12px; margin-block: -12px; }   /* bigger tap area, same layout */
+.crumbs a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+
+.tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(28px, 5vh, 48px); }
+.pill {
+  display: inline-flex; align-items: center;
+  padding: 7px 16px; border: 1px solid var(--violet); border-radius: 999px;
+  font-size: .8rem;
+}
+
+.hero__name {
+  margin-top: 26px;
+  font-weight: 800; letter-spacing: -.035em; line-height: .95;
+  font-size: clamp(3.4rem, 13vw, 12.5rem);
+}
+.hero__tag {
+  margin-top: 28px; max-width: 26ch; text-wrap: balance;
+  font-size: clamp(1.3rem, 2.8vw, 2.6rem); font-weight: 300; line-height: 1.25;
+}
+
+.facts {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  margin-top: clamp(48px, 9vh, 96px);
+  border-top: 1px solid var(--hair);
+}
+.facts > div { padding: 22px 24px 22px 0; }
+.facts dt { font-size: .85rem; opacity: .6; }
+.facts dd { margin-top: 6px; font-size: 1.05rem; line-height: 1.45; }
+.facts dd a { border-bottom: 1px solid var(--hair-strong); overflow-wrap: anywhere; }
+.stats.stats--results { --cols: 2; margin-top: var(--grid-gap); }   /* four cards: never 3 + 1 */
+@media (min-width: 1100px) { .stats.stats--results { --cols: 4; } }
+.stats--results .is-up { color: #5fd700; }
+[data-theme="light"] .stats--results .is-up { color: #2e7d00; }
+.stats__source { margin-top: 14px; font-size: .9rem; opacity: .7; }
+.stats--results b { display: block; margin-top: 12px; font-size: 1rem; font-weight: 600; }
+.stats--results .stat > span { margin-top: 6px; }
+@media (min-width: 900px) { .facts .wide { grid-column: span 2; } }
+
+/* ==========================================================================
+   5. Chapters
+   ========================================================================== */
+.chap { padding: clamp(72px, 13vh, 150px) var(--edge) 0; }
+
+.chapter {
+  display: flex; align-items: center; gap: 18px;
+  margin-bottom: 28px;
+  font-size: .85rem; letter-spacing: .02em; opacity: .8;
+}
+.chapter::after { content: ""; flex: 1; height: 1px; background: var(--hair); }
+
+.chap__title {
+  max-width: 24ch; text-wrap: balance;
+  margin-bottom: clamp(28px, 5vh, 56px);
+  font-weight: 600; letter-spacing: -.025em; line-height: 1.12;
+  font-size: clamp(1.9rem, 4.4vw, 4.2rem);
+}
+
+.prose p {
+  max-width: var(--measure);
+  margin-bottom: 1.2em;
+  font-size: clamp(1.02rem, 1.25vw, 1.18rem); font-weight: 300; line-height: 1.7;
+}
+.prose p:last-child { margin-bottom: 0; }
+
+.sub {
+  margin: clamp(48px, 8vh, 88px) 0 18px; max-width: 34ch; text-wrap: balance;
+  font-size: clamp(1.3rem, 2.1vw, 1.8rem); font-weight: 600; letter-spacing: -.015em; line-height: 1.2;
+}
+.sub + .prose, .sub + .grid, .sub + .chips { margin-top: 0; }
+
+/* big statements */
+.bigline {
+  margin-top: clamp(56px, 11vh, 120px);
+  font-weight: 800; text-transform: uppercase; letter-spacing: -.03em; line-height: 1;
+  font-size: clamp(2.2rem, 6.2vw, 6.4rem);
+}
+.pull {
+  max-width: 30ch; text-wrap: balance;
+  margin-top: clamp(32px, 6vh, 56px);
+  padding-left: clamp(16px, 2vw, 28px);
+  border-left: 1px solid var(--hair-strong);
+  font-size: clamp(1.4rem, 2.6vw, 2.4rem); font-weight: 400; line-height: 1.3;
+}
+.pull__label { display: block; margin-bottom: 12px; font-size: .85rem; opacity: .65; letter-spacing: .02em; }
+
+/* ==========================================================================
+   6. Cards and small pieces
+   ========================================================================== */
+.grid { display: grid; grid-template-columns: 1fr; gap: var(--grid-gap); margin-top: 28px; }
+@media (min-width: 700px) { .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1040px) { .grid--3 { grid-template-columns: repeat(3, 1fr); } .grid--4 { grid-template-columns: repeat(4, 1fr); } }
+
+.card { padding: clamp(18px, 2.2vw, 30px); border: 1px solid var(--hair); }
+.card__label { margin-bottom: 12px; font-size: .85rem; opacity: .6; letter-spacing: .02em; }
+.card h4 { margin-bottom: 10px; font-size: clamp(1.1rem, 1.5vw, 1.3rem); font-weight: 600; letter-spacing: -.01em; line-height: 1.25; }
+.card p { font-size: 1rem; font-weight: 300; line-height: 1.6; opacity: .9; }
+.card--large p { font-size: clamp(1.15rem, 1.9vw, 1.7rem); font-weight: 400; line-height: 1.35; opacity: 1; max-width: 26ch; text-wrap: balance; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.chip { padding: 8px 18px; border: 1px solid var(--hair); border-radius: 999px; font-size: .95rem; }
+
+.moods { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--grid-gap); margin-top: 28px; }
+@media (min-width: 700px) { .moods { grid-template-columns: repeat(4, 1fr); } }
+.mood { padding: 22px 12px; border: 1px solid var(--hair); text-align: center; }
+.mood span { display: block; font-size: 2.2rem; line-height: 1.2; }
+.mood small { display: block; margin-top: 10px; font-size: .9rem; opacity: .8; }
+
+.ph {
+  display: grid; place-items: center; padding: 16px;
+  border: 1px dashed var(--hair-strong); border-radius: 4px;
+  font-size: .85rem; opacity: .6; text-align: center;
+}
+.wordmark { margin-top: 28px; display: grid; place-items: center; aspect-ratio: 16 / 6; border: 1px solid var(--hair-strong); border-radius: 4px; background: var(--bg-2); }
+.wordmark img { width: clamp(150px, 32%, 300px); height: auto; }
+.illus { margin-top: 28px; }
+.illus img { display: block; width: 100%; height: auto; border-radius: 4px; }
+.ph--wide { margin-top: 28px; aspect-ratio: 16 / 6; }
+.ph--journey { margin-top: 32px; aspect-ratio: 16 / 8; }
+.ph--mark { margin-top: 28px; aspect-ratio: 1 / 1; max-width: 360px; }
+
+/* ==========================================================================
+   7. Principles + flow
+   ========================================================================== */
+.principles { margin-top: 28px; border-top: 1px solid var(--hair); }
+.principle { display: grid; gap: 14px; padding: clamp(24px, 4vh, 40px) 0; border-bottom: 1px solid var(--hair); }
+@media (min-width: 900px) { .principle { grid-template-columns: 5fr 7fr; gap: clamp(28px, 4vw, 64px); } }
+.principle__n { font-size: .85rem; opacity: .65; }
+.principle h3 { margin-top: 8px; font-size: clamp(1.5rem, 2.6vw, 2.4rem); font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
+.principle p { max-width: 60ch; font-size: 1.05rem; font-weight: 300; line-height: 1.65; }
+.impact { margin-top: 16px; padding-left: 16px; border-left: 1px solid var(--ember); }
+.impact b { display: block; margin-bottom: 4px; font-size: .85rem; font-weight: 500; opacity: .7; }
+
+.flow { display: grid; grid-template-columns: 1fr; gap: var(--grid-gap); margin-top: 32px; }
+@media (min-width: 1040px) { .flow { grid-template-columns: repeat(5, 1fr); } }
+.flow li { padding: 22px; border: 1px solid var(--hair); }
+.flow__n { font-size: .85rem; opacity: .65; font-variant-numeric: tabular-nums; }
+.flow h4 { margin: 28px 0 8px; font-size: 1.2rem; font-weight: 600; }
+.flow p { font-size: .95rem; font-weight: 300; line-height: 1.45; opacity: .85; }
+.flow .risk { border-color: var(--ember); }
+.flow .risk p { color: var(--ember); opacity: 1; font-weight: 400; }
+.footnote { margin-top: 20px; font-size: .9rem; opacity: .7; }
+
+/* ==========================================================================
+   8. Brand + design system
+   ========================================================================== */
+.scales { display: grid; gap: 18px; max-width: 560px; margin-top: 28px; }
+.scales li { display: flex; align-items: center; gap: 16px; font-size: 1.05rem; }
+.scales i { flex: 1; height: 1px; background: var(--hair-strong); }
+.scales li span:first-child { min-width: 5.5em; }
+.scales li span:last-child { min-width: 5.5em; text-align: right; }
+
+.note { max-width: var(--measure); margin-top: 36px; padding-left: 16px; border-left: 1px solid var(--ember); font-size: 1.05rem; font-weight: 300; line-height: 1.6; }
+
+.swatches { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--grid-gap); margin-top: 28px; }
+@media (min-width: 900px) { .swatches { grid-template-columns: repeat(4, 1fr); } }
+.swatch { display: flex; flex-direction: column; justify-content: space-between; min-height: 200px; padding: 20px; border: 1px solid var(--hair); }
+.swatch b { font-size: 1.05rem; font-weight: 600; }
+.swatch code { display: block; margin: 4px 0 14px; font-family: var(--sans); font-size: 1.4rem; font-weight: 300; letter-spacing: .02em; }
+.swatch span { font-size: .9rem; opacity: .85; line-height: 1.4; }
+
+.type { margin-top: 28px; padding: clamp(20px, 3vw, 40px); border: 1px solid var(--hair); font-family: var(--lexend); }
+.type__note { margin-bottom: 28px; font-family: var(--sans); font-size: .9rem; opacity: .65; }
+.type__row + .type__row { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--hair); }
+.type__h { font-size: 32px; line-height: 40px; font-weight: 700; }
+.type__b { font-size: 16px; line-height: 24px; font-weight: 400; }
+.type__c { font-size: 12px; line-height: 18px; font-weight: 500; }
+
+/* ==========================================================================
+   9. Journeys, outcome, reflection
+   ========================================================================== */
+.journey { margin-top: clamp(56px, 10vh, 110px); }
+.journey__label { margin-bottom: 14px; font-size: .85rem; opacity: .7; letter-spacing: .02em; }
+.journey__title { max-width: 20ch; text-wrap: balance; margin-bottom: 20px; font-size: clamp(1.8rem, 3.6vw, 3.2rem); font-weight: 700; letter-spacing: -.025em; line-height: 1.08; }
+
+.rail {
+  display: flex; gap: var(--grid-gap); margin-top: 32px; padding-bottom: 14px;
+  overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+}
+.rail .ph { flex: 0 0 clamp(170px, 22vw, 250px); aspect-ratio: 9 / 19; scroll-snap-align: start; }
+
+.next { margin-top: clamp(80px, 15vh, 170px); padding: clamp(40px, 8vh, 90px) var(--edge); border-top: 1px solid var(--hair); }
+.next__label { font-size: .85rem; opacity: .7; letter-spacing: .02em; }
+.next__link { display: block; width: fit-content; margin-top: 18px; }
+.next__title { font-size: clamp(2.6rem, 8vw, 8rem); font-weight: 800; letter-spacing: -.03em; line-height: 1; transition: color .3s ease; }
+.next__link:is(:hover, :focus-visible) .next__title { color: var(--ember); }
+.next__story { margin-top: 18px; max-width: 34ch; text-wrap: balance; font-size: clamp(1.05rem, 1.7vw, 1.5rem); font-weight: 300; line-height: 1.4; }
+
+.footer { padding: 0 var(--edge) 8vh; }
+.footer__links { display: flex; flex-wrap: wrap; gap: 14px clamp(20px, 3vw, 40px); padding-top: 32px; border-top: 1px solid var(--hair); font-size: 1rem; }
+.footer__links a { padding-bottom: 3px; border-bottom: 1px solid var(--cream); transition: color .3s ease, border-color .3s ease; }
+.footer__links a:is(:hover, :focus-visible) { color: var(--ember); border-color: var(--ember); }
+.footer__legal { display: block; margin-top: 7vh; font-size: .9rem; opacity: .6; }
+
+@media (max-width: 640px) {
+  .nav { padding-top: 20px; }
+  .nav__links { gap: 16px; font-size: .85rem; }
+  .brand { font-size: 1.1rem; }
+}
+
+/* ==========================================================================
+   Cardinal additions
+   ========================================================================== */
+.hero__tag { max-width: 32ch; font-size: clamp(1.25rem, 2.4vw, 2.2rem); }
+
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--grid-gap); margin-top: 28px; }
+@media (min-width: 700px)  { .stats { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1040px) { .stats { grid-template-columns: repeat(5, 1fr); } }
+.stat { padding: clamp(18px, 2vw, 28px); border: 1px solid var(--hair); }
+.stat strong { display: block; font-size: clamp(2.2rem, 4vw, 3.8rem); font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.stat > span { display: block; margin-top: 12px; font-size: .95rem; font-weight: 300; line-height: 1.4; opacity: .85; }
+
+.principle .points li:first-child { border-top: 0; padding-top: 0; }
+.principle .points li:last-child { border-bottom: 0; padding-bottom: 0; }
+.note b { display: block; margin-bottom: 6px; font-size: .85rem; font-weight: 500; opacity: .7; letter-spacing: .02em; }
+.note + .note { margin-top: 20px; }
+
+.points { max-width: var(--measure); }
+.points li { padding: 14px 0; border-top: 1px solid var(--hair); font-size: 1.02rem; font-weight: 300; line-height: 1.6; }
+.points li:last-child { border-bottom: 1px solid var(--hair); }
+.points b { font-weight: 600; }
+
+/* site map */
+.tree { margin-top: 32px; font-size: 1rem; line-height: 1.5; }
+.tree__root { margin-bottom: 4px; font-size: 1.25rem; font-weight: 800; letter-spacing: -.01em; }
+.tree ul { margin-left: 10px; padding-left: 26px; }
+.tree ul > li { position: relative; padding: 5px 0; }
+.tree ul > li::before { content: ""; position: absolute; left: -26px; top: 0; bottom: 0; border-left: 1px solid var(--hair-strong); }
+.tree ul > li:last-child::before { bottom: auto; height: 17px; }
+.tree ul > li::after { content: ""; position: absolute; left: -26px; top: 17px; width: 18px; border-top: 1px solid var(--hair-strong); }
+.tree b { font-weight: 600; }
+.tree span { font-weight: 300; opacity: .85; }
+.tree__note { opacity: .65; }
+
+/* colour tokens */
+.tokens { margin-top: 28px; border-top: 1px solid var(--hair); }
+.tokens li { display: grid; grid-template-columns: 28px 1fr; gap: 4px 16px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--hair); }
+.tokens i { grid-row: span 3; align-self: start; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--hair-strong); }
+.tokens code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9rem; }
+.tokens b { font-weight: 500; }
+.tokens span { font-size: .95rem; opacity: .75; }
+@media (min-width: 900px) {
+  .tokens li { grid-template-columns: 28px minmax(0, 2fr) minmax(0, 1.2fr) minmax(0, 2fr); gap: 20px; }
+  .tokens i { grid-row: auto; align-self: center; }
+}
+
+.type--cardinal { font-family: Avenir, "Avenir Next", var(--sans); }
+.type--cardinal .type__h { font-size: 24px; line-height: 32px; font-weight: 700; }
+.type--cardinal .type__s { font-size: 16px; line-height: 24px; font-weight: 600; }
+.type--cardinal .type__b { font-size: 12px; line-height: 18px; font-weight: 400; }
+
+/* small illustrations of components */
+.demo { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 22px; border-radius: 12px; font-size: .95rem; font-weight: 600; }
+.btn--primary { background: #F4C430; color: #0E1A2B; }
+.btn--secondary { background: #2B313C; color: #fff; }
+.demo .chip { padding: 5px 12px; font-size: .85rem; }
+
+/* very small phones: keep the logo and links on one row at the page inset */
+@media (max-width: 440px) {
+  .brand { gap: 6px; font-size: 1rem; }
+  .brand__mark { width: 26px; height: 26px; font-size: .56rem; }
+  .nav__links { gap: 14px; font-size: .82rem; }
+  .nav__links a { gap: 6px; }
+}
+
+@media (max-width: 380px) {
+  .nav__links a { white-space: nowrap; }
+  .nav__links svg { display: none; }       /* the text is enough at this width */
+  .nav__links { gap: 14px; }
+}
+@media (max-width: 340px) {
+  .brand { font-size: .9rem; }
+}
+/* ==========================================================================
+   Interaction feel — after Apple's "Designing Fluid Interfaces"
+   ========================================================================== */
+/* feedback starts the moment a finger or mouse goes down, not on release;
+   it replaces the browser's grey tap flash */
+a, button { -webkit-tap-highlight-color: transparent; }
+:is(button, .nav__links a, .footer__links a, .brand, .crumbs a, .next__link):active { scale: .96; transition: scale 100ms ease-out; }
+a.project:active { scale: .985; transition: scale 100ms ease-out; }
+
+/* visitors who ask their system for less transparency or more contrast */
+@media (prefers-reduced-transparency: reduce) {
+  .nav { background: var(--bg); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@media (prefers-contrast: more) {
+  :root { --hair: rgba(var(--ink-rgb), .45); --hair-strong: rgba(var(--ink-rgb), .85); }
+}
+</style>
+<link rel="stylesheet" href="assets/case-study.css">
+<style>
+.card h3 { margin-bottom: 10px; font-size: clamp(1.1rem, 1.5vw, 1.3rem); font-weight: 600; letter-spacing: -.01em; line-height: 1.25; }
+.jg-cover { margin: clamp(32px, 6vh, 64px) var(--edge) 0; }
+.jg-big { margin: clamp(40px, 8vh, 80px) 0 0; max-width: 16ch; font-size: clamp(2.4rem, 7vw, 6rem); font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.jg-big span { display: block; }
+.jg-figure { margin: clamp(32px, 6vh, 56px) 0 0; max-width: 760px; }
+.jg-figure figcaption { margin-top: 14px; font-size: .88rem; opacity: .75; }
+.jg-bars { display: grid; gap: 18px; margin: 0; padding: 0; list-style: none; }
+.jg-bars li { display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; align-items: baseline; }
+.jg-bars li::after { content: ""; grid-column: 1 / -1; height: 8px; width: calc(var(--v) * 1%); background: #e2622e; }
+.jg-bars span { color: var(--cs-ink); line-height: 1.4; }
+.jg-bars b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.jg-flow { display: flex; flex-wrap: wrap; gap: 10px 8px; margin: 28px 0; padding: 0; list-style: none; }
+.jg-flow li { padding: 7px 16px; border: 1px solid var(--hair-strong); border-radius: 999px; font-size: .9rem; }
+.jg-flow li:not(:last-child)::after { content: "→"; margin-left: 12px; opacity: .6; }
+.tabs__panel .shot { margin-top: 28px; }
+.tabs__panel .rail { margin-top: var(--grid-gap); }
+</style>
+</head>
+<body>
+
+<canvas class="sky" id="sky" aria-hidden="true"></canvas>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="brand" href="index.html" aria-label="Arpit Sharma, home">
+    <span class="brand__mark" data-mark="AS" aria-hidden="true"></span>ARPIT SHARMA
+  </a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="#contact">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="2" fill="#e5322d"/><path d="M3 5l5 3.5L13 5" stroke="#fff" stroke-width="1.2" fill="none"/></svg>
+      Contact
+    </a>
+    <a href="assets/Arpit_Sharma_Resume.pdf" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z" fill="currentColor"/></svg>
+      Resume <span aria-hidden="true">↗</span>
+    </a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <header class="hero">
+    <p class="crumbs">
+      <a href="index.html#work"><span aria-hidden="true">←</span> Projects</a>
+      <span aria-hidden="true">/</span>
+      <span>Jogger Sports</span>
+    </p>
+
+    <ul class="tags" aria-label="Project type">
+      <li class="pill">Activewear</li>
+      <li class="pill">E-commerce</li>
+      <li class="pill">Web</li>
+      <li class="pill">2022</li>
+    </ul>
+
+    <h1 class="hero__name">Jogger Sports</h1>
+    <p class="hero__tag">A premium activewear brand, with a home online to match.</p>
+
+    <dl class="facts">
+      <div><dt>Role</dt><dd>Product Designer</dd></div>
+      <div><dt>Timeline</dt><dd>2022</dd></div>
+      <div><dt>Team</dt><dd>Solo</dd></div>
+      <div><dt>Client</dt><dd><a href="https://www.joggersports.com" target="_blank" rel="noopener noreferrer">www.joggersports.com <span aria-hidden="true">↗</span></a></dd></div>
+      <div><dt>Platform</dt><dd>Responsive web, 360px to 1440px</dd></div>
+      <div class="wide"><dt>Responsibilities</dt><dd>Catalogue review, UX architecture, brand application, design system and the full shopping journey</dd></div>
+    </dl>
+  </header>
+
+  <figure class="shot jg-cover reveal"><img src="assets/images/jogger/cover.webp" width="1800" height="1125" decoding="async" fetchpriority="high" alt="Jogger Sports home page: an athlete climbing a rope behind the headline We start small, We dream big, We rise together."></figure>
+
+  <!-- 00 — At a glance -->
+  <section class="chap chap--glance" aria-labelledby="t-glance">
+    <p class="chapter reveal"><span class="chapter__n">00</span> <span class="chapter__t" id="t-glance">At a glance</span></p>
+    <dl class="glance">
+      <div><dt>The challenge</dt><dd>Give a premium Indian activewear label, with 339 products in its catalogue, a digital home as considered as the product.</dd></div>
+      <div><dt>What I did</dt><dd>Studied the full catalogue, shaped its structure, set one type-led identity, and designed the path from first visit to checkout.</dd></div>
+      <div><dt>What shipped</dt><dd>A responsive storefront with 22 collections and 296 product pages, live on joggersports.com. The look has changed since, but it still uses components I designed.</dd></div>
+    </dl>
+  </section>
+
+  <!-- 01 — Challenge -->
+  <section class="chap" aria-labelledby="t-challenge">
+    <p class="chapter reveal"><span class="chapter__n">01</span> <span class="chapter__t">Challenge</span></p>
+    <h2 class="chap__title reveal" id="t-challenge">Online, nobody can feel the fabric. The design has to.</h2>
+    <div class="prose reveal">
+      <p class="lead">Jogger Sports is a premium Indian activewear label that stands for discipline and self-belief.</p>
+      <p>A premium product earns its price in the hand. On a screen, <strong>type, pace and restraint have to do that work</strong>. The range is also large, so the experience had to stay calm at scale and still get people to the right piece quickly.</p>
+      <p>One rule held throughout: <strong>nothing invented</strong>. Every price, fabric, size and policy comes from the brand’s own data.</p>
+    </div>
+    <p class="pull reveal"><span class="pull__label">The design brief, distilled</span>Make a customer feel something before they buy anything, using only what is true.</p>
+    <p class="note reveal"><b>Where it stands</b>I did this work in 2022 and it went live on joggersports.com. The site’s design has changed since, but it still uses components I worked on. The screens here show the design as I made it.</p>
+  </section>
+
+  <!-- 02 — Research -->
+  <section class="chap" aria-labelledby="t-research">
+    <p class="chapter reveal"><span class="chapter__n">02</span> <span class="chapter__t">Research</span></p>
+    <h2 class="chap__title reveal" id="t-research">The brief was hiding in the catalogue.</h2>
+    <div class="prose reveal">
+      <p class="lead">No user interviews were available, so the brand’s own data became the evidence.</p>
+      <p>I reviewed <strong>all 339 products, their size-level stock, 25 brand pages and every policy</strong>, then went through the image library by eye. I also looked at how brands like Lululemon, Alo Yoga, Vuori, Rhone and On present product, for design quality only.</p>
+    </div>
+    <p class="jg-big reveal"><span>296 products.</span> <span>Only 94 garments.</span></p>
+    <figure class="jg-figure reveal">
+      <ul class="jg-bars" aria-label="What the catalogue review counted">
+        <li style="--v:100"><span>Products in the catalogue</span><b>339</b></li>
+        <li style="--v:87.3"><span>Products with usable photos</span><b>296</b></li>
+        <li style="--v:80.2"><span>Products with fabric data</span><b>272</b></li>
+        <li style="--v:61.7"><span>Products in stock</span><b>209</b></li>
+        <li style="--v:27.7"><span>Distinct garments, once colours are grouped</span><b>94</b></li>
+      </ul>
+      <figcaption>Counts from the brand’s own catalogue data.</figcaption>
+    </figure>
+    <p class="note reveal"><b>Limit</b>No customer research was done before the redesign, so these findings describe the catalogue, not how customers behave. Results from site analytics are in the Outcome chapter.</p>
+  </section>
+
+  <!-- 03 — Key insights -->
+  <section class="chap" aria-labelledby="t-insights">
+    <p class="chapter reveal"><span class="chapter__n">03</span> <span class="chapter__t">Key insights</span></p>
+    <h2 class="chap__title reveal" id="t-insights">Six findings shaped every decision.</h2>
+    <div data-stagger class="grid grid--3" style="margin-top:0">
+      <div class="card"><h3>One garment, many pages</h3><p>Each colour was listed as its own product, so the range looked far bigger than it is.</p></div>
+      <div class="card"><h3>Sold-out pieces needed a rule</h3><p>87 of 296 products were sold out, so lists had to put what can be bought first.</p></div>
+      <div class="card"><h3>Stock lived at size level</h3><p>Real availability was per size, so a single “in stock” label would mislead people.</p></div>
+      <div class="card"><h3>Photos were strong but scarce</h3><p>Studio shots were good. Usable lifestyle images numbered about four.</p></div>
+      <div class="card"><h3>Policies needed one voice</h3><p>Free shipping rules, support numbers and hours differed from page to page.</p></div>
+      <div class="card"><h3>Premium means quiet</h3><p>Loud badges and urgency work directly against a premium position, so they had no place here.</p></div>
+    </div>
+  </section>
+
+  <!-- 04 — Product strategy -->
+  <section class="chap" aria-labelledby="t-strategy">
+    <p class="chapter reveal"><span class="chapter__n">04</span> <span class="chapter__t">Product strategy</span></p>
+    <h2 class="chap__title reveal" id="t-strategy">Earn belief first, then make buying effortless.</h2>
+    <div class="principles" style="margin-top:0">
+      <article class="principle">
+        <div><p class="principle__n">Principle 1</p><h3>Truth over polish</h3></div>
+        <div><p>Product facts come only from brand data. With no measurements available, the size guide shows real sizes and model fit, not an invented chart.</p></div>
+      </article>
+      <article class="principle">
+        <div><p class="principle__n">Principle 2</p><h3>Story before shelf</h3></div>
+        <div><p>The philosophy and category entry points come before the product grid, because a premium label should give people a reason to care first.</p></div>
+      </article>
+      <article class="principle">
+        <div><p class="principle__n">Principle 3</p><h3>One garment, many colours</h3></div>
+        <div><p>Colours are grouped into swatches, repeats are removed, and picking a colour updates the page. This answers the 296-to-94 finding directly.</p></div>
+      </article>
+      <article class="principle">
+        <div><p class="principle__n">Principle 4</p><h3>Quiet commerce</h3></div>
+        <div><p>There are no percentage badges or sale banners. Where a price is reduced, a small strikethrough says so, and the product still leads.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 05 — Information architecture -->
+  <section class="chap" aria-labelledby="t-ia">
+    <p class="chapter reveal"><span class="chapter__n">05</span> <span class="chapter__t">Information architecture</span></p>
+    <h2 class="chap__title reveal" id="t-ia">I replaced a flat store with three ways in.</h2>
+    <div class="prose reveal">
+      <p class="lead">People shop by who they are, what they do, or which line they like, so the structure offers all three.</p>
+      <p>Filters only show options the current products can match, so <strong>nobody reaches a dead end</strong>. Sold-out pieces stay findable but sink below what can be bought.</p>
+    </div>
+    <div data-stagger class="grid grid--3">
+      <div class="card"><h3>By person</h3><p>Men, Women</p></div>
+      <div class="card"><h3>By purpose</h3><p>Gym, Running, Training</p></div>
+      <div class="card"><h3>By line</h3><p>Air Cool, Essentials, Compression, Oversized, 2 In 1 Shorts</p></div>
+    </div>
+    <ol class="jg-flow reveal" aria-label="Core purchase flow">
+      <li>Home</li><li>Collection</li><li>Product</li><li>Bag</li><li>Checkout</li>
+    </ol>
+    <figure class="shot reveal"><img src="assets/images/jogger/d-mega.webp" width="1800" height="1125" loading="lazy" decoding="async" alt="Open mega menu showing purpose links, product lines and a photo tile."></figure>
+  </section>
+
+  <!-- 06 — Design exploration -->
+  <section class="chap" aria-labelledby="t-explore">
+    <p class="chapter reveal"><span class="chapter__n">06</span> <span class="chapter__t">Design exploration</span></p>
+    <h2 class="chap__title reveal" id="t-explore">Type became the identity, and the first font choices lost.</h2>
+    <div class="prose reveal">
+      <p class="lead">With few lifestyle photos, type had to carry the brand.</p>
+      <p>The core idea is <strong>rising type</strong>: headlines grow line by line, so “We start small. We dream big. We rise together.” is shown as well as said. The philosophy images climb in height the same way.</p>
+      <p>Type went through <strong>three rounds</strong>. An editorial serif felt too soft and was removed. Regular-width Archivo for body text felt plain. Manrope won because it stays clean beside the wide, heavy headlines. The logo also moved from an image to live type in the headline font.</p>
+      <p>I also dropped a story hero showing an office scene, because <strong>it had nothing to do with sport</strong>, and replaced it with two runners.</p>
+    </div>
+    <figure class="shot reveal"><img src="assets/images/jogger/d-stairs.webp" width="1800" height="1125" loading="lazy" decoding="async" alt="Three philosophy blocks whose images step upward from left to right: Start small, Dream big, Rise together."></figure>
+  </section>
+
+  <!-- 07 — Design system -->
+  <section class="chap" aria-labelledby="t-system">
+    <p class="chapter reveal"><span class="chapter__n">07</span> <span class="chapter__t">Design system</span></p>
+    <h2 class="chap__title reveal" id="t-system">One token file keeps every page in the same voice.</h2>
+    <div class="prose reveal">
+      <p class="lead">A calm stone palette lets the photos and the type do the talking.</p>
+      <p><strong>Archivo expanded</strong> carries headlines, logo, buttons and labels. <strong>Manrope</strong> carries everything people read. Every colour pair I tested reaches at least 5:1 contrast.</p>
+    </div>
+    <ul data-stagger class="swatches" aria-label="Colour palette">
+      <li class="swatch" style="background:#171717;color:#fff"><div><b>Ink</b><code>#171717</code></div><span>Text, dark sections</span><button type="button" class="copy" data-copy="#171717" aria-label="Copy #171717"></button></li>
+      <li class="swatch" style="background:#F7F6F2;color:#171717"><div><b>Paper</b><code>#F7F6F2</code></div><span>Page background</span><button type="button" class="copy" data-copy="#F7F6F2" aria-label="Copy #F7F6F2"></button></li>
+      <li class="swatch" style="background:#E9E8E3;color:#171717"><div><b>Stone 100</b><code>#E9E8E3</code></div><span>Tinted sections</span><button type="button" class="copy" data-copy="#E9E8E3" aria-label="Copy #E9E8E3"></button></li>
+      <li class="swatch" style="background:#64615A;color:#fff"><div><b>Stone 600</b><code>#64615A</code></div><span>Secondary text</span><button type="button" class="copy" data-copy="#64615A" aria-label="Copy #64615A"></button></li>
+    </ul>
+    <figure class="shot reveal"><img src="assets/images/jogger/d-pillars.webp" width="1800" height="1125" loading="lazy" decoding="async" alt="Dark section with the headline Made to move, Built to perform beside three numbered product pillars."></figure>
+  </section>
+
+  <!-- 08 — Final experience -->
+  <section class="chap" aria-labelledby="t-final">
+    <p class="chapter reveal"><span class="chapter__n">08</span> <span class="chapter__t">Final experience</span></p>
+    <h2 class="chap__title reveal" id="t-final">Three journeys, one calm path to purchase.</h2>
+
+    <div class="tabs">
+
+      <article class="tabs__panel" id="panel-j1">
+        <div class="journey__intro"><p class="journey__label">Journey 1 — Discover</p>
+        <h3 class="journey__title">From first impression to the right shelf</h3>
+        <p class="journey__goal">The site has to sell the belief and still get people to products fast.</p></div>
+        <div class="journey__moves"><p class="moves__label">Key moves</p>
+        <ul class="moves">
+          <li>Search handles “tshirt” and “t-shirt” alike, and “men” no longer returns women’s products</li>
+          <li>One filter drawer works on desktop and phone, and only offers options that can match</li>
+          <li>Size filters count only sizes actually in stock</li>
+        </ul></div>
+        <figure class="shot"><img src="assets/images/jogger/d-collection.webp" width="1800" height="1125" loading="lazy" decoding="async" alt="Men’s collection grid with filter button, product count, sort control and colour swatches."></figure>
+        <div class="rail" tabindex="0" role="region" aria-label="Discover screens on mobile, scroll sideways">
+          <figure class="screen" style="--screen-bg:#171717"><img src="assets/images/jogger/m-home.webp" width="780" height="1688" loading="lazy" decoding="async" alt="Mobile home page hero."></figure>
+          <figure class="screen" style="--screen-bg:#f7f6f2"><img src="assets/images/jogger/m-collection.webp" width="780" height="1688" loading="lazy" decoding="async" alt="Mobile collection grid with two columns of products."></figure>
+        </div>
+      </article>
+
+      <article class="tabs__panel" id="panel-j2">
+        <div class="journey__intro"><p class="journey__label">Journey 2 — Decide</p>
+        <h3 class="journey__title">Everything needed to choose, nothing invented</h3>
+        <p class="journey__goal">A product page earns the purchase with honest detail.</p></div>
+        <div class="journey__moves"><p class="moves__label">Key moves</p>
+        <ul class="moves">
+          <li>Colour swatches switch product and imagery, with repeats removed</li>
+          <li>Sold-out sizes are visible but cannot be chosen</li>
+          <li>On phones a sticky button stays in reach and scrolls a missing size into view</li>
+        </ul></div>
+        <figure class="shot"><img src="assets/images/jogger/d-product.webp" width="1800" height="1125" loading="lazy" decoding="async" alt="Product page with thumbnail gallery, large image, colour swatches, size selector and add to bag button."></figure>
+        <div class="rail" tabindex="0" role="region" aria-label="Decide screens on mobile, scroll sideways">
+          <figure class="screen" style="--screen-bg:#f7f6f2"><img src="assets/images/jogger/m-product.webp" width="780" height="1688" loading="lazy" decoding="async" alt="Mobile product page with gallery and sticky button."></figure>
+          <figure class="screen" style="--screen-bg:#f7f6f2"><img src="assets/images/jogger/m-sizes.webp" width="780" height="1688" loading="lazy" decoding="async" alt="Mobile size, colour and quantity selectors."></figure>
+        </div>
+      </article>
+
+      <article class="tabs__panel" id="panel-j3">
+        <div class="journey__intro"><p class="journey__label">Journey 3 — Buy</p>
+        <h3 class="journey__title">A checkout that stays out of the way</h3>
+        <p class="journey__goal">Seven clear steps, no site navigation, nothing in the way.</p></div>
+        <div class="journey__moves"><p class="moves__label">Key moves</p>
+        <ul class="moves">
+          <li>The bag survives a refresh, and quantity and removal work in place</li>
+          <li>Errors are tied to their fields and checked per step</li>
+        </ul></div>
+        <figure class="shot"><img src="assets/images/jogger/d-checkout.webp" width="1800" height="1125" loading="lazy" decoding="async" alt="Checkout contact step with progress steps and order summary."></figure>
+        <div class="rail" tabindex="0" role="region" aria-label="Buy screens on mobile, scroll sideways">
+          <figure class="screen" style="--screen-bg:#f7f6f2"><img src="assets/images/jogger/m-bag.webp" width="780" height="1688" loading="lazy" decoding="async" alt="Mobile bag with two products and a subtotal."></figure>
+          <figure class="screen" style="--screen-bg:#f7f6f2"><img src="assets/images/jogger/m-checkout.webp" width="780" height="1688" loading="lazy" decoding="async" alt="Mobile checkout contact step."></figure>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 09 — Outcome -->
+  <section class="chap" aria-labelledby="t-outcome">
+    <p class="chapter reveal"><span class="chapter__n">09</span> <span class="chapter__t">Outcome</span></p>
+    <h2 class="chap__title reveal" id="t-outcome">A complete store that went live, and outlasted its own look.</h2>
+    <div class="prose reveal">
+      <p class="lead">The work went live on joggersports.com as a full shopping experience.</p>
+      <p>It covered <strong>22 collections and 296 product pages</strong>, with search, filters, wishlist, bag, checkout, accounts and every policy page.</p>
+      <p>The site’s look has changed since 2022, but <strong>it still uses components I worked on</strong>. A good system should survive a redesign, and this one did.</p>
+    </div>
+    <ul class="stats" data-viz aria-label="Project numbers">
+      <li class="stat"><strong><span aria-hidden="true" data-count="296">296</span><span class="sr-only">296</span></strong><span>product pages</span></li>
+      <li class="stat"><strong><span aria-hidden="true" data-count="22">22</span><span class="sr-only">22</span></strong><span>collections</span></li>
+      <li class="stat"><strong><span aria-hidden="true" data-count="94">94</span><span class="sr-only">94</span></strong><span>garments, grouped by colour</span></li>
+    </ul>
+    <ul class="stats stats--results reveal" aria-label="Results">
+      <li class="stat"><strong class="is-up">+25%</strong><b>User engagement</b><span>More interaction with collections and product pages</span></li>
+      <li class="stat"><strong class="is-up">+20%</strong><b>Conversion rate</b><span>A smoother journey from discovery to checkout</span></li>
+      <li class="stat"><strong class="is-up">−30%</strong><b>Navigation friction</b><span>Faster and more intuitive product navigation</span></li>
+      <li class="stat"><strong class="is-up">+45%</strong><b>Product discovery</b><span>Improved product exploration through better categorisation and filters</span></li>
+    </ul>
+    <p class="stats__source reveal">Source: site analytics, compared with before the redesign.</p>
+    <figure class="shot reveal"><img src="assets/images/jogger/d-story.webp" width="1800" height="1125" loading="lazy" decoding="async" alt="Closing section of the Our Story page with the headline This brand is for you."></figure>
+  </section>
+
+  <!-- 10 — Reflection -->
+  <section class="chap" aria-labelledby="t-reflect">
+    <p class="chapter reveal"><span class="chapter__n">10</span> <span class="chapter__t">Reflection</span></p>
+    <h2 class="chap__title reveal" id="t-reflect">The constraints gave the brand its idea.</h2>
+    <div class="principles" style="margin-top:0">
+      <article class="principle">
+        <div><h3>What worked</h3></div>
+        <ul class="points">
+          <li>Treating catalogue data as research. Grouping colours alone reshaped the catalogue.</li>
+          <li>Refusing to invent facts kept every page defensible.</li>
+        </ul>
+      </article>
+      <article class="principle">
+        <div><h3>What I learned</h3></div>
+        <ul class="points">
+          <li>Few photos pushed type to the front, and that became the identity.</li>
+          <li>Components last longer than looks. Build the system to survive a redesign.</li>
+        </ul>
+      </article>
+      <article class="principle">
+        <div><h3>What I’d improve</h3></div>
+        <ul class="points">
+          <li>Run user testing earlier, before the design settled.</li>
+          <li>Shoot a campaign and add measurement charts.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <aside class="next" aria-label="Next project">
+    <p class="next__label">Next up</p>
+    <a class="next__link" href="groupbima.html">
+      <span class="next__title">GroupBima</span>
+    </a>
+    <p class="next__story">From insurance overload to <span class="script">simple</span> choices.</p>
+  </aside>
+</main>
+
+<footer class="footer" id="contact">
+  <nav class="footer__links" aria-label="Contact and profiles">
+    <a href="mailto:arpitsharma1503@gmail.com"><span aria-hidden="true">📮</span> Email</a>
+    <a href="https://www.linkedin.com/in/arpitsharma1503/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+    <a href="https://www.instagram.com/arpit_arv_sharma/" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a>
+    <a href="assets/Arpit_Sharma_Resume.pdf" target="_blank" rel="noopener noreferrer">Resume <span aria-hidden="true">↗</span></a>
+  </nav>
+  <small class="footer__legal">© 2026 Arpit Sharma — Designed with intention.</small>
+</footer>
+
+<script>
+(() => {
+  "use strict";
+
+  const root = document.documentElement;
+  const motion = root.classList.contains("motion");
+  const clamp = (v, min = 0, max = 1) => Math.min(max, Math.max(min, v));
+
+  /* Scroll reveals: chapter labels, titles and pull-quotes only, so reading stays calm */
+  (function initReveals() {
+    const items = document.querySelectorAll(".reveal");
+    const showAll = () => items.forEach(el => el.classList.add("is-in"));
+    if (!motion || !("IntersectionObserver" in window)) return showAll();
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-in");
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0 });
+    items.forEach(el => io.observe(el));
+  })();
+
+  /* Reading progress: a thin line along the top edge */
+  (function initProgress() {
+    const bar = document.getElementById("progress");
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const max = root.scrollHeight - window.innerHeight;
+      bar.style.transform = `scaleX(${max > 0 ? clamp(window.scrollY / max).toFixed(4) : 0})`;
+    };
+    const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    window.addEventListener("scroll", request, { passive: true });
+    window.addEventListener("resize", request);
+    update();
+  })();
+
+  /* Sky: the same quiet starfield as the home page, a touch dimmer for long reading */
+  (function initSky() {
+    const canvas = document.getElementById("sky");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const TINTS = [[239, 240, 220], [255, 196, 160], [168, 150, 255]];
+    const PARALLAX = [.012, .03, .06];
+    const DIM = .9;
+    const frameMs = 1000 / 30;
+    let W = 0, H = 0, stars = [], last = 0, rafId = 0;
+
+    function seed() {
+      const count = Math.round(clamp(W * H / 9000, 70, 190));
+      stars = Array.from({ length: count }, () => {
+        const depth = Math.random() < .6 ? 0 : Math.random() < .75 ? 1 : 2;
+        const tint = Math.random() < .84 ? 0 : Math.random() < .5 ? 1 : 2;
+        return {
+          x: Math.random(), y: Math.random(), depth,
+          r: [.5, .75, 1.05][depth] * (.8 + Math.random() * .5),
+          alpha: [.36, .52, .74][depth] * (.7 + Math.random() * .3),
+          speed: .25 + Math.random() * .55,
+          phase: Math.random() * Math.PI * 2,
+          rgb: TINTS[tint]
+        };
+      });
+    }
+
+    function resize() {
+      const widthChanged = window.innerWidth !== W;
+      W = window.innerWidth; H = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (widthChanged || !stars.length) seed();
+    }
+
+    function draw(t) {
+      ctx.clearRect(0, 0, W, H);
+      const sy = window.scrollY;
+      for (const st of stars) {
+        const tw = motion ? .68 + .32 * Math.sin(t * st.speed + st.phase) : 1;
+        const a = st.alpha * tw * DIM;
+        let y = (st.y * H - sy * PARALLAX[st.depth]) % H;
+        if (y < 0) y += H;
+        const [r, g, b] = st.rgb;
+        ctx.fillStyle = `rgba(${r},${g},${b},${a.toFixed(3)})`;
+        ctx.beginPath(); ctx.arc(st.x * W, y, st.r, 0, Math.PI * 2); ctx.fill();
+        if (st.depth === 2) {
+          ctx.fillStyle = `rgba(${r},${g},${b},${(a * .1).toFixed(3)})`;
+          ctx.beginPath(); ctx.arc(st.x * W, y, st.r * 4.5, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+    }
+
+    function frame(now) {
+      rafId = requestAnimationFrame(frame);
+      if (now - last < frameMs) return;
+      last = now;
+      draw(now / 1000);
+    }
+
+    resize();
+    window.addEventListener("resize", () => { resize(); if (!motion) draw(0); });
+    if (!motion) { draw(0); return; }
+    document.addEventListener("visibilitychange", () => {
+      cancelAnimationFrame(rafId);
+      if (!document.hidden) rafId = requestAnimationFrame(frame);
+    });
+    rafId = requestAnimationFrame(frame);
+  })();
+})();
+</script>
+<script src="assets/case-study.js" defer></script>
+<script src="assets/theme.js" defer></script>
+<script src="assets/music.js" defer></script>
+<!-- Vercel Web Analytics: page views only, no cookies. The script is served by Vercel
+     itself, so it only loads on the deployed site (it is a harmless 404 when run locally). -->
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

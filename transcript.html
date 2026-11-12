@@ -1,0 +1,924 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meeting Transcript — Private, On-device Meeting Transcription for Mac | Arpit Sharma</title>
+<meta name="description" content="A macOS menu bar app I built that writes a live, timestamped transcript of Zoom, Teams and Google Meet calls. Whisper runs on your Mac, so audio never leaves it. Free download.">
+<link rel="canonical" href="https://www.arpit.design/transcript.html">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Arpit Sharma">
+<meta property="og:title" content="Meeting Transcript — Private, On-device Meeting Transcription for Mac | Arpit Sharma">
+<meta property="og:description" content="A macOS menu bar app I built that writes a live, timestamped transcript of Zoom, Teams and Google Meet calls. Whisper runs on your Mac, so audio never leaves it. Free download.">
+<meta property="og:url" content="https://www.arpit.design/transcript.html">
+<meta name="twitter:card" content="summary">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Meeting Transcript",
+  "url": "https://www.arpit.design/transcript.html",
+  "description": "A macOS menu bar app I built that writes a live, timestamped transcript of Zoom, Teams and Google Meet calls. Whisper runs on your Mac, so audio never leaves it. Free download.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "macOS 14.2 or later, Apple Silicon",
+  "softwareVersion": "1.6.3",
+  "downloadUrl": "https://www.arpit.design/assets/downloads/MeetingTranscript-1.6.3.dmg",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+  "author": { "@type": "Person", "@id": "https://www.arpit.design/#person", "name": "Arpit Sharma", "url": "https://www.arpit.design/" }
+}
+</script>
+
+<!-- Same feature flags as the home page: .js enables reveals, .motion enables the sky's twinkle -->
+<script>
+  (function (root) {
+    root.classList.add("js");
+    var reduced = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduced) root.classList.add("motion");
+    try { if (localStorage.getItem("theme") === "light") root.dataset.theme = "light"; } catch (e) {}
+  })(document.documentElement);
+</script>
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Fonts load without blocking first paint; text shows in the fallback face until they arrive -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&family=Pacifico&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&family=Pacifico&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&family=Pacifico&display=swap" rel="stylesheet"></noscript>
+
+<style>
+/* ==========================================================================
+   1. Tokens (shared with the home page)
+   ========================================================================== */
+:root {
+  color-scheme: dark;
+
+  --bg: #140a15;
+  --bg-2: #1e1022;
+  --cream: #eff0dc;
+  --ink-rgb: 239, 240, 220;           /* --cream and --bg as r, g, b, for translucent tints */
+  --bg-rgb: 20, 10, 21;
+  --hair: rgba(var(--ink-rgb), .14);
+  --hair-strong: rgba(var(--ink-rgb), .5);
+  --ember: #e2622e;
+  --violet: #4a2bb0;
+
+  --sans: "Outfit", "Helvetica Neue", Arial, sans-serif;
+  --script: "Pacifico", "Brush Script MT", cursive;
+
+  --edge: clamp(20px, 5vw, 84px);
+  --grid-gap: clamp(12px, 1.6vw, 24px);
+  --measure: 62ch;
+  --reveal-duration: .8s;
+
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Light theme: the same tokens, flipped. Chosen with the sun/moon button in the
+   header (assets/theme.js) and remembered; dark stays the default. */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f5f2e7;
+  --bg-2: #ebe3ee;
+  --cream: #1c0f1e;                  /* the "ink" colour: dark on light here */
+  --ink-rgb: 28, 15, 30;
+  --bg-rgb: 245, 242, 231;
+  --ember: #cf5320;
+  --lime: #3d9f00;
+}
+[data-theme="light"] .sky { filter: invert(1); opacity: .5; }   /* stars become faint ink specks */
+
+/* ==========================================================================
+   2. Base
+   ========================================================================== */
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-padding-top: calc(72px + env(safe-area-inset-top, 0px)); }
+html, body { margin: 0; }
+
+body {
+  background: linear-gradient(135deg, var(--bg) 40%, var(--bg-2) 100%) fixed;
+  background-color: var(--bg);
+  color: var(--cream);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+a:focus-visible, .rail:focus-visible { outline: 2px solid var(--cream); outline-offset: 4px; }
+h1, h2, h3, h4, p, dl, dd, ul, ol, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+.script {
+  font-family: var(--script); color: var(--ember);
+  font-weight: 400; letter-spacing: 0; text-transform: none;
+}
+
+.js .reveal {
+  opacity: 0; filter: blur(8px);
+  transition: opacity var(--reveal-duration) ease, filter var(--reveal-duration) ease;
+}
+.js .reveal.is-in { opacity: 1; filter: none; }
+
+/* sky + reading progress */
+.sky { position: fixed; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; }
+.progress {
+  position: fixed; top: 0; left: 0; z-index: 10;
+  width: 100%; height: 2px; background: var(--ember);
+  transform-origin: 0 50%; transform: scaleX(0);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   3. Nav
+   ========================================================================== */
+.nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 50;
+  background: rgba(var(--bg-rgb), .72); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px var(--edge);              /* same inset as the page content, so the logo and links line up with it */
+}
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.35rem; letter-spacing: -.01em; }
+.brand__mark {
+  display: grid; place-items: center;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--cream); color: var(--bg);
+  font-size: .62rem; font-weight: 800; letter-spacing: 0;
+}
+.brand__mark::before { content: attr(data-mark); }
+.nav__links { display: flex; gap: clamp(18px, 2.4vw, 36px); font-size: .95rem; }
+.nav__links a { display: inline-flex; align-items: center; gap: 8px; opacity: .92; padding-block: 12px; margin-block: -12px; }   /* bigger tap area, same layout */
+.nav__links a:hover { opacity: 1; }
+.nav__links svg { width: 15px; height: 15px; flex: none; }
+
+/* ==========================================================================
+   4. Hero
+   ========================================================================== */
+.hero { padding: clamp(110px, 17vh, 170px) var(--edge) 0; }
+
+.crumbs { display: flex; align-items: center; gap: 12px; font-size: .9rem; opacity: .8; }
+.crumbs a { display: inline-flex; align-items: center; gap: 8px; padding-block: 12px; margin-block: -12px; }   /* bigger tap area, same layout */
+.crumbs a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+
+.tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(28px, 5vh, 48px); }
+.pill {
+  display: inline-flex; align-items: center;
+  padding: 7px 16px; border: 1px solid var(--violet); border-radius: 999px;
+  font-size: .8rem;
+}
+
+.hero__name {
+  margin-top: 26px;
+  font-weight: 800; letter-spacing: -.035em; line-height: .95;
+  font-size: clamp(3.4rem, 13vw, 12.5rem);
+}
+.hero__tag {
+  margin-top: 28px; max-width: 26ch; text-wrap: balance;
+  font-size: clamp(1.3rem, 2.8vw, 2.6rem); font-weight: 300; line-height: 1.25;
+}
+
+.facts {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  margin-top: clamp(48px, 9vh, 96px);
+  border-top: 1px solid var(--hair);
+}
+.facts > div { padding: 22px 24px 22px 0; }
+.facts dt { font-size: .85rem; opacity: .6; }
+.facts dd { margin-top: 6px; font-size: 1.05rem; line-height: 1.45; }
+.facts dd a { border-bottom: 1px solid var(--hair-strong); overflow-wrap: anywhere; }
+.stats.stats--results { --cols: 2; margin-top: var(--grid-gap); }   /* four cards: never 3 + 1 */
+@media (min-width: 1100px) { .stats.stats--results { --cols: 4; } }
+.stats--results .is-up { color: #5fd700; }
+[data-theme="light"] .stats--results .is-up { color: #2e7d00; }
+.stats__source { margin-top: 14px; font-size: .9rem; opacity: .7; }
+.stats--results b { display: block; margin-top: 12px; font-size: 1rem; font-weight: 600; }
+.stats--results .stat > span { margin-top: 6px; }
+@media (min-width: 900px) { .facts .wide { grid-column: span 2; } }
+
+/* ==========================================================================
+   5. Chapters
+   ========================================================================== */
+.chap { padding: clamp(72px, 13vh, 150px) var(--edge) 0; }
+
+.chapter {
+  display: flex; align-items: center; gap: 18px;
+  margin-bottom: 28px;
+  font-size: .85rem; letter-spacing: .02em; opacity: .8;
+}
+.chapter::after { content: ""; flex: 1; height: 1px; background: var(--hair); }
+
+.chap__title {
+  max-width: 24ch; text-wrap: balance;
+  margin-bottom: clamp(28px, 5vh, 56px);
+  font-weight: 600; letter-spacing: -.025em; line-height: 1.12;
+  font-size: clamp(1.9rem, 4.4vw, 4.2rem);
+}
+
+.prose p {
+  max-width: var(--measure);
+  margin-bottom: 1.2em;
+  font-size: clamp(1.02rem, 1.25vw, 1.18rem); font-weight: 300; line-height: 1.7;
+}
+.prose p:last-child { margin-bottom: 0; }
+
+.sub {
+  margin: clamp(48px, 8vh, 88px) 0 18px; max-width: 34ch; text-wrap: balance;
+  font-size: clamp(1.3rem, 2.1vw, 1.8rem); font-weight: 600; letter-spacing: -.015em; line-height: 1.2;
+}
+.sub + .prose, .sub + .grid, .sub + .chips { margin-top: 0; }
+
+/* big statements */
+.bigline {
+  margin-top: clamp(56px, 11vh, 120px);
+  font-weight: 800; text-transform: uppercase; letter-spacing: -.03em; line-height: 1;
+  font-size: clamp(2.2rem, 6.2vw, 6.4rem);
+}
+.pull {
+  max-width: 30ch; text-wrap: balance;
+  margin-top: clamp(32px, 6vh, 56px);
+  padding-left: clamp(16px, 2vw, 28px);
+  border-left: 1px solid var(--hair-strong);
+  font-size: clamp(1.4rem, 2.6vw, 2.4rem); font-weight: 400; line-height: 1.3;
+}
+.pull__label { display: block; margin-bottom: 12px; font-size: .85rem; opacity: .65; letter-spacing: .02em; }
+
+/* ==========================================================================
+   6. Cards and small pieces
+   ========================================================================== */
+.grid { display: grid; grid-template-columns: 1fr; gap: var(--grid-gap); margin-top: 28px; }
+@media (min-width: 700px) { .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1040px) { .grid--3 { grid-template-columns: repeat(3, 1fr); } .grid--4 { grid-template-columns: repeat(4, 1fr); } }
+
+.card { padding: clamp(18px, 2.2vw, 30px); border: 1px solid var(--hair); }
+.card__label { margin-bottom: 12px; font-size: .85rem; opacity: .6; letter-spacing: .02em; }
+.card h4 { margin-bottom: 10px; font-size: clamp(1.1rem, 1.5vw, 1.3rem); font-weight: 600; letter-spacing: -.01em; line-height: 1.25; }
+.card p { font-size: 1rem; font-weight: 300; line-height: 1.6; opacity: .9; }
+.card--large p { font-size: clamp(1.15rem, 1.9vw, 1.7rem); font-weight: 400; line-height: 1.35; opacity: 1; max-width: 26ch; text-wrap: balance; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.chip { padding: 8px 18px; border: 1px solid var(--hair); border-radius: 999px; font-size: .95rem; }
+
+.moods { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--grid-gap); margin-top: 28px; }
+@media (min-width: 700px) { .moods { grid-template-columns: repeat(4, 1fr); } }
+.mood { padding: 22px 12px; border: 1px solid var(--hair); text-align: center; }
+.mood span { display: block; font-size: 2.2rem; line-height: 1.2; }
+.mood small { display: block; margin-top: 10px; font-size: .9rem; opacity: .8; }
+
+.ph {
+  display: grid; place-items: center; padding: 16px;
+  border: 1px dashed var(--hair-strong); border-radius: 4px;
+  font-size: .85rem; opacity: .6; text-align: center;
+}
+.wordmark { margin-top: 28px; display: grid; place-items: center; aspect-ratio: 16 / 6; border: 1px solid var(--hair-strong); border-radius: 4px; background: var(--bg-2); }
+.wordmark img { width: clamp(150px, 32%, 300px); height: auto; }
+.illus { margin-top: 28px; }
+.illus img { display: block; width: 100%; height: auto; border-radius: 4px; }
+.ph--wide { margin-top: 28px; aspect-ratio: 16 / 6; }
+.ph--journey { margin-top: 32px; aspect-ratio: 16 / 8; }
+.ph--mark { margin-top: 28px; aspect-ratio: 1 / 1; max-width: 360px; }
+
+/* ==========================================================================
+   7. Principles + flow
+   ========================================================================== */
+.principles { margin-top: 28px; border-top: 1px solid var(--hair); }
+.principle { display: grid; gap: 14px; padding: clamp(24px, 4vh, 40px) 0; border-bottom: 1px solid var(--hair); }
+@media (min-width: 900px) { .principle { grid-template-columns: 5fr 7fr; gap: clamp(28px, 4vw, 64px); } }
+.principle__n { font-size: .85rem; opacity: .65; }
+.principle h3 { margin-top: 8px; font-size: clamp(1.5rem, 2.6vw, 2.4rem); font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
+.principle p { max-width: 60ch; font-size: 1.05rem; font-weight: 300; line-height: 1.65; }
+.impact { margin-top: 16px; padding-left: 16px; border-left: 1px solid var(--ember); }
+.impact b { display: block; margin-bottom: 4px; font-size: .85rem; font-weight: 500; opacity: .7; }
+
+.flow { display: grid; grid-template-columns: 1fr; gap: var(--grid-gap); margin-top: 32px; }
+@media (min-width: 1040px) { .flow { grid-template-columns: repeat(5, 1fr); } }
+.flow li { padding: 22px; border: 1px solid var(--hair); }
+.flow__n { font-size: .85rem; opacity: .65; font-variant-numeric: tabular-nums; }
+.flow h4 { margin: 28px 0 8px; font-size: 1.2rem; font-weight: 600; }
+.flow p { font-size: .95rem; font-weight: 300; line-height: 1.45; opacity: .85; }
+.flow .risk { border-color: var(--ember); }
+.flow .risk p { color: var(--ember); opacity: 1; font-weight: 400; }
+.footnote { margin-top: 20px; font-size: .9rem; opacity: .7; }
+
+/* ==========================================================================
+   8. Brand + design system
+   ========================================================================== */
+.scales { display: grid; gap: 18px; max-width: 560px; margin-top: 28px; }
+.scales li { display: flex; align-items: center; gap: 16px; font-size: 1.05rem; }
+.scales i { flex: 1; height: 1px; background: var(--hair-strong); }
+.scales li span:first-child { min-width: 5.5em; }
+.scales li span:last-child { min-width: 5.5em; text-align: right; }
+
+.note { max-width: var(--measure); margin-top: 36px; padding-left: 16px; border-left: 1px solid var(--ember); font-size: 1.05rem; font-weight: 300; line-height: 1.6; }
+
+.swatches { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--grid-gap); margin-top: 28px; }
+@media (min-width: 900px) { .swatches { grid-template-columns: repeat(4, 1fr); } }
+.swatch { display: flex; flex-direction: column; justify-content: space-between; min-height: 200px; padding: 20px; border: 1px solid var(--hair); }
+.swatch b { font-size: 1.05rem; font-weight: 600; }
+.swatch code { display: block; margin: 4px 0 14px; font-family: var(--sans); font-size: 1.4rem; font-weight: 300; letter-spacing: .02em; }
+.swatch span { font-size: .9rem; opacity: .85; line-height: 1.4; }
+
+.type { margin-top: 28px; padding: clamp(20px, 3vw, 40px); border: 1px solid var(--hair); font-family: var(--lexend); }
+.type__note { margin-bottom: 28px; font-family: var(--sans); font-size: .9rem; opacity: .65; }
+.type__row + .type__row { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--hair); }
+.type__h { font-size: 32px; line-height: 40px; font-weight: 700; }
+.type__b { font-size: 16px; line-height: 24px; font-weight: 400; }
+.type__c { font-size: 12px; line-height: 18px; font-weight: 500; }
+
+/* ==========================================================================
+   9. Journeys, outcome, reflection
+   ========================================================================== */
+.journey { margin-top: clamp(56px, 10vh, 110px); }
+.journey__label { margin-bottom: 14px; font-size: .85rem; opacity: .7; letter-spacing: .02em; }
+.journey__title { max-width: 20ch; text-wrap: balance; margin-bottom: 20px; font-size: clamp(1.8rem, 3.6vw, 3.2rem); font-weight: 700; letter-spacing: -.025em; line-height: 1.08; }
+
+.rail {
+  display: flex; gap: var(--grid-gap); margin-top: 32px; padding-bottom: 14px;
+  overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+}
+.rail .ph { flex: 0 0 clamp(170px, 22vw, 250px); aspect-ratio: 9 / 19; scroll-snap-align: start; }
+
+.next { margin-top: clamp(80px, 15vh, 170px); padding: clamp(40px, 8vh, 90px) var(--edge); border-top: 1px solid var(--hair); }
+.next__label { font-size: .85rem; opacity: .7; letter-spacing: .02em; }
+.next__link { display: block; width: fit-content; margin-top: 18px; }
+.next__title { font-size: clamp(2.6rem, 8vw, 8rem); font-weight: 800; letter-spacing: -.03em; line-height: 1; transition: color .3s ease; }
+.next__link:is(:hover, :focus-visible) .next__title { color: var(--ember); }
+.next__story { margin-top: 18px; max-width: 34ch; text-wrap: balance; font-size: clamp(1.05rem, 1.7vw, 1.5rem); font-weight: 300; line-height: 1.4; }
+
+.footer { padding: 0 var(--edge) 8vh; }
+.footer__links { display: flex; flex-wrap: wrap; gap: 14px clamp(20px, 3vw, 40px); padding-top: 32px; border-top: 1px solid var(--hair); font-size: 1rem; }
+.footer__links a { padding-bottom: 3px; border-bottom: 1px solid var(--cream); transition: color .3s ease, border-color .3s ease; }
+.footer__links a:is(:hover, :focus-visible) { color: var(--ember); border-color: var(--ember); }
+.footer__legal { display: block; margin-top: 7vh; font-size: .9rem; opacity: .6; }
+
+@media (max-width: 640px) {
+  .nav { padding-top: 20px; }
+  .nav__links { gap: 16px; font-size: .85rem; }
+  .brand { font-size: 1.1rem; }
+}
+
+/* ==========================================================================
+   Cardinal additions
+   ========================================================================== */
+.hero__tag { max-width: 32ch; font-size: clamp(1.25rem, 2.4vw, 2.2rem); }
+
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--grid-gap); margin-top: 28px; }
+@media (min-width: 700px)  { .stats { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1040px) { .stats { grid-template-columns: repeat(5, 1fr); } }
+.stat { padding: clamp(18px, 2vw, 28px); border: 1px solid var(--hair); }
+.stat strong { display: block; font-size: clamp(2.2rem, 4vw, 3.8rem); font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.stat > span { display: block; margin-top: 12px; font-size: .95rem; font-weight: 300; line-height: 1.4; opacity: .85; }
+
+.principle .points li:first-child { border-top: 0; padding-top: 0; }
+.principle .points li:last-child { border-bottom: 0; padding-bottom: 0; }
+.note b { display: block; margin-bottom: 6px; font-size: .85rem; font-weight: 500; opacity: .7; letter-spacing: .02em; }
+.note + .note { margin-top: 20px; }
+
+.points { max-width: var(--measure); }
+.points li { padding: 14px 0; border-top: 1px solid var(--hair); font-size: 1.02rem; font-weight: 300; line-height: 1.6; }
+.points li:last-child { border-bottom: 1px solid var(--hair); }
+.points b { font-weight: 600; }
+
+/* site map */
+.tree { margin-top: 32px; font-size: 1rem; line-height: 1.5; }
+.tree__root { margin-bottom: 4px; font-size: 1.25rem; font-weight: 800; letter-spacing: -.01em; }
+.tree ul { margin-left: 10px; padding-left: 26px; }
+.tree ul > li { position: relative; padding: 5px 0; }
+.tree ul > li::before { content: ""; position: absolute; left: -26px; top: 0; bottom: 0; border-left: 1px solid var(--hair-strong); }
+.tree ul > li:last-child::before { bottom: auto; height: 17px; }
+.tree ul > li::after { content: ""; position: absolute; left: -26px; top: 17px; width: 18px; border-top: 1px solid var(--hair-strong); }
+.tree b { font-weight: 600; }
+.tree span { font-weight: 300; opacity: .85; }
+.tree__note { opacity: .65; }
+
+/* colour tokens */
+.tokens { margin-top: 28px; border-top: 1px solid var(--hair); }
+.tokens li { display: grid; grid-template-columns: 28px 1fr; gap: 4px 16px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--hair); }
+.tokens i { grid-row: span 3; align-self: start; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--hair-strong); }
+.tokens code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9rem; }
+.tokens b { font-weight: 500; }
+.tokens span { font-size: .95rem; opacity: .75; }
+@media (min-width: 900px) {
+  .tokens li { grid-template-columns: 28px minmax(0, 2fr) minmax(0, 1.2fr) minmax(0, 2fr); gap: 20px; }
+  .tokens i { grid-row: auto; align-self: center; }
+}
+
+.type--cardinal { font-family: Avenir, "Avenir Next", var(--sans); }
+.type--cardinal .type__h { font-size: 24px; line-height: 32px; font-weight: 700; }
+.type--cardinal .type__s { font-size: 16px; line-height: 24px; font-weight: 600; }
+.type--cardinal .type__b { font-size: 12px; line-height: 18px; font-weight: 400; }
+
+/* small illustrations of components */
+.demo { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 22px; border-radius: 12px; font-size: .95rem; font-weight: 600; }
+.btn--primary { background: #F4C430; color: #0E1A2B; }
+.btn--secondary { background: #2B313C; color: #fff; }
+.demo .chip { padding: 5px 12px; font-size: .85rem; }
+
+/* very small phones: keep the logo and links on one row at the page inset */
+@media (max-width: 440px) {
+  .brand { gap: 6px; font-size: 1rem; }
+  .brand__mark { width: 26px; height: 26px; font-size: .56rem; }
+  .nav__links { gap: 14px; font-size: .82rem; }
+  .nav__links a { gap: 6px; }
+}
+
+@media (max-width: 380px) {
+  .nav__links a { white-space: nowrap; }
+  .nav__links svg { display: none; }       /* the text is enough at this width */
+  .nav__links { gap: 14px; }
+}
+@media (max-width: 340px) {
+  .brand { font-size: .9rem; }
+}
+/* ==========================================================================
+   Interaction feel — after Apple's "Designing Fluid Interfaces"
+   ========================================================================== */
+/* feedback starts the moment a finger or mouse goes down, not on release;
+   it replaces the browser's grey tap flash */
+a, button { -webkit-tap-highlight-color: transparent; }
+:is(button, .nav__links a, .footer__links a, .brand, .crumbs a, .next__link):active { scale: .96; transition: scale 100ms ease-out; }
+a.project:active { scale: .985; transition: scale 100ms ease-out; }
+
+/* visitors who ask their system for less transparency or more contrast */
+@media (prefers-reduced-transparency: reduce) {
+  .nav { background: var(--bg); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@media (prefers-contrast: more) {
+  :root { --hair: rgba(var(--ink-rgb), .45); --hair-strong: rgba(var(--ink-rgb), .85); }
+}
+</style>
+<link rel="stylesheet" href="assets/case-study.css">
+
+<style>
+.card h3 { margin-bottom: 10px; font-size: clamp(1.1rem, 1.5vw, 1.3rem); font-weight: 600; letter-spacing: -.01em; line-height: 1.25; }
+/* live transcript window — rebuilt from the app, with sample text */
+.mt-live { margin: clamp(32px, 6vh, 64px) var(--edge) 0; max-width: 880px; overflow: hidden; border: 1px solid rgba(239,240,220,.14); border-radius: 14px; background: #1f1f1f; color: #eaeaea; box-shadow: 0 30px 80px rgba(0,0,0,.45); font-family: -apple-system, BlinkMacSystemFont, "Outfit", sans-serif; }
+.mt-live__title { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #2a2a2a; font-weight: 600; font-size: .95rem; color: #bdbdbd; }
+.mt-live__title i { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; }
+.mt-live__title i:nth-child(2) { background: #febc2e; } .mt-live__title i:nth-child(3) { background: #28c840; }
+.mt-live__title span { margin-left: 12px; }
+.mt-live__status { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; padding: 12px 18px; border-bottom: 1px solid #333; font-size: clamp(.9rem, 1.4vw, 1.1rem); }
+.mt-live__dot { width: 10px; height: 10px; border-radius: 50%; background: #ec5b56; }
+.motion .mt-live__dot { animation: mt-blink 1.6s ease-in-out infinite; }
+@keyframes mt-blink { 50% { opacity: .35; } }
+.mt-live__status span:not(.mt-live__dot) { color: #9a9a9a; }
+.mt-live__status time { margin-left: auto; color: #9a9a9a; font-variant-numeric: tabular-nums; }
+.mt-live__lines { margin: 0; padding: 8px 22px 12px; list-style: none; }
+.mt-live__lines li { padding: 14px 0; border-bottom: 1px solid #333; }
+.mt-live__lines li:last-child { border-bottom: 0; }
+.mt-live__lines time { display: block; font-size: .8rem; color: #9a9a9a; }
+.mt-live__lines b { display: flex; align-items: center; gap: 7px; margin-top: 2px; font-size: .85rem; font-weight: 600; color: var(--c, #4c9bff); }
+.mt-live__lines b::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.mt-live__lines p { margin: 4px 0 0; font-size: clamp(.95rem, 1.4vw, 1.1rem); line-height: 1.45; }
+.mt-live figcaption { padding: 12px 22px; border-top: 1px solid #333; font-size: .8rem; color: #9a9a9a; }
+/* find: search bar inside the live window, and the past-transcripts search */
+.mt-find { display: grid; grid-template-columns: 1fr; gap: var(--grid-gap); margin-top: 28px; align-items: start; }
+@media (min-width: 1000px) { .mt-find { grid-template-columns: 1fr 1fr; } }
+.mt-find .mt-live { margin: 0; max-width: none; }
+.mt-search { display: flex; align-items: center; gap: 10px; margin: 12px 18px 4px; padding: 9px 12px; border-radius: 8px; background: #2c2c2c; border: 1px solid #3a3a3a; font-size: .95rem; }
+.mt-search::before { content: ""; width: 14px; height: 14px; flex: none; border: 2px solid #9a9a9a; border-radius: 50%; box-shadow: 5px 5px 0 -3.5px #9a9a9a; }
+.mt-search span { flex: 1; color: #eaeaea; }
+.mt-search small { color: #9a9a9a; font-size: .8rem; white-space: nowrap; }
+.mt-search kbd { padding: 1px 6px; border: 1px solid #555; border-radius: 4px; font: inherit; font-size: .75rem; color: #bdbdbd; }
+.mt-live mark { padding: 0 2px; border-radius: 3px; background: #f5c542; color: #1f1f1f; }
+.mt-results { margin: 0; padding: 4px 18px 10px; list-style: none; }
+.mt-results li { padding: 12px 0; border-bottom: 1px solid #333; }
+.mt-results li:last-child { border-bottom: 0; }
+.mt-results h4 { margin: 0; font-size: .95rem; font-weight: 600; }
+.mt-results small { display: block; margin-top: 2px; font-size: .78rem; color: #9a9a9a; }
+.mt-results p { margin: 6px 0 0; font-size: .95rem; line-height: 1.45; }
+.mt-find__notes { display: grid; grid-template-columns: 1fr; gap: 22px; margin: 32px 0 0; padding: 0; list-style: none; }
+@media (min-width: 700px) { .mt-find__notes { grid-template-columns: repeat(3, 1fr); } }
+.mt-find__notes li { line-height: 1.6; color: var(--cs-ink); }
+.mt-find__notes b { display: block; margin-bottom: 4px; font-weight: 600; }
+/* hero: tagline with the download button beside it */
+.mt-hero { display: flex; flex-direction: column; align-items: flex-start; gap: clamp(20px, 3vh, 28px); }
+.mt-hero .hero__tag { margin-bottom: 0; }
+.mt-hero__cta { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.mt-hero__cta .mt-meta { line-height: 1.5; }
+/* one line on wide screens; whole groups wrap (never mid-group) on narrow ones */
+.mt-meta--line { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 0; }
+.mt-meta--line > * { white-space: nowrap; }
+.mt-meta--line > * + *::before { content: "·"; margin: 0 10px; opacity: .7; }
+@media (max-width: 499px) { .mt-meta--line { gap: 4px 14px; } .mt-meta--line > * + *::before { display: none; } }   /* phones wrap, so no dot is left hanging at a line start */
+.mt-btn { white-space: nowrap; }
+/* how it works: three numbered moments */
+.mt-flow { display: grid; grid-template-columns: 1fr; gap: var(--grid-gap); margin: 28px 0 0; padding: 0; list-style: none; counter-reset: none; }
+@media (min-width: 800px) { .mt-flow { grid-template-columns: repeat(3, 1fr); } }
+.mt-flow li { position: relative; padding: clamp(20px, 2.4vw, 30px); border: 1px solid var(--hair); border-radius: 14px; }
+.mt-flow li:not(:last-child)::after { content: "→"; position: absolute; right: -18px; top: 50%; translate: 0 -50%; color: var(--ember); font-size: 1.3rem; display: none; }
+@media (min-width: 800px) { .mt-flow li:not(:last-child)::after { display: block; } }
+.mt-flow__n { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--ember); color: #fff; font-weight: 700; }
+.mt-flow h3 { margin: 18px 0 8px; font-size: clamp(1.15rem, 1.6vw, 1.35rem); font-weight: 600; }
+.mt-flow p { margin: 0; line-height: 1.6; color: var(--cs-ink); }
+/* settings window, rebuilt in HTML so it stays sharp */
+.mt-set { margin: 0; max-width: 492px; width: 100%; overflow: hidden; border: 1px solid rgba(239,240,220,.14); border-radius: 12px; background: #2b2b2b; color: #e6e6e6; box-shadow: 0 24px 60px rgba(0,0,0,.45); font: 14px/1.35 -apple-system, BlinkMacSystemFont, "Outfit", sans-serif; }
+.mt-set__title { position: relative; display: flex; align-items: center; gap: 8px; padding: 10px 12px; font-weight: 600; color: #bdbdbd; }
+.mt-set__title i { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; }
+.mt-set__title i:nth-child(2) { background: #febc2e; } .mt-set__title i:nth-child(3) { background: #28c840; }
+.mt-set__title span { position: absolute; left: 0; right: 0; text-align: center; pointer-events: none; }
+.mt-set__tabs { display: flex; justify-content: center; gap: 6px; padding: 0 0 12px; border-bottom: 1px solid #3a3a3a; font-size: .78rem; text-align: center; color: #b5b5b5; }
+.mt-set__tabs span { padding: 6px 10px; border-radius: 7px; line-height: 1.5; }
+.mt-set__tabs .is-on { background: #3a3a3a; color: #4c9bff; }
+.mt-set__group { margin: 14px 14px 0; border-radius: 9px; background: #333; }
+.mt-set__row { display: flex; align-items: center; gap: 12px; padding: 11px 12px; }
+.mt-set__row + .mt-set__row { border-top: 1px solid #3d3d3d; }
+.mt-set__row > span:first-child { flex: 1; }
+.mt-set__row--top { align-items: flex-start; }
+.mt-set__row b { font-weight: 400; text-align: right; }
+.mt-set__vocab { flex: 1.6; }
+.mt-set__hint { margin: 8px 18px 0; font-size: .72rem; color: #9a9a9a; }
+.mt-set > :last-child { margin-bottom: 16px; }
+.mt-toggle { width: 34px; height: 20px; flex: none; border-radius: 999px; background: #2f7cf6; position: relative; }
+.mt-toggle::after { content: ""; position: absolute; right: 2px; top: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; }
+.mt-slider { flex: 1; height: 4px; border-radius: 2px; background: #555; position: relative; }
+.mt-slider i { position: absolute; inset: 0 30% 0 0; border-radius: 2px; background: #2f7cf6; }
+.mt-slider i::after { content: ""; position: absolute; right: -9px; top: -7px; width: 18px; height: 18px; border-radius: 50%; background: #ddd; }
+@media (max-width: 420px) { .mt-set { font-size: 12.5px; } }
+/* real screenshots */
+.mt-shots { display: grid; grid-template-columns: 1fr; gap: clamp(28px, 4vw, 56px); align-items: center; margin-top: 28px; }
+@media (min-width: 900px) { .mt-shots { grid-template-columns: minmax(0, 492px) 1fr; } }
+.mt-shots img { width: 100%; height: auto; border-radius: 12px; box-shadow: 0 24px 60px rgba(0,0,0,.4); }
+.mt-shots ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 22px; }
+.mt-shots li b { display: block; margin-bottom: 4px; font-weight: 600; }
+.mt-shots li { max-width: 46ch; line-height: 1.6; color: var(--cs-ink); }
+/* download */
+.mt-download { display: grid; gap: 20px; margin-top: 28px; padding: clamp(22px, 3vw, 36px); border: 1px solid var(--hair-strong); border-radius: 16px; }
+.mt-btn { justify-self: start; display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; border-radius: 999px; background: var(--ember); color: #fff; font-weight: 600; font-size: 1.05rem; transition: filter .25s ease; }
+.mt-btn:hover { filter: brightness(1.08); }
+.mt-btn:active { scale: .96; transition: scale 100ms ease-out; }
+.mt-meta { margin: 0; font-size: .9rem; opacity: .75; }
+.mt-btn img { width: 32px; height: 32px; flex: none; margin: -6px 0 -6px -10px; }
+.mt-only { display: inline-flex; align-items: center; gap: 6px; margin: 0; font-size: .9rem; font-weight: 600; color: var(--cream); }
+.mt-only::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ember); }
+.mt-meta .mt-only { font-size: inherit; }
+.mt-sum { margin: 0; font-size: .78rem; opacity: .6; word-break: break-all; }
+.mt-steps { margin: 28px 0 0; padding-left: 1.3em; display: grid; gap: 14px; max-width: 64ch; line-height: 1.6; }
+.mt-steps code, .mt-download code { font-size: .88em; padding: 2px 6px; border-radius: 6px; background: rgba(var(--ink-rgb), .08); word-break: break-word; }
+</style>
+</head>
+<body>
+
+<canvas class="sky" id="sky" aria-hidden="true"></canvas>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="brand" href="index.html" aria-label="Arpit Sharma, home">
+    <span class="brand__mark" data-mark="AS" aria-hidden="true"></span>ARPIT SHARMA
+  </a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="#contact">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="2" fill="#e5322d"/><path d="M3 5l5 3.5L13 5" stroke="#fff" stroke-width="1.2" fill="none"/></svg>
+      Contact
+    </a>
+    <a href="assets/Arpit_Sharma_Resume.pdf" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z" fill="currentColor"/></svg>
+      Resume <span aria-hidden="true">↗</span>
+    </a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <header class="hero">
+    <p class="crumbs">
+      <a href="index.html#brain-itch"><span aria-hidden="true">←</span> Brain itch</a>
+      <span aria-hidden="true">/</span>
+      <span>Meeting Transcript</span>
+    </p>
+
+    <ul class="tags" aria-label="Project type">
+      <li class="pill">macOS app</li>
+      <li class="pill">On-device AI</li>
+      <li class="pill">Side project</li>
+      <li class="pill">2026</li>
+    </ul>
+
+    <h1 class="hero__name">Meeting Transcript</h1>
+    <div class="mt-hero">
+      <p class="hero__tag">Join a call. Get the words. Nothing leaves your Mac.</p>
+      <div class="mt-hero__cta">
+        <a class="mt-btn" href="assets/downloads/MeetingTranscript-1.6.3.dmg" download><img src="assets/images/brain-itch/transcript-logo.webp" width="32" height="32" alt="">Download Meeting Transcript <span aria-hidden="true">↓</span></a>
+        <p class="mt-meta mt-meta--line"><b class="mt-only">Only for macOS</b><span>Free · v1.6.3 · 6.4 MB</span><span>macOS 14.2+ · Apple Silicon</span></p>
+      </div>
+    </div>
+
+    <dl class="facts">
+      <div><dt>What it is</dt><dd>A menu bar app for macOS</dd></div>
+      <div><dt>Works with</dt><dd>Zoom, Microsoft Teams, Google Meet</dd></div>
+      <div><dt>Runs on</dt><dd>macOS 14.2 or later, Apple Silicon (M1 or newer)</dd></div>
+      <div><dt>Price</dt><dd>Free</dd></div>
+      <div><dt>Version</dt><dd>1.6.3</dd></div>
+      <div class="wide"><dt>Built with</dt><dd>Swift, Core Audio and whisper.cpp, running on the Mac’s own GPU</dd></div>
+    </dl>
+  </header>
+
+  <figure class="mt-live reveal" aria-label="The Live Transcript window during a Teams call, with sample text">
+    <div class="mt-live__title" aria-hidden="true"><i></i><i></i><i></i><span>Live Transcript</span></div>
+    <div class="mt-live__status"><span class="mt-live__dot"></span><b>Transcribing</b><span>Teams · Microsoft Teams</span><time>00:04:33</time></div>
+    <ol class="mt-live__lines">
+      <li style="--c:#4c9bff"><time>6:05:04 PM</time><b>Speaker A (Unidentified)</b><p>Let’s lock the scope for the next sprint before we look at designs.</p></li>
+      <li style="--c:#3ecf6e"><time>6:05:12 PM</time><b>Speaker B (Unidentified)</b><p>The API changes need to land by Wednesday, or checkout slips.</p></li>
+      <li style="--c:#e2622e"><time>6:05:19 PM</time><b>You</b><p>Agreed. I’ll share the updated checkout flow by Friday.</p></li>
+      <li style="--c:#c77dff"><time>6:05:27 PM</time><b>Speaker C (Unidentified)</b><p>Then I’ll set up QA for Monday and add the empty states to the test list.</p></li>
+      <li style="--c:#4c9bff"><time>6:05:36 PM</time><b>Speaker A (Unidentified)</b><p>Great. Let’s review all of it in Thursday’s stand-up.</p></li>
+    </ol>
+    <figcaption>Four people, four labels: each voice keeps its own colour. Sample text; other people stay “Unidentified”.</figcaption>
+  </figure>
+
+  <!-- 00 — At a glance -->
+  <section class="chap chap--glance" aria-labelledby="t-glance">
+    <p class="chapter reveal"><span class="chapter__n">00</span> <span class="chapter__t" id="t-glance">At a glance</span></p>
+    <dl class="glance">
+      <div><dt>The problem</dt><dd>In a meeting you can listen or take notes. Doing both means missing something.</dd></div>
+      <div><dt>The idea</dt><dd>Let the Mac write everything down, quietly, while you stay in the conversation.</dd></div>
+      <div><dt>The promise</dt><dd>No bot joins the call, no audio is saved, and nothing is uploaded. Ever.</dd></div>
+    </dl>
+  </section>
+
+  <!-- 01 — The itch -->
+  <section class="chap" aria-labelledby="t-itch">
+    <p class="chapter reveal"><span class="chapter__n">01</span> <span class="chapter__t">The itch</span></p>
+    <h2 class="chap__title reveal" id="t-itch">I kept typing while people were talking.</h2>
+    <div class="prose reveal">
+      <p class="lead">Design reviews, sprint planning, client calls. Every week, the same trade: listen properly, or write it down.</p>
+      <p>When I typed, I missed the nuance. When I listened, I forgot the details by the next morning. The tools that promised to help either <strong>sent a bot into the call</strong> or <strong>uploaded the audio</strong> to someone else’s server. Neither felt right for client work.</p>
+      <p>So I built the tool I wanted: one that sits in the menu bar, does its job on my own Mac, and gets out of the way.</p>
+    </div>
+    <p class="pull reveal"><span class="pull__label">The rule I built it around</span>Be in the meeting. Let the Mac take the notes.</p>
+  </section>
+
+  <!-- 02 — How it works -->
+  <section class="chap" aria-labelledby="t-how">
+    <p class="chapter reveal"><span class="chapter__n">02</span> <span class="chapter__t">How it works</span></p>
+    <h2 class="chap__title reveal" id="t-how">Three moments. You only do the first.</h2>
+    <ol class="mt-flow" data-stagger>
+      <li><span class="mt-flow__n">1</span><h3>Join your call</h3><p>Zoom or Teams, in the app or the browser, or Google Meet. About 2 seconds in, a red dot appears in the menu bar.</p></li>
+      <li><span class="mt-flow__n">2</span><h3>It writes as people talk</h3><p>Lines appear live, with a time and a speaker label. You can glance at them, or ignore them completely.</p></li>
+      <li><span class="mt-flow__n">3</span><h3>Leave, and it’s saved</h3><p>About 8 seconds after you hang up, the last words are finished and a text file is saved, sorted by date.</p></li>
+    </ol>
+  </section>
+
+  <!-- 03 — Find -->
+  <section class="chap" aria-labelledby="t-find">
+    <p class="chapter reveal"><span class="chapter__n">03</span> <span class="chapter__t">Find it later</span></p>
+    <h2 class="chap__title reveal" id="t-find">“What did we decide about the launch?” Just search.</h2>
+    <div class="prose reveal">
+      <p class="lead">A transcript is only useful if you can find things in it. So search works in the meeting you’re in, and across every meeting you’ve had.</p>
+    </div>
+    <div class="mt-find">
+      <figure class="mt-live reveal" aria-label="Find inside the Live Transcript window, with sample text">
+        <div class="mt-live__title" aria-hidden="true"><i></i><i></i><i></i><span>Live Transcript</span></div>
+        <div class="mt-search"><span>checkout</span><small>2 of 18 lines</small><kbd>⌘F</kbd></div>
+        <ol class="mt-live__lines">
+          <li style="--c:#3ecf6e"><time>6:05:12 PM</time><b>Speaker B (Unidentified)</b><p>The API changes need to land by Wednesday, or <mark>checkout</mark> slips.</p></li>
+          <li style="--c:#e2622e"><time>6:05:19 PM</time><b>You</b><p>Agreed. I’ll share the updated <mark>checkout</mark> flow by Friday.</p></li>
+        </ol>
+        <figcaption>In a live meeting: ⌘F shows only the lines that match. New lines that match appear too.</figcaption>
+      </figure>
+      <figure class="mt-live reveal" aria-label="Search Past Transcripts window, with sample results">
+        <div class="mt-live__title" aria-hidden="true"><i></i><i></i><i></i><span>Search Past Transcripts</span></div>
+        <div class="mt-search"><span>launch date</span><small>3 meetings</small></div>
+        <ol class="mt-results">
+          <li><h4>Teams Meeting — Sprint planning</h4><small>12 Nov 2026 · 6:05 PM · Speaker A</small><p>Let’s move the <mark>launch date</mark> to the 24th so QA has a full week.</p></li>
+          <li><h4>Zoom Meeting — Design review</h4><small>6 Nov 2026 · 11:30 AM · You</small><p>If the <mark>launch date</mark> holds, the onboarding screens go first.</p></li>
+          <li><h4>Google Meet — Kick-off</h4><small>30 Oct 2026 · 10:00 AM · Speaker B</small><p>Marketing needs the <mark>launch date</mark> two weeks before release.</p></li>
+        </ol>
+        <figcaption>Across meetings: every word must appear in the same turn, so results stay precise.</figcaption>
+      </figure>
+    </div>
+    <ul class="mt-find__notes reveal">
+      <li><b>Words or a speaker</b>Search “checkout”, or a label like “Speaker B”, to follow one voice through the meeting.</li>
+      <li><b>Every meeting, one box</b>Pick <strong>Search Past Transcripts…</strong> from the menu bar and type, for example, a name and a topic.</li>
+      <li><b>Nothing is indexed</b>Files are read fresh each time. No search index is saved, and only your Mac is searched.</li>
+    </ul>
+  </section>
+
+  <!-- 04 — Put it to work -->
+  <section class="chap" aria-labelledby="t-work">
+    <p class="chapter reveal"><span class="chapter__n">04</span> <span class="chapter__t">Put it to work</span></p>
+    <h2 class="chap__title reveal" id="t-work">The meeting ends. The work starts.</h2>
+    <div class="prose reveal">
+      <p class="lead">Every transcript is clean, timestamped text. Hand it to your own AI agent, like Claude, and let it do the follow-up.</p>
+      <p>Ask it to <strong>check what was agreed and turn it into work</strong>. One file in, three useful things out.</p>
+    </div>
+    <div data-stagger class="grid grid--3">
+      <div class="card"><h3>To-dos</h3><p>Every action, who said they’d do it and by when, ready for your task list.</p></div>
+      <div class="card"><h3>Minutes of meeting</h3><p>Decisions, open questions and next steps in a short summary you can share.</p></div>
+      <div class="card"><h3>Project documents</h3><p>Requirements, user stories, release notes or a design brief for project development.</p></div>
+    </div>
+  </section>
+
+  <!-- 05 — Privacy -->
+  <section class="chap" aria-labelledby="t-privacy">
+    <p class="chapter reveal"><span class="chapter__n">05</span> <span class="chapter__t">Private by design</span></p>
+    <h2 class="chap__title reveal" id="t-privacy">Your meetings stay on your Mac.</h2>
+    <div class="mt-shots">
+      <figure class="mt-set reveal" aria-label="Meeting Transcript settings, Transcription tab">
+        <div class="mt-set__title" aria-hidden="true"><i></i><i></i><i></i><span>Transcription</span></div>
+        <div class="mt-set__tabs" aria-hidden="true"><span>⚙︎<br>General</span><span class="is-on">▮▮▮<br>Transcription</span><span>⛉<br>Privacy</span></div>
+        <div class="mt-set__group">
+          <div class="mt-set__row"><span>Whisper model</span><b>Large v3 Turbo · 574 MB · recommended ⌃</b></div>
+          <div class="mt-set__row"><span>Language</span><b>English + Hindi (recommended) ⌃</b></div>
+        </div>
+        <p class="mt-set__hint">Larger models are more accurate but slower. Recommended is based on this Mac’s memory.</p>
+        <div class="mt-set__group">
+          <div class="mt-set__row"><span>Label speakers (Speaker A, Speaker B…)</span><i class="mt-toggle"></i></div>
+          <div class="mt-set__row"><span>Update text every</span><span class="mt-slider"><i></i></span><b>20 s</b></div>
+          <div class="mt-set__row mt-set__row--top"><span>Vocabulary</span><b class="mt-set__vocab">Meeting about product, design and engineering: Figma, prototype, wireframe, UX, UI, API, sprint, roadmap, stakeholder.</b></div>
+        </div>
+        <p class="mt-set__hint">Speaker labels are anonymous; rename them in the live transcript. A word you fix twice is learned.</p>
+        <div class="mt-set__group">
+          <div class="mt-set__row"><span>Include my microphone</span><i class="mt-toggle"></i></div>
+          <div class="mt-set__row"><span>Ignore my mic while muted in the meeting</span><i class="mt-toggle"></i></div>
+        </div>
+      </figure>
+      <ul class="reveal">
+        <li><b>On-device speech recognition</b>Whisper runs on your Mac’s own chip. Audio never leaves it.</li>
+        <li><b>No names, no voice profiles</b>Your lines say “You”. Everyone else is “Speaker A (Unidentified)”, “Speaker B” and so on. The app never guesses who someone is. Add a name yourself only if you want to.</li>
+        <li><b>No audio saved</b>Sound is held in memory for a few seconds, turned into text, then thrown away. Only text is saved.</li>
+        <li><b>Nothing without consent</b>Give a one-time promise that people know they’re being transcribed, or tick a box before each call. A red dot shows while it works.</li>
+      </ul>
+    </div>
+    <p class="note reveal"><b>Please be fair</b>Always tell the people in your meeting that it is being transcribed, and follow the rules at your workplace.</p>
+  </section>
+
+  <!-- 06 — The details -->
+  <section class="chap" aria-labelledby="t-help">
+    <p class="chapter reveal"><span class="chapter__n">06</span> <span class="chapter__t">The small things</span></p>
+    <h2 class="chap__title reveal" id="t-help">Small touches that make it trustworthy.</h2>
+    <div data-stagger class="grid grid--3">
+      <div class="card"><h3>English and Hindi</h3><p>Hindi stays in Devanagari and English stays English. Nothing is translated or reworded.</p></div>
+      <div class="card"><h3>Your words, spelled right</h3><p>Add your team’s terms, like Figma or sprint. Fix a word twice and it’s learned.</p></div>
+      <div class="card"><h3>Your own voice</h3><p>Your mic is transcribed as “You”, and ignored while you’re muted in the call.</p></div>
+      <div class="card"><h3>Share your way</h3><p>Export as Markdown, subtitles (SRT), Word or PDF. Files stay put until you share them.</p></div>
+      <div class="card"><h3>Never loses much</h3><p>The file is rewritten about every 20 seconds, so even a crash costs only a few lines.</p></div>
+      <div class="card"><h3>Picks the right model</h3><p>Large v3 Turbo is chosen for your Mac: accurate with accents and noise, and still fast.</p></div>
+    </div>
+  </section>
+
+  <!-- 07 — Download -->
+  <section class="chap" id="download" aria-labelledby="t-download">
+    <p class="chapter reveal"><span class="chapter__n">07</span> <span class="chapter__t">Download</span></p>
+    <h2 class="chap__title reveal" id="t-download">Try it in your next meeting.</h2>
+    <div class="mt-download reveal">
+      <a class="mt-btn" href="assets/downloads/MeetingTranscript-1.6.3.dmg" download><img src="assets/images/brain-itch/transcript-logo.webp" width="32" height="32" alt="">Download Meeting Transcript <span aria-hidden="true">↓</span></a>
+      <p class="mt-only">Only for macOS. It does not run on Windows, Linux, iPhone or Android.</p>
+      <p class="mt-meta">Version 1.6.3 · DMG · 6.4 MB · macOS 14.2 or later · Apple Silicon (M1 or newer) · about 0.6 GB free space for the speech model</p>
+      <p class="mt-sum">SHA-256: e729f4c858b7af93054de61d6099ca7e184856eb6b1a86df4736d3117cfe326d</p>
+    </div>
+    <ol class="mt-steps reveal">
+      <li>Open the DMG and drag <strong>Meeting Transcript</strong> into Applications.</li>
+      <li>The app is not notarised by Apple yet, so macOS blocks the first launch. Open it once, then go to <strong>System Settings › Privacy &amp; Security</strong> and click <strong>Open Anyway</strong>.</li>
+      <li>Click the icon in the menu bar. Under <strong>Automatic transcription</strong>, give consent, keep <strong>Include my voice</strong> on and press <strong>Turn On</strong>. The speech models download once (about 590 MB).</li>
+      <li>Allow the microphone and audio-recording prompts. Then just join a call.</li>
+    </ol>
+    <p class="note reveal"><b>Good to know</b>Transcripts are saved in <code>Documents/Meeting Transcript</code>, sorted by date. Use headphones so the app can tell your voice from the call.</p>
+  </section>
+
+  <aside class="next" aria-label="Back to projects">
+    <p class="next__label">Back to</p>
+    <a class="next__link" href="index.html#brain-itch">
+      <span class="next__title">Brain itch</span>
+    </a>
+    <p class="next__story">More side projects I built because the idea wouldn’t leave me alone.</p>
+  </aside>
+</main>
+
+<footer class="footer" id="contact">
+  <nav class="footer__links" aria-label="Contact and profiles">
+    <a href="mailto:arpitsharma1503@gmail.com"><span aria-hidden="true">📮</span> Email</a>
+    <a href="https://www.linkedin.com/in/arpitsharma1503/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+    <a href="https://www.instagram.com/arpit_arv_sharma/" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a>
+    <a href="assets/Arpit_Sharma_Resume.pdf" target="_blank" rel="noopener noreferrer">Resume <span aria-hidden="true">↗</span></a>
+  </nav>
+  <small class="footer__legal">© 2026 Arpit Sharma — Designed with intention.</small>
+</footer>
+
+<script>
+(() => {
+  "use strict";
+
+  const root = document.documentElement;
+  const motion = root.classList.contains("motion");
+  const clamp = (v, min = 0, max = 1) => Math.min(max, Math.max(min, v));
+
+  /* Scroll reveals: chapter labels, titles and pull-quotes only, so reading stays calm */
+  (function initReveals() {
+    const items = document.querySelectorAll(".reveal");
+    const showAll = () => items.forEach(el => el.classList.add("is-in"));
+    if (!motion || !("IntersectionObserver" in window)) return showAll();
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-in");
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0 });
+    items.forEach(el => io.observe(el));
+  })();
+
+  /* Reading progress: a thin line along the top edge */
+  (function initProgress() {
+    const bar = document.getElementById("progress");
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const max = root.scrollHeight - window.innerHeight;
+      bar.style.transform = `scaleX(${max > 0 ? clamp(window.scrollY / max).toFixed(4) : 0})`;
+    };
+    const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    window.addEventListener("scroll", request, { passive: true });
+    window.addEventListener("resize", request);
+    update();
+  })();
+
+  /* Sky: the same quiet starfield as the home page, a touch dimmer for long reading */
+  (function initSky() {
+    const canvas = document.getElementById("sky");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const TINTS = [[239, 240, 220], [255, 196, 160], [168, 150, 255]];
+    const PARALLAX = [.012, .03, .06];
+    const DIM = .9;
+    const frameMs = 1000 / 30;
+    let W = 0, H = 0, stars = [], last = 0, rafId = 0;
+
+    function seed() {
+      const count = Math.round(clamp(W * H / 9000, 70, 190));
+      stars = Array.from({ length: count }, () => {
+        const depth = Math.random() < .6 ? 0 : Math.random() < .75 ? 1 : 2;
+        const tint = Math.random() < .84 ? 0 : Math.random() < .5 ? 1 : 2;
+        return {
+          x: Math.random(), y: Math.random(), depth,
+          r: [.5, .75, 1.05][depth] * (.8 + Math.random() * .5),
+          alpha: [.36, .52, .74][depth] * (.7 + Math.random() * .3),
+          speed: .25 + Math.random() * .55,
+          phase: Math.random() * Math.PI * 2,
+          rgb: TINTS[tint]
+        };
+      });
+    }
+
+    function resize() {
+      const widthChanged = window.innerWidth !== W;
+      W = window.innerWidth; H = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (widthChanged || !stars.length) seed();
+    }
+
+    function draw(t) {
+      ctx.clearRect(0, 0, W, H);
+      const sy = window.scrollY;
+      for (const st of stars) {
+        const tw = motion ? .68 + .32 * Math.sin(t * st.speed + st.phase) : 1;
+        const a = st.alpha * tw * DIM;
+        let y = (st.y * H - sy * PARALLAX[st.depth]) % H;
+        if (y < 0) y += H;
+        const [r, g, b] = st.rgb;
+        ctx.fillStyle = `rgba(${r},${g},${b},${a.toFixed(3)})`;
+        ctx.beginPath(); ctx.arc(st.x * W, y, st.r, 0, Math.PI * 2); ctx.fill();
+        if (st.depth === 2) {
+          ctx.fillStyle = `rgba(${r},${g},${b},${(a * .1).toFixed(3)})`;
+          ctx.beginPath(); ctx.arc(st.x * W, y, st.r * 4.5, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+    }
+
+    function frame(now) {
+      rafId = requestAnimationFrame(frame);
+      if (now - last < frameMs) return;
+      last = now;
+      draw(now / 1000);
+    }
+
+    resize();
+    window.addEventListener("resize", () => { resize(); if (!motion) draw(0); });
+    if (!motion) { draw(0); return; }
+    document.addEventListener("visibilitychange", () => {
+      cancelAnimationFrame(rafId);
+      if (!document.hidden) rafId = requestAnimationFrame(frame);
+    });
+    rafId = requestAnimationFrame(frame);
+  })();
+})();
+</script>
+<script src="assets/case-study.js" defer></script>
+<script src="assets/theme.js" defer></script>
+<script src="assets/music.js" defer></script>
+<!-- Vercel Web Analytics: page views only, no cookies. The script is served by Vercel
+     itself, so it only loads on the deployed site (it is a harmless 404 when run locally). -->
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

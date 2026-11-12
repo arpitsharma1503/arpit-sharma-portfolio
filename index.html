@@ -165,7 +165,7 @@ a:focus-visible { outline: 2px solid var(--cream); outline-offset: 4px; }
   text-transform: none;
 }
 
-/* big uppercase display lines (bridge title, closing line) */
+/* big uppercase display lines (work title, closing line) */
 .display {
   margin: 0;
   font-weight: 800;
@@ -304,7 +304,7 @@ a:focus-visible { outline: 2px solid var(--cream); outline-offset: 4px; }
    Every element is absolutely placed on one sticky screen; JS drives
    opacity / transform / filter from scroll progress.
    ========================================================================== */
-.motion .idea { margin-top: 0; height: 650vh; }
+.motion .idea { margin-top: 0; height: 380vh; }
 
 .motion .idea__stage {
   position: sticky; top: 0;
@@ -387,24 +387,15 @@ a:focus-visible { outline: 2px solid var(--cream); outline-offset: 4px; }
 }
 
 /* ==========================================================================
-   8. Bridge into the work
+   8. Work heading — picks up the story's last line, then the projects
    ========================================================================== */
-.bridge { padding: 8vh var(--edge) 14vh; }
-.motion .bridge { padding-top: 10vh; }
-
-.bridge__question {
-  margin: 0; max-width: 20ch;
-  font-size: clamp(1.3rem, 2.6vw, 2.4rem); font-weight: 400; line-height: 1.3;
-}
-.bridge__title { margin-top: 12vh; font-size: clamp(2.4rem, 7.6vw, 8.4rem); }
-.motion .bridge__title { margin-top: 14vh; }
-.bridge__title .script { margin-top: .08em; }
-.bridge__down { display: block; margin-top: 6vh; font-size: 2rem; opacity: .6; }
+.work__title { margin: 0 0 clamp(28px, 5vh, 56px); font-size: clamp(2rem, 5.2vw, 5.6rem); }
+.motion .work { padding-top: 4vh; }
 
 /* ==========================================================================
    9. The work
    ========================================================================== */
-.work { padding: 0 var(--edge) 12vh; }
+.work { padding: 0 var(--edge) 8vh; }
 
 .chapter {
   display: flex; align-items: center; gap: 18px;
@@ -479,13 +470,181 @@ a.project:is(:hover, :focus-visible) .project__cta { opacity: 1; }
   .project { min-height: 50vh; }
 }
 
+/* folders — every card gets a tab on top; the body is solid so the tab
+   can cover the 1px top border and read as one shape */
+.project {
+  --folder: color-mix(in srgb, var(--bg) 94%, var(--cream));
+  --tab-h: 22px;
+  overflow: visible;
+  margin-top: var(--tab-h);
+  background: var(--folder);
+  border-radius: 0 14px 14px 14px;
+  transition: border-color .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1);
+}
+.project::before { border-radius: inherit; }
+.project::after {
+  content: ""; position: absolute; left: -1px; bottom: calc(100% - 1px);
+  width: min(42%, 180px); height: calc(var(--tab-h) + 1px);
+  background: var(--folder);
+  border: 1px solid var(--hair); border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+  transition: border-color .4s ease, background .4s ease;
+}
+a.project:is(:hover, :focus-visible) { transform: translateY(-6px); }
+a.project:is(:hover, :focus-visible)::after { border-color: var(--hair-strong); background: color-mix(in srgb, var(--folder) 82%, var(--ember)); }
+
+/* appear: each folder rises and tips forward from its base, one after another */
+.motion .folders > .reveal {
+  transform: translateY(48px) perspective(900px) rotateX(-14deg) scale(.96);
+  transform-origin: 50% 100%;
+  transition: opacity var(--reveal-duration) ease, filter var(--reveal-duration) ease,
+              transform .9s cubic-bezier(.2, .8, .2, 1), border-color .4s ease;
+}
+.motion .folders > .reveal.is-in { transform: none; }
+.motion .folders > .reveal:nth-child(2n) { transition-delay: .12s; }
+.motion .folders > a.project.is-in:is(:hover, :focus-visible) { transform: translateY(-6px); transition-delay: 0s; }
+
+/* compact work folders: 2 × 2 fits one screen, 3 across on wide screens shows all six */
+.work .project { min-height: 0; }
+.work .project__body { padding-top: clamp(28px, 5vh, 56px); }
+.work .project__title { font-size: clamp(1.6rem, 2.4vw, 2.4rem); }
+.work .project__story { font-size: clamp(.95rem, 1.1vw, 1.1rem); }
+@media (min-width: 700px) { .work .project { min-height: 28vh; } }
+@media (min-width: 1100px) { .work .work__grid { grid-template-columns: repeat(3, 1fr); } }
+/* phones: one column, so each folder stays short enough for four per screen */
+@media (max-width: 699px) {
+  .work .project { --tab-h: 16px; padding: 14px 16px; }
+  .work .project__body { padding-top: 10px; }
+  .work .project--nda .project__body { margin-bottom: 0; }
+  .work .project__title { font-size: 1.35rem; }
+  .work .project__story { margin-top: 6px; font-size: .9rem; }
+  .work .project__cta { margin-top: 8px; font-size: .85rem; }
+  .work .badge { padding: 4px 10px; font-size: .7rem; }
+  .work .badge::before { width: 10px; height: 10px; }
+}
+
+/* Brain itch — each side project is a small app window: screenshot first, detail under it */
+.itch__grid { display: grid; grid-template-columns: 1fr; gap: var(--grid-gap); }
+@media (min-width: 800px) { .itch__grid { grid-template-columns: 1fr 1fr; } }
+.itch {
+  display: flex; flex-direction: column; overflow: hidden;
+  background: color-mix(in srgb, var(--bg) 94%, var(--cream));
+  border: 1px solid var(--hair); border-radius: 14px;
+  transition: border-color .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1);
+}
+a.itch:is(:hover, :focus-visible) { border-color: var(--hair-strong); transform: translateY(-6px); }
+.motion .folders > a.itch.is-in:is(:hover, :focus-visible) { transform: translateY(-6px); transition-delay: 0s; }
+.itch__bar { display: flex; align-items: center; gap: 6px; padding: 10px 14px; border-bottom: 1px solid var(--hair); }
+.itch__bar i { width: 9px; height: 9px; border-radius: 50%; background: rgba(var(--ink-rgb), .22); }
+.itch__bar small { margin-left: 10px; font-size: .75rem; opacity: .6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.itch__media { aspect-ratio: 16 / 9; overflow: hidden; background: #0d0710; }
+.itch__media > img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform .8s cubic-bezier(.2, .8, .2, 1); }
+a.itch:is(:hover, :focus-visible) .itch__media > img { transform: scale(1.03); }
+.itch__app { display: flex; align-items: center; justify-content: center; gap: 22px; height: 100%; padding: 20px; color: #eff0dc;
+  background: radial-gradient(120% 90% at 20% 10%, #3a1f4a, #120914 70%); }
+.itch__app img { width: 72px; height: 72px; flex: none; }
+@media (max-width: 499px) { .itch__app img { display: none; } }   /* room for the transcript lines */
+.itch__lines { font-size: clamp(.72rem, 1vw, .85rem); line-height: 1.9; opacity: .85; }
+.itch__lines b { margin-right: 8px; color: var(--ember); font-weight: 600; font-variant-numeric: tabular-nums; }
+.itch__body { display: flex; flex-direction: column; flex: 1; padding: clamp(18px, 2vw, 26px); }
+.itch__kind { margin: 0 0 8px; font-size: .8rem; letter-spacing: .04em; opacity: .65; }
+.itch__title { margin: 0; font-size: clamp(1.4rem, 2vw, 1.9rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+.itch__text { margin: 10px 0 0; max-width: 52ch; font-size: clamp(.95rem, 1.1vw, 1.05rem); font-weight: 300; line-height: 1.55; }
+.itch__chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; }
+.itch__chips li { padding: 4px 11px; border: 1px solid var(--hair); border-radius: 999px; font-size: .78rem; opacity: .8; }
+.itch__cta { margin-top: auto; padding-top: 18px; font-size: .9rem; color: var(--ember); }
+/* compact: four across on wide screens, short text, small chips */
+@media (min-width: 1100px) { .itch__grid { grid-template-columns: repeat(4, 1fr); } }
+.itch__bar { padding: 8px 12px; }
+.itch__bar small { font-size: .7rem; }
+.itch__media { aspect-ratio: 16 / 10; }
+.itch__body { padding: 16px 18px 18px; }
+.itch__kind { margin-bottom: 6px; font-size: .72rem; }
+.itch__title { font-size: clamp(1.15rem, 1.4vw, 1.35rem); }
+.itch__text { margin-top: 8px; font-size: .9rem; line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.itch__chips { gap: 6px; margin-top: 12px; }
+.itch__chips li { padding: 3px 9px; font-size: .7rem; }
+.itch__cta { padding-top: 12px; font-size: .85rem; }
+.itch__app { gap: 14px; padding: 14px; }
+.itch__app img { width: 48px; height: 48px; }
+.itch__lines { font-size: .68rem; line-height: 1.75; }
+@media (min-width: 1100px) { .itch__app img { display: none; } }   /* narrow tile: room for the lines */
+/* phones: one swipeable row instead of four stacked cards */
+@media (max-width: 699px) {
+  .itch__media { aspect-ratio: 16 / 9; }
+  .itch__grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 82%;
+    overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    margin: 0 calc(var(--edge) * -1); padding: 0 var(--edge) 12px; scroll-padding: 0 var(--edge); scrollbar-width: none; }
+  .itch__grid::-webkit-scrollbar { display: none; }
+  .itch__grid > .itch { scroll-snap-align: start; }
+}
+
+/* smaller placeholder folders for Claude skills */
+.shelf { padding: 0 var(--edge) 8vh; }
+.shelf__lead { margin: 0 0 32px; max-width: none; text-wrap: balance; font-size: clamp(1rem, 1.35vw, 1.2rem); font-weight: 300; line-height: 1.5; opacity: .8; }
+/* Claude skills — compact tiles, like slash commands */
+.skill__cmd { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: .75rem; letter-spacing: .04em; }
+.skill__cmd code { padding: 4px 9px; border-radius: 7px; background: rgba(var(--ink-rgb), .08); color: var(--ember); font: 600 .8rem/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.skill__cmd span { opacity: .6; }
+.skill__title { margin: 0; font-size: clamp(1.15rem, 1.5vw, 1.35rem); font-weight: 800; letter-spacing: -.015em; }
+.skill__text { font-size: .92rem; font-weight: 300; line-height: 1.5; }
+/* skill pack: download everything, or one skill at a time */
+/* toolbar: category tabs on the left, download-all on the right */
+.kit__bar { display: flex; align-items: center; gap: 12px 20px; }
+.kit__bar .kit__tabs { flex: 1; min-width: 0; margin: 0; }
+.kit__bar .kit__all { flex: none; padding: 9px 16px; font-size: .85rem; }
+@media (max-width: 699px) { .kit__bar { flex-direction: column; align-items: stretch; } .kit__bar .kit__all { align-self: flex-start; } }
+.kit > .skill__how { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--hair); }
+/* library tabs: one category at a time */
+.kit__tabs { display: flex; gap: 6px; margin: 18px 0 0; overflow-x: auto; scrollbar-width: none; }
+.kit__tabs::-webkit-scrollbar { display: none; }
+.kit__tabs button { flex: none; appearance: none; padding: 8px 14px; border: 1px solid var(--hair); border-radius: 999px; background: none; color: inherit; font: inherit; font-size: .85rem; cursor: pointer; transition: border-color .2s ease, background .2s ease; }
+.kit__tabs button small { margin-left: 4px; opacity: .6; font-variant-numeric: tabular-nums; }
+.kit__tabs button:hover { border-color: var(--hair-strong); }
+.kit__tabs button[aria-selected="true"] { background: var(--cream); border-color: var(--cream); color: var(--bg); }
+.kit__tabs button:focus-visible { outline: 2px solid var(--ember); outline-offset: 2px; }
+.kit__panel { margin-top: 14px; }
+.kit__panel[hidden] { display: none; }
+.kit__panel .kit__list { margin-top: 12px; }
+.kit__cat { display: inline-flex; align-items: center; gap: 6px; font-size: .85rem; font-weight: 600; color: var(--ember); }
+.kit__cat:hover { text-decoration: underline; text-underline-offset: 3px; }
+.kit { margin-top: var(--grid-gap); padding: clamp(16px, 1.8vw, 24px); border: 1px solid var(--hair); border-radius: 14px; background: color-mix(in srgb, var(--bg) 94%, var(--cream)); }
+.kit__all { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 999px; background: var(--ember); color: #fff; font-weight: 600; font-size: .92rem; white-space: nowrap; transition: filter .25s ease; }
+.kit__all:hover { filter: brightness(1.08); }
+.kit__list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; margin: 18px 0 0; padding: 0; list-style: none; }
+@media (min-width: 1100px) { .kit__list { grid-template-columns: repeat(3, 1fr); } }   /* 9 skills = three even rows */
+.kit__list li { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 12px 14px; border: 1px solid transparent; border-radius: 10px; background: rgba(var(--ink-rgb), .05); transition: border-color .25s ease; }
+.kit__list li:hover { border-color: var(--hair-strong); }
+.kit__list li > div { display: grid; gap: 4px; min-width: 0; }
+.kit__list code { justify-self: start; color: var(--ember); font: 600 .72rem/1.3 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+.kit__list b { font-size: .95rem; font-weight: 700; }
+.kit__list span { font-size: .82rem; font-weight: 300; line-height: 1.45; opacity: .85; }
+.kit__dl { flex: none; display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; border: 1px solid var(--hair-strong); border-radius: 999px; font-size: .75rem; font-weight: 600; white-space: nowrap; transition: background .2s ease, color .2s ease, border-color .2s ease; }
+.kit__dl:hover, .kit__dl:focus-visible { background: var(--ember); border-color: var(--ember); color: #fff; }
+.kit__dl span { opacity: 1 !important; font-size: inherit !important; font-weight: inherit !important; }
+@media (max-width: 699px) {   /* phones: name + download only */
+  .kit__list { grid-template-columns: 1fr; gap: 8px; }
+  .kit__list li { align-items: center; padding: 10px 12px; }
+  .kit__list code, .kit__list li > div > span { display: none; }
+  .kit__list b { font-size: .9rem; line-height: 1.3; }
+}
+.skill__how { margin-top: 2px; border-top: 1px solid var(--hair); padding-top: 10px; font-size: .85rem; }
+.skill__how summary { cursor: pointer; width: fit-content; color: var(--ember); font-weight: 500; list-style: none; }
+.skill__how summary::-webkit-details-marker { display: none; }
+.skill__how summary::after { content: " +"; }
+.skill__how[open] summary::after { content: " −"; }
+.skill__how ol { display: grid; gap: 8px; margin: 10px 0 0; padding-left: 1.2em; line-height: 1.5; }
+.skill__how a { color: var(--ember); text-decoration: underline; text-underline-offset: 3px; }
+.skill__how code { padding: 1px 5px; border-radius: 5px; background: rgba(var(--ink-rgb), .08); font-size: .8em; overflow-wrap: anywhere; }
+
 /* ==========================================================================
    9b. Side quest — the arcade game (logic in assets/game.js)
    The panel is a small dark "cabinet" in both themes, so it pins the dark
    tokens for everything inside it.
    ========================================================================== */
 html:not(.js) .arcade { display: none; }          /* nothing to play without JavaScript */
-.arcade { padding: 0 var(--edge) 14vh; }
+.arcade { padding: 0 var(--edge) 9vh; }
 .arcade__title { font-size: clamp(1.9rem, 4.6vw, 4.4rem); }
 .arcade__sub {
   margin: 3vh 0 0; max-width: 44ch;
@@ -601,7 +760,7 @@ html:not(.js) .arcade { display: none; }          /* nothing to play without Jav
 /* ==========================================================================
    10. Footer
    ========================================================================== */
-.footer { padding: 12vh var(--edge) 8vh; border-top: 1px solid var(--hair); }
+.footer { padding: 9vh var(--edge) 6vh; border-top: 1px solid var(--hair); }
 .footer__line { font-size: clamp(2.2rem, 6.4vw, 6.8rem); }
 .footer__note {
   margin: 5vh 0 0; max-width: 52ch;
@@ -649,7 +808,7 @@ html:not(.js) .arcade { display: none; }          /* nothing to play without Jav
    it replaces the browser's grey tap flash */
 a, button { -webkit-tap-highlight-color: transparent; }
 :is(button, .nav__links a, .footer__links a, .brand, .crumbs a, .next__link):active { scale: .96; transition: scale 100ms ease-out; }
-a.project:active { scale: .985; transition: scale 100ms ease-out; }
+a:is(.project, .itch):active { scale: .985; transition: scale 100ms ease-out; }
 
 /* visitors who ask their system for less transparency or more contrast */
 @media (prefers-reduced-transparency: reduce) {
@@ -713,7 +872,6 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
         <li>Too many decisions.</li>
         <li>Too many screens.</li>
         <li>Too many rules.</li>
-        <li>Too many things competing for attention.</li>
       </ul>
 
       <p class="idea__result script">happy users</p>
@@ -728,18 +886,12 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
     </div>
   </section>
 
-  <!-- Bridge -->
-  <section class="bridge" aria-labelledby="bridge-title">
-    <p class="bridge__question reveal">So, what does that look like in practice?</p>
-    <h2 class="bridge__title display reveal" id="bridge-title">A few things<br>I’ve made<br><span class="script">simple.</span></h2>
-    <span class="bridge__down reveal" aria-hidden="true">↓</span>
-  </section>
-
   <!-- 02 — The work -->
   <section class="work" id="work" aria-label="Selected work">
     <p class="chapter reveal">02 — The work</p>
+    <h2 class="work__title display reveal">A few things I’ve made <span class="script">simple.</span></h2>
 
-    <div class="work__grid">
+    <div class="work__grid folders">
       <!-- Under NDA: no link, no "View project" -->
       <article class="project project--nda reveal">
         <div class="project__top">
@@ -795,12 +947,265 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
         </div>
         <span class="project__cta">View project</span>
       </a>
+
+      <a class="project reveal" href="jogger.html">
+        <div class="project__top">
+          <span class="project__index">06</span>
+        </div>
+        <div class="project__body">
+          <h3 class="project__title">Jogger Sports</h3>
+          <p class="project__story">A premium activewear brand, made <span class="script">simple</span> to believe in.</p>
+        </div>
+        <span class="project__cta">View project</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ░░ CLAUDE SKILLS — skill library with category tabs ░░ -->
+  <section class="shelf" id="skills" aria-labelledby="skills-title">
+    <p class="chapter reveal" id="skills-title">03 — Claude skills</p>
+    <p class="shelf__lead reveal">Skills I made to teach Claude how I work, so it does the job my way every time.</p>
+    <div class="kit reveal">
+      <div class="kit__bar">
+      <div class="kit__tabs" role="tablist" aria-label="Skill categories">
+        <button type="button" role="tab" id="kt-prd" aria-controls="kp-prd" aria-selected="true">Product Requirements (PRD) <small>1</small></button>
+        <button type="button" role="tab" id="kt-product-design" aria-controls="kp-product-design" aria-selected="false" tabindex="-1">Product Design <small>9</small></button>
+        <button type="button" role="tab" id="kt-design-systems" aria-controls="kp-design-systems" aria-selected="false" tabindex="-1">Design Systems <small>13</small></button>
+        <button type="button" role="tab" id="kt-ux-research" aria-controls="kp-ux-research" aria-selected="false" tabindex="-1">UX Research <small>5</small></button>
+        <button type="button" role="tab" id="kt-ux-writing" aria-controls="kp-ux-writing" aria-selected="false" tabindex="-1">UX Writing <small>7</small></button>
+      </div>
+        <a class="kit__all" href="assets/skills/all-skills.zip" download>Download all 35 <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="kit__panel" role="tabpanel" id="kp-prd" aria-labelledby="kt-prd">
+        <ul class="kit__list">
+          <li>
+            <div><code>/prd-assistant</code><b>PRD Assistant</b><span>Drafts a Product Requirements Document one phase at a time, from Initiate to Evaluate. Asks three questions first, never invents content, and writes the PRD to Confluence.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/prd-assistant.zip" download aria-label="Download PRD Assistant skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+        </ul>
+      </div>
+      <div class="kit__panel" role="tabpanel" id="kp-product-design" aria-labelledby="kt-product-design" hidden>
+        <a class="kit__cat" href="assets/skills/product-design.zip" download>Download all 9 Product Design skills <span aria-hidden="true">↓</span></a>
+        <ul class="kit__list">
+          <li>
+            <div><code>/product-designer-insights</code><b>Product Designer Insights</b><span>Turns PRDs, research and feedback into traceable design insights, each linked to its source.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/product-designer-insights.zip" download aria-label="Download Product Designer Insights skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/design-system-pattern-finder</code><b>Design System Pattern Finder</b><span>Finds the existing patterns and components that fit a requirement, before anyone designs something new.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/design-system-pattern-finder.zip" download aria-label="Download Design System Pattern Finder skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/automated-usability-studies</code><b>Automated Usability Studies</b><span>Walks through tasks against heuristics and requirements to catch issues early. A simulated audit, not user research.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/automated-usability-studies.zip" download aria-label="Download Automated Usability Studies skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/pattern-inspiration</code><b>Pattern Inspiration</b><span>Curates real UI examples for a design problem and turns them into principles, not copies.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/pattern-inspiration.zip" download aria-label="Download Pattern Inspiration skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/competitive-analysis</code><b>Competitive Analysis</b><span>Benchmarks competitors’ workflows from public sources, with every claim dated and cited.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/competitive-analysis.zip" download aria-label="Download Competitive Analysis skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/ai-workflow-generator</code><b>AI Workflow Generator</b><span>Turns a standard workflow into an AI-agent workflow with clear roles, approvals and recovery paths.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/ai-workflow-generator.zip" download aria-label="Download AI Workflow Generator skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/whiteboard-to-mockup</code><b>Whiteboard to Mockup</b><span>Turns sketches and whiteboard photos into a journey map and screen specs ready for Figma.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/whiteboard-to-mockup.zip" download aria-label="Download Whiteboard to Mockup skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/localization-verification</code><b>Localization Verification</b><span>Checks strings and screens across languages for terminology, layout breaks and locale formats.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/localization-verification.zip" download aria-label="Download Localization Verification skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/edge-case-and-accessibility-audit</code><b>Edge Case &amp; Accessibility Audit</b><span>Finds missing states, edge cases, error handling and accessibility gaps before they ship.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/edge-case-and-accessibility-audit.zip" download aria-label="Download Edge Case and Accessibility Audit skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+        </ul>
+      </div>
+      <div class="kit__panel" role="tabpanel" id="kp-design-systems" aria-labelledby="kt-design-systems" hidden>
+        <a class="kit__cat" href="assets/skills/design-systems.zip" download>Download all 13 Design Systems skills <span aria-hidden="true">↓</span></a>
+        <ul class="kit__list">
+          <li>
+            <div><code>/visual-review</code><b>Visual Review</b><span>Finds broken components, missing tokens, style overrides and spacing issues, then suggests fixes.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/visual-review.zip" download aria-label="Download Visual Review skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/design-system-guidelines</code><b>Design System Guidelines</b><span>Checks a proposed UI follows the design system’s layouts, patterns and conventions.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/design-system-guidelines.zip" download aria-label="Download Design System Guidelines skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/figma-to-code-checker</code><b>Figma to Code Checker</b><span>Compares the built UI with the approved Figma file and lists every difference to fix.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/figma-to-code-checker.zip" download aria-label="Download Figma to Code Checker skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/create-new-components</code><b>Create New Components</b><span>Drafts new components from existing patterns, with variants, states and usage notes.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/create-new-components.zip" download aria-label="Download Create New Components skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/create-icons-and-illustrations</code><b>Create Icons &amp; Illustrations</b><span>Creates icon and illustration concepts that match the creative guidelines and existing library.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/create-icons-and-illustrations.zip" download aria-label="Download Create Icons and Illustrations skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/rename-frames</code><b>Rename Frames</b><span>Renames Figma frames clearly and consistently, based on what each frame contains.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/rename-frames.zip" download aria-label="Download Rename Frames skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/swap-archived-components</code><b>Swap Archived Components</b><span>Moves a file from an archived library to the current one, keeping content and overrides.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/swap-archived-components.zip" download aria-label="Download Swap Archived Components skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/comments-to-task-list</code><b>Comments to Task List</b><span>Turns Figma comments and sticky notes into a clear task list on the canvas.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/comments-to-task-list.zip" download aria-label="Download Comments to Task List skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/token-handoff</code><b>Token Handoff</b><span>Hands design-token changes to engineering with names, values, docs and status.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/token-handoff.zip" download aria-label="Download Token Handoff skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/icon-handoff</code><b>Icon Handoff</b><span>Runs icon handoff end to end and tracks it until engineering confirms.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/icon-handoff.zip" download aria-label="Download Icon Handoff skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/illustration-handoff</code><b>Illustration Handoff</b><span>Runs illustration handoff end to end and tracks it until engineering confirms.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/illustration-handoff.zip" download aria-label="Download Illustration Handoff skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/log-design-requests</code><b>Log Design Requests</b><span>Collects design-team requests from every channel into one log, so nothing gets lost.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/log-design-requests.zip" download aria-label="Download Log Design Requests skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/track-open-tickets</code><b>Track Open Tickets</b><span>Tracks the team’s open tickets and surfaces what’s blocked, overdue or needs attention.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/track-open-tickets.zip" download aria-label="Download Track Open Tickets skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+        </ul>
+      </div>
+      <div class="kit__panel" role="tabpanel" id="kp-ux-research" aria-labelledby="kt-ux-research" hidden>
+        <a class="kit__cat" href="assets/skills/ux-research.zip" download>Download all 5 UX Research skills <span aria-hidden="true">↓</span></a>
+        <ul class="kit__list">
+          <li>
+            <div><code>/feature-request-insights</code><b>Feature Request Insights</b><span>Turns raw customer feature requests into patterns, friction points and prioritised needs.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/feature-request-insights.zip" download aria-label="Download Feature Request Insights skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/evidence-based-personas</code><b>Evidence-Based Personas</b><span>Builds personas from real research and customer evidence, never from assumptions.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/evidence-based-personas.zip" download aria-label="Download Evidence-Based Personas skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/research-repository-search</code><b>Research Repository Search</b><span>Searches every connected research source and returns cited answers to a research question.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/research-repository-search.zip" download aria-label="Download Research Repository Search skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/analytics-event-discovery</code><b>Analytics Event Discovery</b><span>Finds the analytics events a feature already tracks, reads trends and fills the gaps.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/analytics-event-discovery.zip" download aria-label="Download Analytics Event Discovery skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/participant-recruitment</code><b>Participant Recruitment</b><span>Finds, screens and schedules the right participants for a study.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/participant-recruitment.zip" download aria-label="Download Participant Recruitment skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+        </ul>
+      </div>
+      <div class="kit__panel" role="tabpanel" id="kp-ux-writing" aria-labelledby="kt-ux-writing" hidden>
+        <a class="kit__cat" href="assets/skills/ux-writing.zip" download>Download all 7 UX Writing skills <span aria-hidden="true">↓</span></a>
+        <ul class="kit__list">
+          <li>
+            <div><code>/ux-copy-first-drafts</code><b>UX Copy First Drafts</b><span>Writes first drafts of UI copy with before/after examples and reasons.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/ux-copy-first-drafts.zip" download aria-label="Download UX Copy First Drafts skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/plain-language-review</code><b>Plain Language Review</b><span>Flags hard sentences and jargon in UI copy and suggests clearer words.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/plain-language-review.zip" download aria-label="Download Plain Language Review skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/terminology-reviewer</code><b>Terminology Reviewer</b><span>Finds inconsistent terms across the codebase and proposes bulk fixes.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/terminology-reviewer.zip" download aria-label="Download Terminology Reviewer skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/ux-writing-code-review</code><b>UX Writing Code Review</b><span>Reviews UI strings in pull requests for voice, tone and terminology.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/ux-writing-code-review.zip" download aria-label="Download UX Writing Code Review skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/ux-writing-prd-insights</code><b>UX Writing PRD Insights</b><span>Reads a PRD from a content angle and sets the terms a feature should use.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/ux-writing-prd-insights.zip" download aria-label="Download UX Writing PRD Insights skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/product-email-review</code><b>Product Email Review</b><span>Reviews customer emails for voice, tone and content guidelines.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/product-email-review.zip" download aria-label="Download Product Email Review skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+          <li>
+            <div><code>/enrich-writing-guidelines</code><b>Enrich Writing Guidelines</b><span>Strengthens UX writing guidelines with patterns from the product and competitors.</span></div>
+            <a class="kit__dl" href="assets/skills/zips/enrich-writing-guidelines.zip" download aria-label="Download Enrich Writing Guidelines skill">.zip <span aria-hidden="true">↓</span></a>
+          </li>
+        </ul>
+      </div>
+      <details class="skill__how">
+            <summary>How to use it</summary>
+            <ol>
+              <li>Download everything, one category, or one skill with its <b>.zip ↓</b> button.</li>
+              <li><b>Claude Code:</b> unzip the skill folders into <code>~/.claude/skills/</code>.<br><b>Claude app:</b> upload a single skill’s zip in Settings › Skills.</li>
+              <li>Ask Claude to use a skill by name, like <q>Use Visual Review on this Figma file</q>, and share your files.</li>
+            </ol>
+      </details>
+    </div>
+  </section>
+
+  <!-- ░░ BRAIN ITCH — side projects, shown as small app windows ░░ -->
+  <section class="shelf" id="brain-itch" aria-labelledby="brain-itch-title">
+    <p class="chapter reveal" id="brain-itch-title">04 — Brain itch</p>
+    <p class="shelf__lead reveal">Side projects I build when an idea won’t leave me alone.</p>
+    <div class="itch__grid folders">
+      <a class="itch reveal" href="transcript.html">
+        <div class="itch__window"><span class="itch__bar" aria-hidden="true"><i></i><i></i><i></i><small>Meeting Transcript — macOS</small></span>
+          <div class="itch__media"><span class="itch__app"><img src="assets/images/brain-itch/transcript-icon.webp" width="80" height="80" loading="lazy" decoding="async" alt=""><span class="itch__lines" aria-hidden="true"><b>00:02</b> Speaker A — Let’s lock the sprint scope.<br><b>00:07</b> You — I’ll share the new flow.<br><b>00:12</b> Speaker B — QA starts Monday.</span></span></div></div>
+        <div class="itch__body">
+          <p class="itch__kind">macOS app · Menu bar</p>
+          <h3 class="itch__title">Meeting Transcript</h3>
+          <p class="itch__text">Notices when a Zoom, Teams or Meet call starts and writes a live, timestamped transcript. It runs on your Mac, keeps other people anonymous, and gives your AI agent what it needs for to-dos and minutes.</p>
+          <ul class="itch__chips"><li>On-device Whisper</li><li>Anonymous speakers</li><li>Export to MD, SRT, PDF</li></ul>
+          <span class="itch__cta">Know more →</span>
+        </div>
+      </a>
+      <a class="itch reveal" href="https://lapposter.vercel.app/" target="_blank" rel="noopener">
+        <div class="itch__window"><span class="itch__bar" aria-hidden="true"><i></i><i></i><i></i><small>lapposter.vercel.app</small></span>
+          <div class="itch__media"><img src="assets/images/brain-itch/lapposter.webp" width="800" height="499" loading="lazy" decoding="async" alt="Lapposter editor: a list of race circuits on the left, a cream poster of the Interlagos circuit over a street map in the middle, and effect and style options on the right"></div></div>
+        <div class="itch__body">
+          <p class="itch__kind">Web app · Poster maker</p>
+          <h3 class="itch__title">Lapposter</h3>
+          <p class="itch__text">Pick any of 103 race circuits, lay the track over a real map, choose an effect, style and format, then export a poster ready to print and frame.</p>
+          <ul class="itch__chips"><li>103 circuits</li><li>Map + track styles</li><li>Print export</li></ul>
+          <span class="itch__cta">Open live ↗</span>
+        </div>
+      </a>
+      <article class="itch reveal">
+        <div class="itch__window"><span class="itch__bar" aria-hidden="true"><i></i><i></i><i></i><small>aura.local</small></span>
+          <div class="itch__media"><img src="assets/images/brain-itch/aura.webp" width="1200" height="649" loading="lazy" decoding="async" alt="AURA home screen: time and date, weather with a five-day forecast, best time to leave for the office, today’s meals, a grocery list with a QR code, calendar, voice assistant and smart home cards"></div></div>
+        <div class="itch__body">
+          <p class="itch__kind">Raspberry Pi · Home dashboard</p>
+          <h3 class="itch__title">AURA</h3>
+          <p class="itch__text">A calm home screen that runs on a Raspberry Pi. Weather, commute, meals, groceries, calendar and smart home on one glanceable page, plus a “Hey Aura” voice assistant.</p>
+          <ul class="itch__chips"><li>Raspberry Pi</li><li>Home Assistant</li><li>Voice</li></ul>
+          
+        </div>
+      </article>
+      <a class="itch reveal" href="https://india-defender.vercel.app/" target="_blank" rel="noopener">
+        <div class="itch__window"><span class="itch__bar" aria-hidden="true"><i></i><i></i><i></i><small>india-defender.vercel.app</small></span>
+          <div class="itch__media"><img src="assets/images/brain-itch/india-defender.webp" width="800" height="499" loading="lazy" decoding="async" alt="India Defender start screen: a pixel-art title in saffron, white and green over a night city skyline, with Easy, Medium and Pro mission cards and a Start Mission button"></div></div>
+        <div class="itch__body">
+          <p class="itch__kind">Browser game · Pixel art</p>
+          <h3 class="itch__title">India Defender</h3>
+          <p class="itch__text">A pixel-art arcade defence game. Guard the nation’s infrastructure over four levels, use three special abilities and take on the Shadow Commander. Plays with keys or touch.</p>
+          <ul class="itch__chips"><li>3 difficulty modes</li><li>4 levels</li><li>Keyboard + touch</li></ul>
+          <span class="itch__cta">Open live ↗</span>
+        </div>
+      </a>
     </div>
   </section>
 
   <!-- ░░ SIDE QUEST — a small arcade game (assets/game.js) ░░ -->
   <section class="arcade" id="arcade" aria-labelledby="arcade-title">
-    <p class="chapter reveal">03 — Side quest — Arcade mode</p>
+    <p class="chapter reveal">05 — Side quest — Arcade mode</p>
     <h2 class="arcade__title display reveal" id="arcade-title">Take a break.<br>Save the <span class="script">galaxy.</span></h2>
     <p class="arcade__sub reveal">A little side quest between projects. How long can you survive?</p>
 
@@ -901,8 +1306,29 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
   const fx    = (n, d = 3) => n.toFixed(d);
 
   /* ======================================================================
-     Scroll reveals (bridge, work, footer)
+     Scroll reveals (work, footer)
      ====================================================================== */
+  /* ======================================================================
+     Skill library tabs (click, arrow keys, Home/End)
+     ====================================================================== */
+  function initKitTabs() {
+    const tabs = [...document.querySelectorAll('.kit__tabs [role="tab"]')];
+    const select = (i, focus) => tabs.forEach((t, j) => {
+      const on = i === j;
+      t.setAttribute("aria-selected", on); t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+      if (on && focus) t.focus();
+    });
+    tabs.forEach((t, i) => {
+      t.addEventListener("click", () => select(i));
+      t.addEventListener("keydown", e => {
+        const k = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+        if (k === undefined) return;
+        e.preventDefault(); select((k + tabs.length) % tabs.length, true);
+      });
+    });
+  }
+
   function initReveals() {
     const items = document.querySelectorAll(".reveal");
     const showAll = () => items.forEach(el => el.classList.add("is-in"));
@@ -1150,7 +1576,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
       const last = el.listItems.length - 1;
 
       el.listItems.forEach((item, i) => {
-        const start = .33 + i * .08;
+        const start = .33 + i * .1;   // three lines, evenly spaced
         const enter = out(seg(pA, start, start + .05));
         const dim = i < last ? seg(pA, start + .08, start + .13) : 0; // dim once the next line arrives
 
@@ -1258,8 +1684,8 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
     function render() {
       ticking = false;
       const p = clamp(-section.getBoundingClientRect().top / view.scrollable);
-      const pA = clamp(p / .54);
-      const pB = seg(p, .46, .98);
+      const pA = clamp(p / .5);
+      const pB = seg(p, .42, .98);
 
       renderStatement(pA);
       renderWords(pA);
@@ -1347,6 +1773,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
      Boot
      ====================================================================== */
   initReveals();
+  initKitTabs();
   (function initHeroSwap() {
     const el = document.getElementById("hero-swap");
     if (!el || document.documentElement.classList.contains("motion") === false) return;

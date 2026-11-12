@@ -10,8 +10,11 @@ Double-click `index.html`, or upload the whole folder to any static host
 - `index.html`      Home page (hero, scroll story, projects, contact)
 - `groupbima.html`  GroupBima case study
 - `cardinal.html`   Cardinal case study
+- `jogger.html`     Jogger Sports case study
+- `transcript.html` Meeting Transcript app page (download in `assets/downloads/`)
+- `404.html`        "Page not found" page (Vercel shows it for any missing address)
 - `assets/`         Your images, plus shared files used by the pages:
-                    `case-study.css` / `case-study.js` (case-study layout, tabs,
+                    `case-study.css` / `case-study.js` (case-study layout,
                     count-up numbers, click-to-copy colours, demos and the
                     content visuals) and `music.js`
 

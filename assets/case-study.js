@@ -14,39 +14,6 @@
   root.classList.add("cs-ready");
 
   /* ------------------------------------------------------------------
-     Journey tabs
-     ------------------------------------------------------------------ */
-  $$("[data-tabs]").forEach(box => {
-    const tabs = $$('[role="tab"]', box);
-    const panels = tabs.map(t => document.getElementById(t.getAttribute("aria-controls")));
-
-    function select(index, focus) {
-      tabs.forEach((tab, i) => {
-        const on = i === index;
-        tab.setAttribute("aria-selected", String(on));
-        tab.tabIndex = on ? 0 : -1;
-        panels[i].hidden = !on;
-      });
-      if (focus) tabs[index].focus();
-    }
-
-    tabs.forEach((tab, i) => {
-      tab.addEventListener("click", () => select(i, false));
-      tab.addEventListener("keydown", e => {
-        const last = tabs.length - 1;
-        let next = null;
-        if (e.key === "ArrowRight") next = i === last ? 0 : i + 1;
-        else if (e.key === "ArrowLeft") next = i === 0 ? last : i - 1;
-        else if (e.key === "Home") next = 0;
-        else if (e.key === "End") next = last;
-        if (next !== null) { e.preventDefault(); select(next, true); }
-      });
-    });
-
-    select(0, false);
-  });
-
-  /* ------------------------------------------------------------------
      Count-up numbers (the final value is already in the markup)
      ------------------------------------------------------------------ */
   const counters = $$("[data-count]");

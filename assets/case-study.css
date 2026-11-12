@@ -169,33 +169,10 @@
 .glance dd { margin: 10px 0 0; max-width: 34ch; font-size: clamp(1.05rem, 1.4vw, 1.25rem); font-weight: 400; line-height: 1.5; }
 
 /* ==========================================================================
-   4. Journey tabs
-   One journey at a time instead of three long blocks of text.
+   4. Journeys — stacked one after another, a rule between each
    ========================================================================== */
-.tabs__list {
-  display: flex; flex-wrap: wrap; gap: 4px 8px;
-  border-bottom: 1px solid var(--hair);
-}
-.tabs__list button {
-  appearance: none; margin-bottom: -1px; padding: 14px 18px;
-  border: 0; border-bottom: 2px solid transparent; background: none;
-  color: inherit; font: inherit; font-size: 1.05rem; cursor: pointer;
-  opacity: .6; transition: opacity .25s ease, border-color .25s ease;
-}
-.tabs__list button:hover { opacity: .9; }
-.tabs__list button[aria-selected="true"] { opacity: 1; border-bottom-color: var(--ember); }
-.tabs__list button:focus-visible { outline: 2px solid var(--cream); outline-offset: -2px; }
-.tab__n { margin-right: 8px; font-size: .8rem; opacity: .7; font-variant-numeric: tabular-nums; }
-@media (max-width: 480px) {
-  .tab__n { display: none; }
-  .tabs__list button { padding: 14px 12px; }
-}
-
 .tabs__panel { padding-top: clamp(28px, 5vh, 48px); }
-.tabs__panel[hidden] { display: none; }
-.tabs__panel:focus-visible { outline: 2px solid var(--cream); outline-offset: 6px; }
-.motion .tabs__panel:not([hidden]) { animation: cs-rise .5s ease both; }
-@keyframes cs-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.tabs__panel + .tabs__panel { margin-top: clamp(48px, 9vh, 96px); border-top: 1px solid var(--hair); }
 
 .journey__goal {
   max-width: 40ch; margin-bottom: 28px;
@@ -475,13 +452,10 @@
    10. Final experience, outcome and reflection: alignment
    ========================================================================== */
 
-/* Journey tabs: the first tab's text starts exactly where the content below starts */
-.tabs__list button:first-child { padding-left: 0; }
 
 /* Journey panels: the intro and the key moves sit side by side, so both edges meet the
    page grid. Anything else in a panel (policy card, quote, screens) spans the full width. */
 .tabs__panel { display: grid; grid-template-columns: minmax(0, 1fr); }
-.tabs__panel[hidden] { display: none; }
 @media (min-width: 1000px) {
   .tabs__panel { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 4vw, 64px); align-items: start; }
   .tabs__panel > * { grid-column: 1 / -1; }
@@ -530,8 +504,6 @@
    match the rest of the chapters. The placeholder stays in view beside the longer text.
    ========================================================================== */
 .tabs--split .tabs__panel { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 32px; }
-.tabs--split .tabs__panel[hidden] { display: none; }
-
 .tabs--split .journey__text { display: grid; align-content: start; row-gap: 28px; }
 .tabs--split .journey__text > * { margin: 0; }
 
