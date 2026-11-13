@@ -1386,6 +1386,8 @@ a:is(.project, .itch):active { scale: .985; transition: scale 100ms ease-out; }
     const PARALLAX = [.012, .03, .06];                                 // px moved per px scrolled, by depth
     const story = document.getElementById("idea");
     const frameMs = 1000 / 30;                                         // 30fps is plenty for a slow twinkle
+    let scrolledAt = -1e9;                                             // stars follow the scroll, so draw every frame while it moves
+    window.addEventListener("scroll", () => { scrolledAt = performance.now(); }, { passive: true });
 
     let W = 0, H = 0, dpr = 1, stars = [], dim = 1, last = 0, rafId = 0;
 
@@ -1447,7 +1449,7 @@ a:is(.project, .itch):active { scale: .985; transition: scale 100ms ease-out; }
 
     function frame(now) {
       rafId = requestAnimationFrame(frame);
-      if (now - last < frameMs) return;
+      if (now - scrolledAt > 150 && now - last < frameMs) return;
       last = now;
       dim += (dimTarget() - dim) * .08;
       draw(now / 1000);
@@ -1704,9 +1706,15 @@ a:is(.project, .itch):active { scale: .985; transition: scale 100ms ease-out; }
 
     /* ---------- frame loop ---------- */
     let ticking = false;
+    let shown = null;                                   // progress on screen, eased toward the real scroll position
     function render() {
       ticking = false;
-      const p = clamp(-section.getBoundingClientRect().top / view.scrollable);
+      const target = clamp(-section.getBoundingClientRect().top / view.scrollable);
+      // follow the scroll smoothly; jump straight there after a long leap (e.g. a header link)
+      shown = shown === null || Math.abs(target - shown) > .25 ? target : shown + (target - shown) * .2;
+      if (Math.abs(target - shown) < .0005) shown = target;
+      else requestRender();                             // keep easing on the next frame
+      const p = shown;
       const pA = clamp(p / .5);
       const pB = seg(p, .42, .98);
 
