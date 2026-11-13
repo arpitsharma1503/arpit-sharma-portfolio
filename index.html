@@ -219,7 +219,8 @@ a:focus-visible { outline: 2px solid var(--cream); outline-offset: 4px; }
 .nav__links a { display: inline-flex; align-items: center; gap: 8px; opacity: .92; padding-block: 12px; margin-block: -12px; }   /* bigger tap area, same layout */
 .nav__links a:hover { opacity: 1; }
 .nav__links svg { width: 15px; height: 15px; flex: none; }
-@media (max-width: 599px) { .nav__extra { display: none !important; } }   /* phones: no room beside the name; the sections are a scroll away */
+@media (max-width: 899px) { .nav__extra { display: none !important; } }
+.nav__links a, .brand { white-space: nowrap; }   /* phones: no room beside the name; the sections are a scroll away */
 
 /* ==========================================================================
    5. Hero
@@ -524,7 +525,7 @@ a.project:is(:hover, :focus-visible)::after { border-color: var(--hair-strong); 
   .work .badge::before { width: 10px; height: 10px; }
 }
 
-/* Brain itch — each side project is a small app window: screenshot first, detail under it */
+/* Brain Itch — each side project is a small app window: screenshot first, detail under it */
 .itch__grid { display: grid; grid-template-columns: 1fr; gap: var(--grid-gap); }
 @media (min-width: 800px) { .itch__grid { grid-template-columns: 1fr 1fr; } }
 .itch {
@@ -581,10 +582,10 @@ a.itch:is(:hover, :focus-visible) .itch__media > img { transform: scale(1.03); }
   .itch__grid > .itch { scroll-snap-align: start; }
 }
 
-/* smaller placeholder folders for Claude skills */
+/* smaller placeholder folders for Claude Skills */
 .shelf { padding: 0 var(--edge) 8vh; }
 .shelf__lead { margin: 0 0 32px; max-width: none; text-wrap: balance; font-size: clamp(1rem, 1.35vw, 1.2rem); font-weight: 300; line-height: 1.5; opacity: .8; }
-/* Claude skills — compact tiles, like slash commands */
+/* Claude Skills — compact tiles, like slash commands */
 .skill__cmd { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: .75rem; letter-spacing: .04em; }
 .skill__cmd code { padding: 4px 9px; border-radius: 7px; background: rgba(var(--ink-rgb), .08); color: var(--ember); font: 600 .8rem/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; }
 .skill__cmd span { opacity: .6; }
@@ -596,7 +597,15 @@ a.itch:is(:hover, :focus-visible) .itch__media > img { transform: scale(1.03); }
 .kit__bar .kit__tabs { flex: 1; min-width: 0; margin: 0; }
 .kit__bar .kit__all { flex: none; padding: 9px 16px; font-size: .85rem; }
 @media (max-width: 699px) { .kit__bar { flex-direction: column; align-items: stretch; } .kit__bar .kit__all { align-self: flex-start; } }
-.kit > .skill__how { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--hair); }
+.kit > .skill__how { margin-top: 18px; padding-top: 0; border-top: 0; }
+/* light mode: cards sit on the cream page as clean white surfaces, not a grey mix */
+:root[data-theme="light"] .project { --folder: #fffdf9; }
+:root[data-theme="light"] :is(.project, .itch, .kit__list li) { border-color: rgba(28, 15, 30, .1); box-shadow: 0 1px 2px rgba(28, 15, 30, .04), 0 10px 30px -12px rgba(28, 15, 30, .14); }
+:root[data-theme="light"] :is(.itch, .kit__list li) { background: #fffdf9; }
+:root[data-theme="light"] .itch__bar { background: #f6f1e7; }
+:root[data-theme="light"] .kit__list li:hover { border-color: rgba(28, 15, 30, .28); }
+:root[data-theme="light"] .itch__chips li { border-color: rgba(28, 15, 30, .14); background: #f8f3ea; }
+:root[data-theme="light"] a.project:is(:hover, :focus-visible), :root[data-theme="light"] a.itch:is(:hover, :focus-visible) { box-shadow: 0 2px 4px rgba(28, 15, 30, .05), 0 18px 40px -14px rgba(28, 15, 30, .22); }
 /* library tabs: one category at a time */
 .kit__tabs { display: flex; gap: 6px; margin: 18px 0 0; overflow-x: auto; scrollbar-width: none; }
 .kit__tabs::-webkit-scrollbar { display: none; }
@@ -610,12 +619,12 @@ a.itch:is(:hover, :focus-visible) .itch__media > img { transform: scale(1.03); }
 .kit__panel .kit__list { margin-top: 12px; }
 .kit__cat { display: inline-flex; align-items: center; gap: 6px; font-size: .85rem; font-weight: 600; color: var(--ember); }
 .kit__cat:hover { text-decoration: underline; text-underline-offset: 3px; }
-.kit { margin-top: var(--grid-gap); padding: clamp(16px, 1.8vw, 24px); border: 1px solid var(--hair); border-radius: 14px; background: color-mix(in srgb, var(--bg) 94%, var(--cream)); }
+.kit { margin-top: 4px; }   /* no outer box: tabs and skill cards sit straight on the page */
 .kit__all { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 999px; background: var(--ember); color: #fff; font-weight: 600; font-size: .92rem; white-space: nowrap; transition: filter .25s ease; }
 .kit__all:hover { filter: brightness(1.08); }
-.kit__list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; margin: 18px 0 0; padding: 0; list-style: none; }
+.kit__list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--grid-gap); margin: 18px 0 0; padding: 0; list-style: none; }
 @media (min-width: 1100px) { .kit__list { grid-template-columns: repeat(3, 1fr); } }   /* 9 skills = three even rows */
-.kit__list li { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 12px 14px; border: 1px solid transparent; border-radius: 10px; background: rgba(var(--ink-rgb), .05); transition: border-color .25s ease; }
+.kit__list li { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 16px 18px; border: 1px solid var(--hair); border-radius: 14px; background: color-mix(in srgb, var(--bg) 94%, var(--cream)); transition: border-color .25s ease; }
 .kit__list li:hover { border-color: var(--hair-strong); }
 .kit__list li > div { display: grid; gap: 4px; min-width: 0; }
 .kit__list code { justify-self: start; color: var(--ember); font: 600 .72rem/1.3 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
@@ -640,7 +649,7 @@ a.itch:is(:hover, :focus-visible) .itch__media > img { transform: scale(1.03); }
 .skill__how code { padding: 1px 5px; border-radius: 5px; background: rgba(var(--ink-rgb), .08); font-size: .8em; overflow-wrap: anywhere; }
 
 /* ==========================================================================
-   9b. Side quest — the arcade game (logic in assets/game.js)
+   9b. Side Quest — the arcade game (logic in assets/game.js)
    The panel is a small dark "cabinet" in both themes, so it pins the dark
    tokens for everything inside it.
    ========================================================================== */
@@ -837,7 +846,11 @@ a:is(.project, .itch):active { scale: .985; transition: scale 100ms ease-out; }
     </a>
     <a class="nav__extra" href="#skills">
       <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.6 4.4L14 7.5l-4.4 1.6L8 13.5 6.4 9.1 2 7.5l4.4-1.6z" fill="#a896ff"/></svg>
-      Skills
+      Claude Skills
+    </a>
+    <a class="nav__extra" href="#brain-itch">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5a4.5 4.5 0 0 0-2.6 8.2V11.5h5.2V9.7A4.5 4.5 0 0 0 8 1.5zM6 13h4v1.5H6z" fill="#f2c94c"/></svg>
+      Brain Itch
     </a>
     <a href="#contact">
       <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="2" fill="#e5322d"/><path d="M3 5l5 3.5L13 5" stroke="#fff" stroke-width="1.2" fill="none"/></svg>
@@ -866,7 +879,7 @@ a:is(.project, .itch):active { scale: .985; transition: scale 100ms ease-out; }
   <section class="idea" id="idea" aria-labelledby="idea-statement">
     <div class="idea__stage">
       <div class="idea__glow" aria-hidden="true"></div>
-      <p class="idea__tag">01 — The idea</p>
+      <p class="idea__tag">01 — The Idea</p>
       <div class="idea__words" aria-hidden="true"></div>
       <svg class="idea__graph" aria-hidden="true"></svg>
 
@@ -897,14 +910,24 @@ a:is(.project, .itch):active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 02 — The work -->
   <section class="work" id="work" aria-label="Selected work">
-    <p class="chapter reveal">02 — The work</p>
+    <p class="chapter reveal">02 — The Work</p>
     <h2 class="work__title display reveal">A few things I’ve made <span class="script">simple.</span></h2>
 
     <div class="work__grid folders">
+      <a class="project reveal" href="jogger.html">
+        <div class="project__top">
+          <span class="project__index">01</span>
+        </div>
+        <div class="project__body">
+          <h3 class="project__title">Jogger Sports</h3>
+          <p class="project__story">A premium activewear brand, made <span class="script">simple</span> to believe in.</p>
+        </div>
+        <span class="project__cta">View Project</span>
+      </a>
       <!-- Under NDA: no link, no "View project" -->
       <article class="project project--nda reveal">
         <div class="project__top">
-          <span class="project__index">01</span>
+          <span class="project__index">02</span>
           <span class="badge" title="Covered by a non-disclosure agreement">NDA</span>
         </div>
         <div class="project__body">
@@ -915,7 +938,7 @@ a:is(.project, .itch):active { scale: .985; transition: scale 100ms ease-out; }
 
       <article class="project project--nda reveal">
         <div class="project__top">
-          <span class="project__index">02</span>
+          <span class="project__index">03</span>
           <span class="badge" title="Covered by a non-disclosure agreement">NDA</span>
         </div>
         <div class="project__body">
@@ -926,53 +949,43 @@ a:is(.project, .itch):active { scale: .985; transition: scale 100ms ease-out; }
 
       <a class="project reveal" href="groupbima.html">
         <div class="project__top">
-          <span class="project__index">03</span>
+          <span class="project__index">04</span>
         </div>
         <div class="project__body">
           <h3 class="project__title">GroupBima</h3>
           <p class="project__story">From insurance overload to <span class="script">simple</span> choices.</p>
         </div>
-        <span class="project__cta">View project</span>
+        <span class="project__cta">View Project</span>
       </a>
 
       <a class="project reveal" href="cardinal.html">
         <div class="project__top">
-          <span class="project__index">04</span>
+          <span class="project__index">05</span>
         </div>
         <div class="project__body">
           <h3 class="project__title">Cardinal</h3>
           <p class="project__story">From hundreds of credit cards to one <span class="script">simple</span> recommendation.</p>
         </div>
-        <span class="project__cta">View project</span>
+        <span class="project__cta">View Project</span>
       </a>
 
       <a class="project reveal" href="vedvasan.html">
         <div class="project__top">
-          <span class="project__index">05</span>
+          <span class="project__index">06</span>
         </div>
         <div class="project__body">
           <h3 class="project__title">Ved Vasan</h3>
           <p class="project__story">Blending Indian heritage with a <span class="script">simple,</span> modern identity.</p>
         </div>
-        <span class="project__cta">View project</span>
+        <span class="project__cta">View Project</span>
       </a>
 
-      <a class="project reveal" href="jogger.html">
-        <div class="project__top">
-          <span class="project__index">06</span>
-        </div>
-        <div class="project__body">
-          <h3 class="project__title">Jogger Sports</h3>
-          <p class="project__story">A premium activewear brand, made <span class="script">simple</span> to believe in.</p>
-        </div>
-        <span class="project__cta">View project</span>
-      </a>
     </div>
   </section>
 
   <!-- ░░ CLAUDE SKILLS — skill library with category tabs ░░ -->
   <section class="shelf" id="skills" aria-labelledby="skills-title">
-    <p class="chapter reveal" id="skills-title">03 — Claude skills</p>
+    <p class="chapter reveal" id="skills-title">03 — Claude Skills</p>
     <p class="shelf__lead reveal">Skills I made to teach Claude how I work, so it does the job my way every time.</p>
     <div class="kit reveal">
       <div class="kit__bar">
@@ -983,7 +996,7 @@ a:is(.project, .itch):active { scale: .985; transition: scale 100ms ease-out; }
         <button type="button" role="tab" id="kt-ux-research" aria-controls="kp-ux-research" aria-selected="false" tabindex="-1">UX Research <small>5</small></button>
         <button type="button" role="tab" id="kt-ux-writing" aria-controls="kp-ux-writing" aria-selected="false" tabindex="-1">UX Writing <small>7</small></button>
       </div>
-        <a class="kit__all" href="assets/skills/all-skills.zip" download>Download all 35 <span aria-hidden="true">↓</span></a>
+        <a class="kit__all" href="assets/skills/all-skills.zip" download>Download All 35 <span aria-hidden="true">↓</span></a>
       </div>
       <div class="kit__panel" role="tabpanel" id="kp-prd" aria-labelledby="kt-prd">
         <ul class="kit__list">
@@ -994,7 +1007,7 @@ a:is(.project, .itch):active { scale: .985; transition: scale 100ms ease-out; }
         </ul>
       </div>
       <div class="kit__panel" role="tabpanel" id="kp-product-design" aria-labelledby="kt-product-design" hidden>
-        <a class="kit__cat" href="assets/skills/product-design.zip" download>Download all 9 Product Design skills <span aria-hidden="true">↓</span></a>
+        <a class="kit__cat" href="assets/skills/product-design.zip" download>Download All 9 Product Design Skills <span aria-hidden="true">↓</span></a>
         <ul class="kit__list">
           <li>
             <div><code>/product-designer-insights</code><b>Product Designer Insights</b><span>Turns PRDs, research and feedback into traceable design insights, each linked to its source.</span></div>
@@ -1035,7 +1048,7 @@ a:is(.project, .itch):active { scale: .985; transition: scale 100ms ease-out; }
         </ul>
       </div>
       <div class="kit__panel" role="tabpanel" id="kp-design-systems" aria-labelledby="kt-design-systems" hidden>
-        <a class="kit__cat" href="assets/skills/design-systems.zip" download>Download all 13 Design Systems skills <span aria-hidden="true">↓</span></a>
+        <a class="kit__cat" href="assets/skills/design-systems.zip" download>Download All 13 Design Systems Skills <span aria-hidden="true">↓</span></a>
         <ul class="kit__list">
           <li>
             <div><code>/visual-review</code><b>Visual Review</b><span>Finds broken components, missing tokens, style overrides and spacing issues, then suggests fixes.</span></div>
@@ -1092,7 +1105,7 @@ a:is(.project, .itch):active { scale: .985; transition: scale 100ms ease-out; }
         </ul>
       </div>
       <div class="kit__panel" role="tabpanel" id="kp-ux-research" aria-labelledby="kt-ux-research" hidden>
-        <a class="kit__cat" href="assets/skills/ux-research.zip" download>Download all 5 UX Research skills <span aria-hidden="true">↓</span></a>
+        <a class="kit__cat" href="assets/skills/ux-research.zip" download>Download All 5 UX Research Skills <span aria-hidden="true">↓</span></a>
         <ul class="kit__list">
           <li>
             <div><code>/feature-request-insights</code><b>Feature Request Insights</b><span>Turns raw customer feature requests into patterns, friction points and prioritised needs.</span></div>
@@ -1117,7 +1130,7 @@ a:is(.project, .itch):active { scale: .985; transition: scale 100ms ease-out; }
         </ul>
       </div>
       <div class="kit__panel" role="tabpanel" id="kp-ux-writing" aria-labelledby="kt-ux-writing" hidden>
-        <a class="kit__cat" href="assets/skills/ux-writing.zip" download>Download all 7 UX Writing skills <span aria-hidden="true">↓</span></a>
+        <a class="kit__cat" href="assets/skills/ux-writing.zip" download>Download All 7 UX Writing Skills <span aria-hidden="true">↓</span></a>
         <ul class="kit__list">
           <li>
             <div><code>/ux-copy-first-drafts</code><b>UX Copy First Drafts</b><span>Writes first drafts of UI copy with before/after examples and reasons.</span></div>
@@ -1150,7 +1163,7 @@ a:is(.project, .itch):active { scale: .985; transition: scale 100ms ease-out; }
         </ul>
       </div>
       <details class="skill__how">
-            <summary>How to use it</summary>
+            <summary>How to Use It</summary>
             <ol>
               <li>Download everything, one category, or one skill with its <b>.zip ↓</b> button.</li>
               <li><b>Claude Code:</b> unzip the skill folders into <code>~/.claude/skills/</code>.<br><b>Claude app:</b> upload a single skill’s zip in Settings › Skills.</li>
@@ -1162,51 +1175,52 @@ a:is(.project, .itch):active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- ░░ BRAIN ITCH — side projects, shown as small app windows ░░ -->
   <section class="shelf" id="brain-itch" aria-labelledby="brain-itch-title">
-    <p class="chapter reveal" id="brain-itch-title">04 — Brain itch</p>
+    <p class="chapter reveal" id="brain-itch-title">04 — Brain Itch</p>
     <p class="shelf__lead reveal">Side projects I build when an idea won’t leave me alone.</p>
     <div class="itch__grid folders">
-      <a class="itch reveal" href="transcript.html">
-        <div class="itch__window"><span class="itch__bar" aria-hidden="true"><i></i><i></i><i></i><small>Meeting Transcript — macOS</small></span>
+      <a class="itch reveal" href="https://transcript-iota-three.vercel.app/" target="_blank" rel="noopener">
+        <div class="itch__window"><span class="itch__bar" aria-hidden="true"><i></i><i></i><i></i><small>transcript-iota-three.vercel.app</small></span>
           <div class="itch__media"><span class="itch__app"><img src="assets/images/brain-itch/transcript-icon.webp" width="80" height="80" loading="lazy" decoding="async" alt=""><span class="itch__lines" aria-hidden="true"><b>00:02</b> Speaker A — Let’s lock the sprint scope.<br><b>00:07</b> You — I’ll share the new flow.<br><b>00:12</b> Speaker B — QA starts Monday.</span></span></div></div>
         <div class="itch__body">
-          <p class="itch__kind">macOS app · Menu bar</p>
+          <p class="itch__kind">macOS App · Menu Bar</p>
           <h3 class="itch__title">Meeting Transcript</h3>
           <p class="itch__text">Notices when a Zoom, Teams or Meet call starts and writes a live, timestamped transcript. It runs on your Mac, keeps other people anonymous, and gives your AI agent what it needs for to-dos and minutes.</p>
           <ul class="itch__chips"><li>On-device Whisper</li><li>Anonymous speakers</li><li>Export to MD, SRT, PDF</li></ul>
-          <span class="itch__cta">Know more →</span>
+          <span class="itch__cta">Open Live ↗</span>
         </div>
       </a>
       <a class="itch reveal" href="https://lapposter.vercel.app/" target="_blank" rel="noopener">
         <div class="itch__window"><span class="itch__bar" aria-hidden="true"><i></i><i></i><i></i><small>lapposter.vercel.app</small></span>
           <div class="itch__media"><img src="assets/images/brain-itch/lapposter.webp" width="800" height="499" loading="lazy" decoding="async" alt="Lapposter editor: a list of race circuits on the left, a cream poster of the Interlagos circuit over a street map in the middle, and effect and style options on the right"></div></div>
         <div class="itch__body">
-          <p class="itch__kind">Web app · Poster maker</p>
+          <p class="itch__kind">Web App · Poster Maker</p>
           <h3 class="itch__title">Lapposter</h3>
           <p class="itch__text">Pick any of 103 race circuits, lay the track over a real map, choose an effect, style and format, then export a poster ready to print and frame.</p>
           <ul class="itch__chips"><li>103 circuits</li><li>Map + track styles</li><li>Print export</li></ul>
-          <span class="itch__cta">Open live ↗</span>
+          <span class="itch__cta">Open Live ↗</span>
         </div>
       </a>
-      <article class="itch reveal">
+      <a class="itch reveal" href="aura.html">
         <div class="itch__window"><span class="itch__bar" aria-hidden="true"><i></i><i></i><i></i><small>aura.local</small></span>
-          <div class="itch__media"><img src="assets/images/brain-itch/aura.webp" width="1200" height="649" loading="lazy" decoding="async" alt="AURA home screen: time and date, weather with a five-day forecast, best time to leave for the office, today’s meals, a grocery list with a QR code, calendar, voice assistant and smart home cards"></div></div>
+          <div class="itch__media"><img src="assets/images/aura/home.webp" width="2000" height="1079" loading="lazy" decoding="async" alt="AURA home screen: time and date, weather with a five-day forecast, best time to leave for the office, today’s meals, a grocery list with a QR code, calendar, voice assistant and smart home cards"></div></div>
         <div class="itch__body">
-          <p class="itch__kind">Raspberry Pi · Home dashboard</p>
+          <p class="itch__kind">Raspberry Pi · Home Dashboard</p>
           <h3 class="itch__title">AURA</h3>
           <p class="itch__text">A calm home screen that runs on a Raspberry Pi. Weather, commute, meals, groceries, calendar and smart home on one glanceable page, plus a “Hey Aura” voice assistant.</p>
           <ul class="itch__chips"><li>Raspberry Pi</li><li>Home Assistant</li><li>Voice</li></ul>
+          <span class="itch__cta">View Project →</span>
           
         </div>
-      </article>
+      </a>
       <a class="itch reveal" href="https://india-defender.vercel.app/" target="_blank" rel="noopener">
         <div class="itch__window"><span class="itch__bar" aria-hidden="true"><i></i><i></i><i></i><small>india-defender.vercel.app</small></span>
           <div class="itch__media"><img src="assets/images/brain-itch/india-defender.webp" width="800" height="499" loading="lazy" decoding="async" alt="India Defender start screen: a pixel-art title in saffron, white and green over a night city skyline, with Easy, Medium and Pro mission cards and a Start Mission button"></div></div>
         <div class="itch__body">
-          <p class="itch__kind">Browser game · Pixel art</p>
+          <p class="itch__kind">Browser Game · Pixel Art</p>
           <h3 class="itch__title">India Defender</h3>
           <p class="itch__text">A pixel-art arcade defence game. Guard the nation’s infrastructure over four levels, use three special abilities and take on the Shadow Commander. Plays with keys or touch.</p>
           <ul class="itch__chips"><li>3 difficulty modes</li><li>4 levels</li><li>Keyboard + touch</li></ul>
-          <span class="itch__cta">Open live ↗</span>
+          <span class="itch__cta">Open Live ↗</span>
         </div>
       </a>
     </div>
@@ -1214,7 +1228,7 @@ a:is(.project, .itch):active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- ░░ SIDE QUEST — a small arcade game (assets/game.js) ░░ -->
   <section class="arcade" id="arcade" aria-labelledby="arcade-title">
-    <p class="chapter reveal">05 — Side quest — Arcade mode</p>
+    <p class="chapter reveal">05 — Side Quest — Arcade Mode</p>
     <h2 class="arcade__title display reveal" id="arcade-title">Take a break.<br>Save the <span class="script">galaxy.</span></h2>
     <p class="arcade__sub reveal">A little side quest between projects. How long can you survive?</p>
 
@@ -1799,7 +1813,6 @@ a:is(.project, .itch):active { scale: .985; transition: scale 100ms ease-out; }
 </script>
 <script src="assets/game.js" defer></script>
 <script src="assets/theme.js" defer></script>
-<script src="assets/music.js" defer></script>
 <!-- Vercel Web Analytics: page views only, no cookies. The script is served by Vercel
      itself, so it only loads on the deployed site (it is a harmless 404 when run locally). -->
 <script>

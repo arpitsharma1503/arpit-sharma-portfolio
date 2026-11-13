@@ -194,7 +194,8 @@ ul, ol { padding: 0; list-style: none; }
 .nav__links a { display: inline-flex; align-items: center; gap: 8px; opacity: .92; padding-block: 12px; margin-block: -12px; }   /* bigger tap area, same layout */
 .nav__links a:hover { opacity: 1; }
 .nav__links svg { width: 15px; height: 15px; flex: none; }
-@media (max-width: 599px) { .nav__extra { display: none !important; } }   /* phones: no room beside the name; the sections are a scroll away */
+@media (max-width: 899px) { .nav__extra { display: none !important; } }
+.nav__links a, .brand { white-space: nowrap; }   /* phones: no room beside the name; the sections are a scroll away */
 
 /* ==========================================================================
    4. Hero
@@ -502,7 +503,11 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
     </a>
     <a class="nav__extra" href="index.html#skills">
       <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.6 4.4L14 7.5l-4.4 1.6L8 13.5 6.4 9.1 2 7.5l4.4-1.6z" fill="#a896ff"/></svg>
-      Skills
+      Claude Skills
+    </a>
+    <a class="nav__extra" href="index.html#brain-itch">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5a4.5 4.5 0 0 0-2.6 8.2V11.5h5.2V9.7A4.5 4.5 0 0 0 8 1.5zM6 13h4v1.5H6z" fill="#f2c94c"/></svg>
+      Brain Itch
     </a>
     <a href="#contact">
       <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="2" fill="#e5322d"/><path d="M3 5l5 3.5L13 5" stroke="#fff" stroke-width="1.2" fill="none"/></svg>
@@ -544,11 +549,11 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
   </header>
 
   <section class="chap chap--glance" aria-labelledby="t-glance">
-    <p class="chapter reveal"><span class="chapter__n">00</span> <span class="chapter__t" id="t-glance">At a glance</span></p>
+    <p class="chapter reveal"><span class="chapter__n">00</span> <span class="chapter__t" id="t-glance">At a Glance</span></p>
     <dl class="glance">
-    <div><dt>The challenge</dt><dd>Most people carried several cards and almost none knew which to use where, leaving real money on the table at every checkout.</dd></div>
-    <div><dt>What I did</dt><dd>Researched the market and competitors, observed three behavioral archetypes, and designed a privacy-first, location-aware offers app — solo.</dd></div>
-    <div><dt>Where it landed</dt><dd>A concept and prototype that answers “which of my cards gives the best deal here?” in under three taps.</dd></div>
+    <div><dt>The Challenge</dt><dd>Most people carried several cards and almost none knew which to use where, leaving real money on the table at every checkout.</dd></div>
+    <div><dt>What I Did</dt><dd>Researched the market and competitors, observed three behavioral archetypes, and designed a privacy-first, location-aware offers app — solo.</dd></div>
+    <div><dt>Where It Landed</dt><dd>A concept and prototype that answers “which of my cards gives the best deal here?” in under three taps.</dd></div>
   </dl>
   </section>
 
@@ -582,7 +587,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
       <li class="stat"><strong><span aria-hidden="true" data-count="60" data-suffix="%">60%</span><span class="sr-only">60%</span></strong><span>believe payments will be cashless</span><i class="waffle" style="--pct:60%" aria-hidden="true"></i></li>
     </ul>
 
-    <p class="note"><b>So what?</b>The market was enormous and growing cashless — but the UX layer between cardholders and their benefits was completely broken. A genuine product gap, not a marginal improvement.</p>
+    <p class="note"><b>So What?</b>The market was enormous and growing cashless — but the UX layer between cardholders and their benefits was completely broken. A genuine product gap, not a marginal improvement.</p>
   </section>
 
   <!-- 02 — Research -->
@@ -605,7 +610,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
       <div class="card"><p>Category-based browsing (food, travel, groceries) was rare; most used bank-centric navigation</p></div>
       <div class="card"><p>None designed for the moment of purchase — the 5 seconds before you tap</p></div>
     </div>
-    <p class="note"><b>So what?</b>The competitive white space wasn’t in features — it was in framing. Cardinal could win by being radically simpler and privacy-respecting.</p>
+    <p class="note"><b>So What?</b>The competitive white space wasn’t in features — it was in framing. Cardinal could win by being radically simpler and privacy-respecting.</p>
 
     <h3 class="sub">User observations — three behavioral archetypes</h3>
     <div data-stagger class="grid grid--3" style="margin-top:0">
@@ -613,12 +618,12 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
       <div class="card"><h4>The Frustrated Optimizer</h4><p>Knows their cards have offers. Spends mental energy remembering which is which. Gets it wrong regularly. Mildly resentful of banks.</p></div>
       <div class="card"><h4>The Lapsed Chaser</h4><p>Downloaded 2–3 bank apps. Got overwhelmed. Now ignores all of them. Has mentally given up despite wanting to optimize.</p></div>
     </div>
-    <p class="note"><b>Key finding</b>Users didn’t want to manage their cards. They wanted to use them better — with minimal overhead at the moment of decision. The product had to intercept users before they paid, not review data after.</p>
+    <p class="note"><b>Key Finding</b>Users didn’t want to manage their cards. They wanted to use them better — with minimal overhead at the moment of decision. The product had to intercept users before they paid, not review data after.</p>
   </section>
 
   <!-- 03 — Key insights -->
   <section class="chap" aria-labelledby="t-insights">
-    <p class="chapter reveal"><span class="chapter__n">03</span> <span class="chapter__t">Key insights</span></p>
+    <p class="chapter reveal"><span class="chapter__n">03</span> <span class="chapter__t">Key Insights</span></p>
     <h2 class="chap__title reveal" id="t-insights">What the research actually told us.</h2>
 
     <figure class="viz viz-time" data-viz>
@@ -639,7 +644,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 04 — Product strategy -->
   <section class="chap" aria-labelledby="t-strategy">
-    <p class="chapter reveal"><span class="chapter__n">04</span> <span class="chapter__t">Product strategy</span></p>
+    <p class="chapter reveal"><span class="chapter__n">04</span> <span class="chapter__t">Product Strategy</span></p>
     <h2 class="chap__title reveal" id="t-strategy">Four principles that drove every design decision.</h2>
 
     <div class="principles" style="margin-top:0">
@@ -684,7 +689,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 05 — Information architecture -->
   <section class="chap" aria-labelledby="t-ia">
-    <p class="chapter reveal"><span class="chapter__n">05</span> <span class="chapter__t">Information architecture</span></p>
+    <p class="chapter reveal"><span class="chapter__n">05</span> <span class="chapter__t">Information Architecture</span></p>
     <h2 class="chap__title reveal" id="t-ia">One clear path, five destinations.</h2>
 
     <div class="prose">
@@ -737,7 +742,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 06 — Design exploration -->
   <section class="chap" aria-labelledby="t-explore">
-    <p class="chapter reveal"><span class="chapter__n">06</span> <span class="chapter__t">Design exploration</span></p>
+    <p class="chapter reveal"><span class="chapter__n">06</span> <span class="chapter__t">Design Exploration</span></p>
     <h2 class="chap__title reveal" id="t-explore">Building a brand that felt premium, not predatory.</h2>
 
     <h3 class="sub" style="margin-top:0">Brand identity</h3>
@@ -778,7 +783,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 07 — Design system -->
   <section class="chap" aria-labelledby="t-system">
-    <p class="chapter reveal"><span class="chapter__n">07</span> <span class="chapter__t">Design system</span></p>
+    <p class="chapter reveal"><span class="chapter__n">07</span> <span class="chapter__t">Design System</span></p>
     <h2 class="chap__title reveal" id="t-system">A system built for speed, legibility, and trust.</h2>
 
     <ul data-stagger class="tokens" aria-label="Colour tokens">
@@ -838,15 +843,15 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 08 — Final experience -->
   <section class="chap" aria-labelledby="t-final">
-    <p class="chapter reveal"><span class="chapter__n">08</span> <span class="chapter__t">Final experience</span></p>
+    <p class="chapter reveal"><span class="chapter__n">08</span> <span class="chapter__t">Final Experience</span></p>
     <h2 class="chap__title reveal" id="t-final">Three journeys. One product.</h2>
 
     <div class="tabs">
       <article class="tabs__panel" id="panel-j1">
-        <div class="journey__intro"><p class="journey__label">Journey 1 — First-time onboarding</p>
+        <div class="journey__intro"><p class="journey__label">Journey 1 — First-Time Onboarding</p>
         <h3 class="journey__title">Zero to first offer in under 60 seconds</h3>
         <p class="journey__goal">Fintech onboarding is historically the most abandoned stage — users expect friction, forms, card linking, KYC.</p></div>
-        <div class="journey__moves"><p class="moves__label">Key moves</p>
+        <div class="journey__moves"><p class="moves__label">Key Moves</p>
         <ul class="moves">
           <li>Cardinal stripped it to two moments: understand the value, and tell us which cards you carry</li>
           <li>Four illustration-led walkthrough screens tell a story — discover, organize, find nearby, stay safe</li>
@@ -879,10 +884,10 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
         </figure>
       </article>
       <article class="tabs__panel" id="panel-j2">
-        <div class="journey__intro"><p class="journey__label">Journey 2 — Home: personalized offers</p>
+        <div class="journey__intro"><p class="journey__label">Journey 2 — Home: Personalized Offers</p>
         <h3 class="journey__title">The right offer within 3 seconds of opening</h3>
         <p class="journey__goal">Generic feeds create noise, not value — if the first offer isn’t relevant, users never reach the second.</p></div>
-        <div class="journey__moves"><p class="moves__label">Key moves</p>
+        <div class="journey__moves"><p class="moves__label">Key Moves</p>
         <ul class="moves">
           <li>The card-attributed feed, titled “Offers For You,” tied every offer to a specific card the user added</li>
           <li>Each card showed merchant, discount value, and which card it applied to — transforming abstract bank offers into personal value</li>
@@ -894,10 +899,10 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
         </figure>
       </article>
       <article class="tabs__panel" id="panel-j3">
-        <div class="journey__intro"><p class="journey__label">Journey 3 — Nearby: offers in the real world</p>
+        <div class="journey__intro"><p class="journey__label">Journey 3 — Nearby: Offers in the Real World</p>
         <h3 class="journey__title">“What can I save on, right here, right now?” in two taps</h3>
         <p class="journey__goal">The Nearby tab loaded with location pre-set, map view visible, and offer pins already populated — no “search first” friction.</p></div>
-        <div class="journey__moves"><p class="moves__label">Key moves</p>
+        <div class="journey__moves"><p class="moves__label">Key Moves</p>
         <ul class="moves">
           <li>A map-first layout matched how people navigate physically, with a scannable list below for those who prefer it</li>
           <li>Broad category filters covered daily and occasional spend</li>
@@ -1037,7 +1042,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- More work -->
   <aside class="next" aria-label="Next project">
-    <p class="next__label">Next up</p>
+    <p class="next__label">Next Up</p>
     <a class="next__link" href="vedvasan.html">
       <span class="next__title">Ved Vasan</span>
     </a>
@@ -1169,7 +1174,6 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 </script>
 <script src="assets/case-study.js" defer></script>
 <script src="assets/theme.js" defer></script>
-<script src="assets/music.js" defer></script>
 <!-- Vercel Web Analytics: page views only, no cookies. The script is served by Vercel
      itself, so it only loads on the deployed site (it is a harmless 404 when run locally). -->
 <script>

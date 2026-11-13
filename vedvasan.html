@@ -194,7 +194,8 @@ ul, ol { padding: 0; list-style: none; }
 .nav__links a { display: inline-flex; align-items: center; gap: 8px; opacity: .92; padding-block: 12px; margin-block: -12px; }   /* bigger tap area, same layout */
 .nav__links a:hover { opacity: 1; }
 .nav__links svg { width: 15px; height: 15px; flex: none; }
-@media (max-width: 599px) { .nav__extra { display: none !important; } }   /* phones: no room beside the name; the sections are a scroll away */
+@media (max-width: 899px) { .nav__extra { display: none !important; } }
+.nav__links a, .brand { white-space: nowrap; }   /* phones: no room beside the name; the sections are a scroll away */
 
 /* ==========================================================================
    4. Hero
@@ -516,7 +517,11 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
     </a>
     <a class="nav__extra" href="index.html#skills">
       <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.6 4.4L14 7.5l-4.4 1.6L8 13.5 6.4 9.1 2 7.5l4.4-1.6z" fill="#a896ff"/></svg>
-      Skills
+      Claude Skills
+    </a>
+    <a class="nav__extra" href="index.html#brain-itch">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5a4.5 4.5 0 0 0-2.6 8.2V11.5h5.2V9.7A4.5 4.5 0 0 0 8 1.5zM6 13h4v1.5H6z" fill="#f2c94c"/></svg>
+      Brain Itch
     </a>
     <a href="#contact">
       <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="2" fill="#e5322d"/><path d="M3 5l5 3.5L13 5" stroke="#fff" stroke-width="1.2" fill="none"/></svg>
@@ -558,16 +563,16 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
     <div class="vv-hero-logo"><img src="assets/images/vedvasan/hero-logo-white.svg" alt="Ved Vasan logo"></div>
 
   <section class="chap chap--glance" aria-labelledby="t-glance">
-    <p class="chapter reveal"><span class="chapter__n">00</span> <span class="chapter__t" id="t-glance">At a glance</span></p>
+    <p class="chapter reveal"><span class="chapter__n">00</span> <span class="chapter__t" id="t-glance">At a Glance</span></p>
     <dl class="glance">
-      <div><dt>The brief</dt><dd>Give a new mid-segment clothing label a face that honours Indian textile heritage without looking dated.</dd></div>
-      <div><dt>What I did</dt><dd>Shaped the brand story and voice, then designed the mark, logo, type, colour, pattern and everyday touchpoints.</dd></div>
-      <div><dt>Where it landed</dt><dd>A complete brand system that stays simple enough to sit on a hang tag, a paper bag or an Instagram post.</dd></div>
+      <div><dt>The Brief</dt><dd>Give a new mid-segment clothing label a face that honours Indian textile heritage without looking dated.</dd></div>
+      <div><dt>What I Did</dt><dd>Shaped the brand story and voice, then designed the mark, logo, type, colour, pattern and everyday touchpoints.</dd></div>
+      <div><dt>Where It Landed</dt><dd>A complete brand system that stays simple enough to sit on a hang tag, a paper bag or an Instagram post.</dd></div>
     </dl>
   </section>
 
   <section class="chap" aria-labelledby="t-brief">
-    <p class="chapter reveal"><span class="chapter__n">01</span> <span class="chapter__t">The brand</span></p>
+    <p class="chapter reveal"><span class="chapter__n">01</span> <span class="chapter__t">The Brand</span></p>
     <h2 class="chap__title reveal" id="t-brief">Tradition and modern style, without choosing between them.</h2>
 
     <div class="prose">
@@ -594,7 +599,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
   </section>
 
   <section class="chap" aria-labelledby="t-voice">
-    <p class="chapter reveal"><span class="chapter__n">02</span> <span class="chapter__t">Verbal identity</span></p>
+    <p class="chapter reveal"><span class="chapter__n">02</span> <span class="chapter__t">Verbal Identity</span></p>
     <h2 class="chap__title reveal" id="t-voice">A voice as warm as the fabric.</h2>
 
     <div class="prose">
@@ -623,7 +628,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
   </section>
 
   <section class="chap" aria-labelledby="t-mark">
-    <p class="chapter reveal"><span class="chapter__n">03</span> <span class="chapter__t">Visual identity</span></p>
+    <p class="chapter reveal"><span class="chapter__n">03</span> <span class="chapter__t">Visual Identity</span></p>
     <h2 class="chap__title reveal" id="t-mark">A V that grows like a plant.</h2>
 
     <h3 class="sub" style="margin-top:0">Logo</h3>
@@ -673,7 +678,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
   </section>
 
   <section class="chap" aria-labelledby="t-mockups">
-    <p class="chapter reveal"><span class="chapter__n">04</span> <span class="chapter__t">In use</span></p>
+    <p class="chapter reveal"><span class="chapter__n">04</span> <span class="chapter__t">In Use</span></p>
     <h2 class="chap__title reveal" id="t-mockups">From hang tag to Instagram feed.</h2>
 
     <div class="prose">
@@ -686,7 +691,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
   </section>
 
   <aside class="next" aria-label="Next project">
-    <p class="next__label">Next up</p>
+    <p class="next__label">Next Up</p>
     <a class="next__link" href="jogger.html">
       <span class="next__title">Jogger Sports</span>
     </a>
@@ -818,7 +823,6 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 </script>
 <script src="assets/case-study.js" defer></script>
 <script src="assets/theme.js" defer></script>
-<script src="assets/music.js" defer></script>
 <!-- Vercel Web Analytics: page views only, no cookies. The script is served by Vercel
      itself, so it only loads on the deployed site (it is a harmless 404 when run locally). -->
 <script>

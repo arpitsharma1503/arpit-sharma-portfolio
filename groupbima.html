@@ -196,7 +196,8 @@ ul, ol { padding: 0; list-style: none; }
 .nav__links a { display: inline-flex; align-items: center; gap: 8px; opacity: .92; padding-block: 12px; margin-block: -12px; }   /* bigger tap area, same layout */
 .nav__links a:hover { opacity: 1; }
 .nav__links svg { width: 15px; height: 15px; flex: none; }
-@media (max-width: 599px) { .nav__extra { display: none !important; } }   /* phones: no room beside the name; the sections are a scroll away */
+@media (max-width: 899px) { .nav__extra { display: none !important; } }
+.nav__links a, .brand { white-space: nowrap; }   /* phones: no room beside the name; the sections are a scroll away */
 
 /* ==========================================================================
    4. Hero
@@ -429,7 +430,11 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
     </a>
     <a class="nav__extra" href="index.html#skills">
       <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.6 4.4L14 7.5l-4.4 1.6L8 13.5 6.4 9.1 2 7.5l4.4-1.6z" fill="#a896ff"/></svg>
-      Skills
+      Claude Skills
+    </a>
+    <a class="nav__extra" href="index.html#brain-itch">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5a4.5 4.5 0 0 0-2.6 8.2V11.5h5.2V9.7A4.5 4.5 0 0 0 8 1.5zM6 13h4v1.5H6z" fill="#f2c94c"/></svg>
+      Brain Itch
     </a>
     <a href="#contact">
       <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="2" fill="#e5322d"/><path d="M3 5l5 3.5L13 5" stroke="#fff" stroke-width="1.2" fill="none"/></svg>
@@ -471,11 +476,11 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
   </header>
 
   <section class="chap chap--glance" aria-labelledby="t-glance">
-    <p class="chapter reveal"><span class="chapter__n">00</span> <span class="chapter__t" id="t-glance">At a glance</span></p>
+    <p class="chapter reveal"><span class="chapter__n">00</span> <span class="chapter__t" id="t-glance">At a Glance</span></p>
     <dl class="glance">
-    <div><dt>The challenge</dt><dd>Make insurance accessible, transparent, and digital-first — in a market where eight competitors had scale but none had earned trust.</dd></div>
-    <div><dt>What I did</dt><dd>Audited eight competitors, surveyed users on how insurance made them feel, interviewed four users — and designed the brand before the interface.</dd></div>
-    <div><dt>What shipped</dt><dd>An end-to-end system for two user types — a consumer app and a full agent portal — and a distinct, emotionally differentiated brand.</dd></div>
+    <div><dt>The Challenge</dt><dd>Make insurance accessible, transparent, and digital-first — in a market where eight competitors had scale but none had earned trust.</dd></div>
+    <div><dt>What I Did</dt><dd>Audited eight competitors, surveyed users on how insurance made them feel, interviewed four users — and designed the brand before the interface.</dd></div>
+    <div><dt>What Shipped</dt><dd>An end-to-end system for two user types — a consumer app and a full agent portal — and a distinct, emotionally differentiated brand.</dd></div>
   </dl>
   </section>
 
@@ -491,7 +496,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
     </div>
 
     <p class="pull reveal">
-      <span class="pull__label">The design brief, distilled</span>
+      <span class="pull__label">The Design Brief, Distilled</span>
       Design an insurance platform that earns trust in the first minute, guides users to the right policy without overwhelming them, and scales a brand that feels like a warm, knowledgeable friend — not a corporate sales machine.
     </p>
 
@@ -586,7 +591,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 03 — Key insights -->
   <section class="chap" aria-labelledby="t-insights">
-    <p class="chapter reveal"><span class="chapter__n">03</span> <span class="chapter__t">Key insights</span></p>
+    <p class="chapter reveal"><span class="chapter__n">03</span> <span class="chapter__t">Key Insights</span></p>
     <h2 class="chap__title reveal" id="t-insights">What the research actually told me.</h2>
 
     <div data-stagger class="grid grid--3" style="margin-top:0">
@@ -601,7 +606,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 04 — Product strategy -->
   <section class="chap" aria-labelledby="t-strategy">
-    <p class="chapter reveal"><span class="chapter__n">04</span> <span class="chapter__t">Product strategy</span></p>
+    <p class="chapter reveal"><span class="chapter__n">04</span> <span class="chapter__t">Product Strategy</span></p>
     <h2 class="chap__title reveal" id="t-strategy">Five principles. Every design decision ran through them.</h2>
 
     <div class="prose">
@@ -649,7 +654,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 05 — Information architecture -->
   <section class="chap" aria-labelledby="t-ia">
-    <p class="chapter reveal"><span class="chapter__n">05</span> <span class="chapter__t">Information architecture</span></p>
+    <p class="chapter reveal"><span class="chapter__n">05</span> <span class="chapter__t">Information Architecture</span></p>
     <h2 class="chap__title reveal" id="t-ia">Two user types. Dozens of flows. Never let anyone get lost.</h2>
 
     <div class="prose">
@@ -683,7 +688,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 06 — Design exploration -->
   <section class="chap" aria-labelledby="t-explore">
-    <p class="chapter reveal"><span class="chapter__n">06</span> <span class="chapter__t">Design exploration</span></p>
+    <p class="chapter reveal"><span class="chapter__n">06</span> <span class="chapter__t">Design Exploration</span></p>
     <h2 class="chap__title reveal" id="t-explore">Brand before interface. Always.</h2>
 
     <h3 class="sub" style="margin-top:0">Why the elephant?</h3>
@@ -708,7 +713,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 07 — Design system -->
   <section class="chap" aria-labelledby="t-system">
-    <p class="chapter reveal"><span class="chapter__n">07</span> <span class="chapter__t">Design system</span></p>
+    <p class="chapter reveal"><span class="chapter__n">07</span> <span class="chapter__t">Design System</span></p>
     <h2 class="chap__title reveal" id="t-system">A small system built to scale.</h2>
 
     <ul data-stagger class="swatches" aria-label="Colour palette">
@@ -743,7 +748,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 08 — Final experience -->
   <section class="chap" aria-labelledby="t-final">
-    <p class="chapter reveal"><span class="chapter__n">08</span> <span class="chapter__t">Final experience</span></p>
+    <p class="chapter reveal"><span class="chapter__n">08</span> <span class="chapter__t">Final Experience</span></p>
     <h2 class="chap__title reveal" id="t-final">The experience, told as three journeys.</h2>
 
     <div class="tabs tabs--split">
@@ -752,7 +757,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
         <div class="journey__intro"><p class="journey__label">Journey 1 — Onboarding</p>
         <h3 class="journey__title">From stranger to understood</h3>
         <p class="journey__goal">Get a user from app open to a personalised quote in under 3 minutes by reframing onboarding as a conversation.</p></div>
-        <div class="journey__moves"><p class="moves__label">Key moves</p>
+        <div class="journey__moves"><p class="moves__label">Key Moves</p>
         <ul class="moves">
           <li>One question per screen, no scrolling forms</li>
           <li>A persistent stepper and a pinned Next CTA</li>
@@ -773,7 +778,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
         <div class="journey__intro"><p class="journey__label">Journey 2 — Discovery</p>
         <h3 class="journey__title">From details to decision-ready</h3>
         <p class="journey__goal">Transform raw inputs into options the user understands and trusts.</p></div>
-        <div class="journey__moves"><p class="moves__label">Key moves</p>
+        <div class="journey__moves"><p class="moves__label">Key Moves</p>
         <ul class="moves">
           <li>Each policy card leads with coverage amount, GST-inclusive premium, and one standout benefit; insurer name and a clear CTA (Go to ₹X/year)</li>
           <li>Filters and discounts sit at the top for those who want to go deeper</li>
@@ -807,10 +812,10 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
       </article>
       <article class="tabs__panel" id="panel-j3">
         <div class="journey__text">
-        <div class="journey__intro"><p class="journey__label">Journey 3 — Trust gate</p>
+        <div class="journey__intro"><p class="journey__label">Journey 3 — Trust Gate</p>
         <h3 class="journey__title">The moment that determines conversion</h3>
         <p class="journey__goal">Move from intent to purchase without losing the user to anxiety.</p></div>
-        <div class="journey__moves"><p class="moves__label">Key moves</p>
+        <div class="journey__moves"><p class="moves__label">Key Moves</p>
         <ul class="moves">
           <li>Privacy and data-consent screens were treated as brand moments, not legal boxes</li>
           <li>Plain-language, first-person copy</li>
@@ -880,7 +885,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- Next project -->
   <aside class="next" aria-label="Next project">
-    <p class="next__label">Next up</p>
+    <p class="next__label">Next Up</p>
     <a class="next__link" href="cardinal.html">
       <span class="next__title">Cardinal</span>
     </a>
@@ -1012,7 +1017,6 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 </script>
 <script src="assets/case-study.js" defer></script>
 <script src="assets/theme.js" defer></script>
-<script src="assets/music.js" defer></script>
 <!-- Vercel Web Analytics: page views only, no cookies. The script is served by Vercel
      itself, so it only loads on the deployed site (it is a harmless 404 when run locally). -->
 <script>

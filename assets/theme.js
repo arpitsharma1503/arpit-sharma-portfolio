@@ -1,8 +1,8 @@
 /* ==========================================================================
    Light / dark theme switch
 
-   One shared script for every page. It adds a small sun/moon button beside
-   the music button. Dark is the default; choosing light is remembered across
+   One shared script for every page. It adds a small sun/moon button at the
+   top right of the header. Dark is the default; choosing light is remembered across
    pages and visits. The stored choice is applied before first paint by the
    small inline script in each page's <head>, so there is no flash.
    The colours themselves live in each page's :root[data-theme="light"] block.
@@ -21,14 +21,13 @@
       <path class="theme-moon" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>
     </svg>`;
 
-  // same look as the music button, sitting just to its left
+  // a small round button fixed at the top right
   const CSS = `
     .theme-toggle{position:fixed;z-index:60;top:15px;right:var(--edge,20px);width:32px;height:32px;
       display:grid;place-items:center;padding:0;border:1px solid rgba(var(--ink-rgb,239,240,220),.14);border-radius:50%;
       background:rgba(var(--bg-rgb,20,10,21),.55);color:var(--cream,#eff0dc);cursor:pointer;
       -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
       transition:border-color .3s ease,background .3s ease}
-    .has-music .theme-toggle{right:calc(var(--edge,20px) + 40px)}
     .theme-toggle:hover{border-color:rgba(var(--ink-rgb,239,240,220),.5)}
     @media (prefers-reduced-transparency:reduce){.theme-toggle{background:rgb(var(--bg-rgb,20,10,21));-webkit-backdrop-filter:none;backdrop-filter:none}}
     .theme-toggle:focus-visible{outline:2px solid var(--cream,#eff0dc);outline-offset:3px}

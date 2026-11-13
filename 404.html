@@ -130,7 +130,8 @@ ul, ol { padding: 0; list-style: none; }
 .nav__links a { display: inline-flex; align-items: center; gap: 8px; opacity: .92; padding-block: 12px; margin-block: -12px; }   /* bigger tap area, same layout */
 .nav__links a:hover { opacity: 1; }
 .nav__links svg { width: 15px; height: 15px; flex: none; }
-@media (max-width: 599px) { .nav__extra { display: none !important; } }   /* phones: no room beside the name; the sections are a scroll away */
+@media (max-width: 899px) { .nav__extra { display: none !important; } }
+.nav__links a, .brand { white-space: nowrap; }   /* phones: no room beside the name; the sections are a scroll away */
 
 /* ==========================================================================
    4. Hero
@@ -476,7 +477,11 @@ button.lost__btn { appearance: none; background: none; color: inherit; font: inh
     </a>
     <a class="nav__extra" href="/#skills">
       <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.6 4.4L14 7.5l-4.4 1.6L8 13.5 6.4 9.1 2 7.5l4.4-1.6z" fill="#a896ff"/></svg>
-      Skills
+      Claude Skills
+    </a>
+    <a class="nav__extra" href="/#brain-itch">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5a4.5 4.5 0 0 0-2.6 8.2V11.5h5.2V9.7A4.5 4.5 0 0 0 8 1.5zM6 13h4v1.5H6z" fill="#f2c94c"/></svg>
+      Brain Itch
     </a>
     <a href="#contact">
       <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="2" fill="#e5322d"/><path d="M3 5l5 3.5L13 5" stroke="#fff" stroke-width="1.2" fill="none"/></svg>
@@ -497,18 +502,19 @@ button.lost__btn { appearance: none; background: none; color: inherit; font: inh
       <p class="lost__text">The link may be old, or the page has moved. Let’s keep it simple and get you back on course.</p>
       <p class="lost__path" id="lost-path" hidden></p>
       <div class="lost__actions">
-        <a class="lost__btn lost__btn--primary" href="/"><svg class="lost__icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 7.5 8 2.5l6 5M3.75 6.5V13.5h3V10h2.5v3.5h3V6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to home</a>
-        <button class="lost__btn" type="button" id="lost-back" hidden><span aria-hidden="true">←</span> Go back</button>
+        <a class="lost__btn lost__btn--primary" href="/"><svg class="lost__icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 7.5 8 2.5l6 5M3.75 6.5V13.5h3V10h2.5v3.5h3V6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to Home</a>
+        <button class="lost__btn" type="button" id="lost-back" hidden><span aria-hidden="true">←</span> Go Back</button>
       </div>
       <nav class="lost__links" aria-label="Popular pages">
-        <p>Or jump straight to</p>
+        <p>Or Jump Straight To</p>
         <ul>
           <li><a href="/cardinal.html">Cardinal</a></li>
           <li><a href="/groupbima.html">GroupBima</a></li>
           <li><a href="/vedvasan.html">Ved Vasan</a></li>
           <li><a href="/jogger.html">Jogger Sports</a></li>
-          <li><a href="/transcript.html">Meeting Transcript</a></li>
-          <li><a href="/#skills">Claude skills</a></li>
+          <li><a href="https://transcript-iota-three.vercel.app/" target="_blank" rel="noopener">Meeting Transcript ↗</a></li>
+          <li><a href="/aura.html">AURA</a></li>
+          <li><a href="/#skills">Claude Skills</a></li>
           <li><a href="/#arcade">Arcade</a></li>
           <li><a href="/#contact">Contact</a></li>
         </ul>
@@ -640,7 +646,6 @@ button.lost__btn { appearance: none; background: none; color: inherit; font: inh
 })();
 </script>
 <script src="/assets/theme.js" defer></script>
-<script src="/assets/music.js" defer></script>
 <!-- Vercel Web Analytics: page views only, no cookies. The script is served by Vercel
      itself, so it only loads on the deployed site (it is a harmless 404 when run locally). -->
 <script>

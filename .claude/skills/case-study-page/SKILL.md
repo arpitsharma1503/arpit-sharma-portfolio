@@ -23,19 +23,21 @@ Keep this order. Skip a chapter when there is no real content for it, then renum
 |---|---|---|
 | - | Top bar | Thin scroll progress line, site nav |
 | - | Hero | Breadcrumb, tag pills, huge project name, one-sentence promise, facts list |
-| 00 | At a glance | Three short answers: the challenge, what I did, what shipped |
+| 00 | At a Glance | Three short answers: the challenge, what I did, what shipped |
 | 01 | Challenge | User pain and business problem, then the brief in one pull quote |
 | 02 | Research | Methods, what was found, a visual of the evidence |
-| 03 | Key insights | Four to six findings as cards |
-| 04 | Product strategy | Three to five principles, each with the decision it drove |
-| 05 | Information architecture | Structure, user types, core flow |
-| 06 | Design exploration | Directions tried and why one won |
-| 07 | Design system | Colour, type, key components |
-| 08 | Final experience | Two to three journeys stacked one after another, with real screens |
+| 03 | Key Insights | Four to six findings as cards |
+| 04 | Product Strategy | Three to five principles, each with the decision it drove |
+| 05 | Information Architecture | Structure, user types, core flow |
+| 06 | Design Exploration | Directions tried and why one won |
+| 07 | Design System | Colour, type, key components |
+| 08 | Final Experience | Two to three journeys stacked one after another, with real screens |
 | 09 | Outcome | What shipped and what it meant |
 | 10 | Reflection | What worked, what I learned, what I would improve |
-| - | Next project | Big link to the next case study, so no page is a dead end |
+| - | Next Project | Big link to the next case study, so no page is a dead end |
 | - | Footer | Contact and profile links |
+
+Capitalisation: chapter labels, nav links, small labels (facts, "Key Moves", "Next Up"), tab names and buttons use Title Case (small words like "a", "of", "to" stay lowercase). Headlines and body sentences use sentence case.
 
 ## Writing rules
 

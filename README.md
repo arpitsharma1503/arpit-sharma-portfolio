@@ -11,38 +11,14 @@ Double-click `index.html`, or upload the whole folder to any static host
 - `groupbima.html`  GroupBima case study
 - `cardinal.html`   Cardinal case study
 - `jogger.html`     Jogger Sports case study
-- `transcript.html` Meeting Transcript app page (download in `assets/downloads/`)
+- `aura.html`       AURA home dashboard page (screenshots in `assets/images/aura/`)
 - `404.html`        "Page not found" page (Vercel shows it for any missing address)
 - `assets/`         Your images, plus shared files used by the pages:
                     `case-study.css` / `case-study.js` (case-study layout,
                     count-up numbers, click-to-copy colours, demos and the
-                    content visuals) and `music.js`
+                    content visuals)
 
 Sliderequest and Supply Management System are marked NDA, so they have no page.
-
-## Background music (Vatapi Ganapatim, flute)
-The player is built in and already wired into all three pages. It needs one file:
-
-    assets/vatapi-ganapatim.mp3
-
-Until that file exists, no music button is shown. Once it is there, a small
-speaker button appears at the top right of every page:
-- The music starts softly on the visitor's first click, tap or key press
-  (browsers block sound before that), and loops quietly in the background.
-- The button switches it off or on. The choice is remembered on every page and
-  on the next visit, and it carries on from the same spot between pages.
-- It pauses when the tab is hidden and resumes when the visitor comes back.
-
-Tips for the audio file: MP3, about 2-4 MB (128 kbps is plenty), and a version
-that loops cleanly. Make sure you have the right to use the recording: the
-composition is by Muthuswami Dikshitar (1775-1835), but each recording is
-separately copyrighted by its performer or label. Use your own recording, a
-licensed one, or one whose licence allows web use (and credit it if required).
-
-To tweak it, edit the settings at the top of `assets/music.js`:
-`VOLUME` (0-1), `AUTOSTART` (set to false so it only plays from the button).
-To remove music entirely, delete the `<script src="assets/music.js">` line at
-the bottom of each page.
 
 ## Visuals on the case-study pages
 The illustrations, charts and diagrams are drawn in code (inline SVG / CSS) from

@@ -3,31 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Meeting Transcript — Private, On-device Meeting Transcription for Mac | Arpit Sharma</title>
-<meta name="description" content="A macOS menu bar app I built that writes a live, timestamped transcript of Zoom, Teams and Google Meet calls. Whisper runs on your Mac, so audio never leaves it. Free download.">
-<link rel="canonical" href="https://www.arpit.design/transcript.html">
-
+<title>AURA — A Calm Home Dashboard on a Raspberry Pi | Arpit Sharma</title>
+<meta name="description" content="AURA is a home dashboard I designed and built on a Raspberry Pi 5: weather, commute, meals, groceries, festivals, gold prices and network health on one calm screen, with a “Hey Aura” voice.">
+<link rel="canonical" href="https://www.arpit.design/aura.html">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Arpit Sharma">
-<meta property="og:title" content="Meeting Transcript — Private, On-device Meeting Transcription for Mac | Arpit Sharma">
-<meta property="og:description" content="A macOS menu bar app I built that writes a live, timestamped transcript of Zoom, Teams and Google Meet calls. Whisper runs on your Mac, so audio never leaves it. Free download.">
-<meta property="og:url" content="https://www.arpit.design/transcript.html">
-<meta name="twitter:card" content="summary">
-
+<meta property="og:title" content="AURA — A Calm Home Dashboard on a Raspberry Pi | Arpit Sharma">
+<meta property="og:description" content="AURA is a home dashboard I designed and built on a Raspberry Pi 5: weather, commute, meals, groceries, festivals, gold prices and network health on one calm screen, with a “Hey Aura” voice.">
+<meta property="og:url" content="https://www.arpit.design/aura.html">
+<meta property="og:image" content="https://www.arpit.design/assets/images/aura/home.webp">
+<meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Meeting Transcript",
-  "url": "https://www.arpit.design/transcript.html",
-  "description": "A macOS menu bar app I built that writes a live, timestamped transcript of Zoom, Teams and Google Meet calls. Whisper runs on your Mac, so audio never leaves it. Free download.",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "macOS 14.2 or later, Apple Silicon",
-  "softwareVersion": "1.6.3",
-  "downloadUrl": "https://www.arpit.design/assets/downloads/MeetingTranscript-1.6.3.dmg",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
-  "author": { "@type": "Person", "@id": "https://www.arpit.design/#person", "name": "Arpit Sharma", "url": "https://www.arpit.design/" }
-}
+{"@context":"https://schema.org","@type":"CreativeWork","name":"AURA","url":"https://www.arpit.design/aura.html","description":"AURA is a home dashboard I designed and built on a Raspberry Pi 5: weather, commute, meals, groceries, festivals, gold prices and network health on one calm screen, with a “Hey Aura” voice.","genre":"Home dashboard","image":"https://www.arpit.design/assets/images/aura/home.webp","author":{"@type":"Person","@id":"https://www.arpit.design/#person","name":"Arpit Sharma","url":"https://www.arpit.design/"}}
 </script>
 
 <!-- Same feature flags as the home page: .js enables reveals, .motion enables the sky's twinkle -->
@@ -154,7 +141,8 @@ ul, ol { padding: 0; list-style: none; }
 .nav__links a { display: inline-flex; align-items: center; gap: 8px; opacity: .92; padding-block: 12px; margin-block: -12px; }   /* bigger tap area, same layout */
 .nav__links a:hover { opacity: 1; }
 .nav__links svg { width: 15px; height: 15px; flex: none; }
-@media (max-width: 599px) { .nav__extra { display: none !important; } }   /* phones: no room beside the name; the sections are a scroll away */
+@media (max-width: 899px) { .nav__extra { display: none !important; } }
+.nav__links a, .brand { white-space: nowrap; }   /* phones: no room beside the name; the sections are a scroll away */
 
 /* ==========================================================================
    4. Hero
@@ -453,113 +441,57 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 }
 </style>
 <link rel="stylesheet" href="assets/case-study.css">
+<style>
+.au-cases { display: grid; grid-template-columns: 1fr; gap: var(--grid-gap); margin-top: 28px; }
+@media (min-width: 760px) { .au-cases { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1200px) { .au-cases { grid-template-columns: repeat(3, 1fr); } }
+.au-case { padding: clamp(20px, 2.2vw, 28px); border: 1px solid var(--hair); border-radius: 14px; background: color-mix(in srgb, var(--bg) 94%, var(--cream)); }
+:root[data-theme="light"] .au-case { background: #fffdf9; border-color: rgba(28, 15, 30, .1); box-shadow: 0 1px 2px rgba(28, 15, 30, .04), 0 10px 30px -12px rgba(28, 15, 30, .14); }
+.au-case__n { margin: 0; font-size: .8rem; font-weight: 700; color: var(--ember); font-variant-numeric: tabular-nums; }
+.au-case h3 { margin: 6px 0 16px; font-size: clamp(1.15rem, 1.6vw, 1.35rem); font-weight: 700; letter-spacing: -.01em; }
+.au-case dl { display: grid; gap: 14px; margin: 0; }
+.au-case dt { font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; opacity: .6; }
+.au-case dd { margin: 4px 0 0; line-height: 1.55; color: var(--cs-ink); }
+.au-case div:last-child dd { font-weight: 600; color: var(--cream); }
+.card h3 { margin-bottom: 10px; font-size: clamp(1.1rem, 1.5vw, 1.3rem); font-weight: 600; letter-spacing: -.01em; line-height: 1.25; }
+.jg-cover { margin: clamp(32px, 6vh, 64px) var(--edge) 0; }
+.jg-big { margin: clamp(40px, 8vh, 80px) 0 0; max-width: 16ch; font-size: clamp(2.4rem, 7vw, 6rem); font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.jg-big span { display: block; }
+.jg-figure { margin: clamp(32px, 6vh, 56px) 0 0; max-width: 760px; }
+.jg-figure figcaption { margin-top: 14px; font-size: .88rem; opacity: .75; }
+.jg-bars { display: grid; gap: 18px; margin: 0; padding: 0; list-style: none; }
+.jg-bars li { display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; align-items: baseline; }
+.jg-bars li::after { content: ""; grid-column: 1 / -1; height: 8px; width: calc(var(--v) * 1%); background: #e2622e; }
+.jg-bars span { color: var(--cs-ink); line-height: 1.4; }
+.jg-bars b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.jg-flow { display: flex; flex-wrap: wrap; gap: 10px 8px; margin: 28px 0; padding: 0; list-style: none; }
+.jg-flow li { padding: 7px 16px; border: 1px solid var(--hair-strong); border-radius: 999px; font-size: .9rem; }
+.jg-flow li:not(:last-child)::after { content: "→"; margin-left: 12px; opacity: .6; }
+.tabs__panel .shot { margin-top: 28px; }
+.tabs__panel .rail { margin-top: var(--grid-gap); }
+</style>
 
 <style>
+/* AURA page */
+.au-cover { margin: clamp(32px, 6vh, 64px) var(--edge) 0; border-radius: 16px; box-shadow: 0 30px 80px rgba(0,0,0,.35); }
+.au-shot { border-radius: 14px; }
+.au-zoom { display: block; cursor: zoom-in; }
+.au-zoom img { transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+.au-zoom:hover img { transform: scale(1.015); }
+.au-shot figcaption { padding: 12px 16px; font-size: .88rem; line-height: 1.5; opacity: .75; border-top: 1px solid var(--hair); }
+.au-day { margin: 28px 0 0; padding: 0; list-style: none; display: grid; gap: 0; }
+.au-day li { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 4px 24px; padding: 22px 0; border-top: 1px solid var(--hair); }
+.au-day li:last-child { border-bottom: 1px solid var(--hair); }
+.au-day time { font-weight: 700; color: var(--ember); font-variant-numeric: tabular-nums; }
+.au-day h3 { margin: 0 0 6px; font-size: clamp(1.1rem, 1.6vw, 1.35rem); font-weight: 600; }
+.au-day p { margin: 0; max-width: 62ch; line-height: 1.6; color: var(--cs-ink); }
+.au-day q { font-style: italic; }
+@media (max-width: 599px) { .au-day li { grid-template-columns: 1fr; } }
+.au-rooms { display: grid; grid-template-columns: 1fr; gap: var(--grid-gap); margin-top: 28px; }
+@media (min-width: 900px) { .au-rooms { grid-template-columns: 1fr 1fr; } }
+.au-stack { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 0; padding: 0; list-style: none; }
+.au-stack li { padding: 7px 14px; border: 1px solid var(--hair-strong); border-radius: 999px; font-size: .9rem; }
 .card h3 { margin-bottom: 10px; font-size: clamp(1.1rem, 1.5vw, 1.3rem); font-weight: 600; letter-spacing: -.01em; line-height: 1.25; }
-/* live transcript window — rebuilt from the app, with sample text */
-.mt-live { margin: clamp(32px, 6vh, 64px) var(--edge) 0; max-width: 880px; overflow: hidden; border: 1px solid rgba(239,240,220,.14); border-radius: 14px; background: #1f1f1f; color: #eaeaea; box-shadow: 0 30px 80px rgba(0,0,0,.45); font-family: -apple-system, BlinkMacSystemFont, "Outfit", sans-serif; }
-.mt-live__title { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #2a2a2a; font-weight: 600; font-size: .95rem; color: #bdbdbd; }
-.mt-live__title i { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; }
-.mt-live__title i:nth-child(2) { background: #febc2e; } .mt-live__title i:nth-child(3) { background: #28c840; }
-.mt-live__title span { margin-left: 12px; }
-.mt-live__status { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; padding: 12px 18px; border-bottom: 1px solid #333; font-size: clamp(.9rem, 1.4vw, 1.1rem); }
-.mt-live__dot { width: 10px; height: 10px; border-radius: 50%; background: #ec5b56; }
-.motion .mt-live__dot { animation: mt-blink 1.6s ease-in-out infinite; }
-@keyframes mt-blink { 50% { opacity: .35; } }
-.mt-live__status span:not(.mt-live__dot) { color: #9a9a9a; }
-.mt-live__status time { margin-left: auto; color: #9a9a9a; font-variant-numeric: tabular-nums; }
-.mt-live__lines { margin: 0; padding: 8px 22px 12px; list-style: none; }
-.mt-live__lines li { padding: 14px 0; border-bottom: 1px solid #333; }
-.mt-live__lines li:last-child { border-bottom: 0; }
-.mt-live__lines time { display: block; font-size: .8rem; color: #9a9a9a; }
-.mt-live__lines b { display: flex; align-items: center; gap: 7px; margin-top: 2px; font-size: .85rem; font-weight: 600; color: var(--c, #4c9bff); }
-.mt-live__lines b::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
-.mt-live__lines p { margin: 4px 0 0; font-size: clamp(.95rem, 1.4vw, 1.1rem); line-height: 1.45; }
-.mt-live figcaption { padding: 12px 22px; border-top: 1px solid #333; font-size: .8rem; color: #9a9a9a; }
-/* find: search bar inside the live window, and the past-transcripts search */
-.mt-find { display: grid; grid-template-columns: 1fr; gap: var(--grid-gap); margin-top: 28px; align-items: start; }
-@media (min-width: 1000px) { .mt-find { grid-template-columns: 1fr 1fr; } }
-.mt-find .mt-live { margin: 0; max-width: none; }
-.mt-search { display: flex; align-items: center; gap: 10px; margin: 12px 18px 4px; padding: 9px 12px; border-radius: 8px; background: #2c2c2c; border: 1px solid #3a3a3a; font-size: .95rem; }
-.mt-search::before { content: ""; width: 14px; height: 14px; flex: none; border: 2px solid #9a9a9a; border-radius: 50%; box-shadow: 5px 5px 0 -3.5px #9a9a9a; }
-.mt-search span { flex: 1; color: #eaeaea; }
-.mt-search small { color: #9a9a9a; font-size: .8rem; white-space: nowrap; }
-.mt-search kbd { padding: 1px 6px; border: 1px solid #555; border-radius: 4px; font: inherit; font-size: .75rem; color: #bdbdbd; }
-.mt-live mark { padding: 0 2px; border-radius: 3px; background: #f5c542; color: #1f1f1f; }
-.mt-results { margin: 0; padding: 4px 18px 10px; list-style: none; }
-.mt-results li { padding: 12px 0; border-bottom: 1px solid #333; }
-.mt-results li:last-child { border-bottom: 0; }
-.mt-results h4 { margin: 0; font-size: .95rem; font-weight: 600; }
-.mt-results small { display: block; margin-top: 2px; font-size: .78rem; color: #9a9a9a; }
-.mt-results p { margin: 6px 0 0; font-size: .95rem; line-height: 1.45; }
-.mt-find__notes { display: grid; grid-template-columns: 1fr; gap: 22px; margin: 32px 0 0; padding: 0; list-style: none; }
-@media (min-width: 700px) { .mt-find__notes { grid-template-columns: repeat(3, 1fr); } }
-.mt-find__notes li { line-height: 1.6; color: var(--cs-ink); }
-.mt-find__notes b { display: block; margin-bottom: 4px; font-weight: 600; }
-/* hero: tagline with the download button beside it */
-.mt-hero { display: flex; flex-direction: column; align-items: flex-start; gap: clamp(20px, 3vh, 28px); }
-.mt-hero .hero__tag { margin-bottom: 0; }
-.mt-hero__cta { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
-.mt-hero__cta .mt-meta { line-height: 1.5; }
-/* one line on wide screens; whole groups wrap (never mid-group) on narrow ones */
-.mt-meta--line { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 0; }
-.mt-meta--line > * { white-space: nowrap; }
-.mt-meta--line > * + *::before { content: "·"; margin: 0 10px; opacity: .7; }
-@media (max-width: 499px) { .mt-meta--line { gap: 4px 14px; } .mt-meta--line > * + *::before { display: none; } }   /* phones wrap, so no dot is left hanging at a line start */
-.mt-btn { white-space: nowrap; }
-/* how it works: three numbered moments */
-.mt-flow { display: grid; grid-template-columns: 1fr; gap: var(--grid-gap); margin: 28px 0 0; padding: 0; list-style: none; counter-reset: none; }
-@media (min-width: 800px) { .mt-flow { grid-template-columns: repeat(3, 1fr); } }
-.mt-flow li { position: relative; padding: clamp(20px, 2.4vw, 30px); border: 1px solid var(--hair); border-radius: 14px; }
-.mt-flow li:not(:last-child)::after { content: "→"; position: absolute; right: -18px; top: 50%; translate: 0 -50%; color: var(--ember); font-size: 1.3rem; display: none; }
-@media (min-width: 800px) { .mt-flow li:not(:last-child)::after { display: block; } }
-.mt-flow__n { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--ember); color: #fff; font-weight: 700; }
-.mt-flow h3 { margin: 18px 0 8px; font-size: clamp(1.15rem, 1.6vw, 1.35rem); font-weight: 600; }
-.mt-flow p { margin: 0; line-height: 1.6; color: var(--cs-ink); }
-/* settings window, rebuilt in HTML so it stays sharp */
-.mt-set { margin: 0; max-width: 492px; width: 100%; overflow: hidden; border: 1px solid rgba(239,240,220,.14); border-radius: 12px; background: #2b2b2b; color: #e6e6e6; box-shadow: 0 24px 60px rgba(0,0,0,.45); font: 14px/1.35 -apple-system, BlinkMacSystemFont, "Outfit", sans-serif; }
-.mt-set__title { position: relative; display: flex; align-items: center; gap: 8px; padding: 10px 12px; font-weight: 600; color: #bdbdbd; }
-.mt-set__title i { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; }
-.mt-set__title i:nth-child(2) { background: #febc2e; } .mt-set__title i:nth-child(3) { background: #28c840; }
-.mt-set__title span { position: absolute; left: 0; right: 0; text-align: center; pointer-events: none; }
-.mt-set__tabs { display: flex; justify-content: center; gap: 6px; padding: 0 0 12px; border-bottom: 1px solid #3a3a3a; font-size: .78rem; text-align: center; color: #b5b5b5; }
-.mt-set__tabs span { padding: 6px 10px; border-radius: 7px; line-height: 1.5; }
-.mt-set__tabs .is-on { background: #3a3a3a; color: #4c9bff; }
-.mt-set__group { margin: 14px 14px 0; border-radius: 9px; background: #333; }
-.mt-set__row { display: flex; align-items: center; gap: 12px; padding: 11px 12px; }
-.mt-set__row + .mt-set__row { border-top: 1px solid #3d3d3d; }
-.mt-set__row > span:first-child { flex: 1; }
-.mt-set__row--top { align-items: flex-start; }
-.mt-set__row b { font-weight: 400; text-align: right; }
-.mt-set__vocab { flex: 1.6; }
-.mt-set__hint { margin: 8px 18px 0; font-size: .72rem; color: #9a9a9a; }
-.mt-set > :last-child { margin-bottom: 16px; }
-.mt-toggle { width: 34px; height: 20px; flex: none; border-radius: 999px; background: #2f7cf6; position: relative; }
-.mt-toggle::after { content: ""; position: absolute; right: 2px; top: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; }
-.mt-slider { flex: 1; height: 4px; border-radius: 2px; background: #555; position: relative; }
-.mt-slider i { position: absolute; inset: 0 30% 0 0; border-radius: 2px; background: #2f7cf6; }
-.mt-slider i::after { content: ""; position: absolute; right: -9px; top: -7px; width: 18px; height: 18px; border-radius: 50%; background: #ddd; }
-@media (max-width: 420px) { .mt-set { font-size: 12.5px; } }
-/* real screenshots */
-.mt-shots { display: grid; grid-template-columns: 1fr; gap: clamp(28px, 4vw, 56px); align-items: center; margin-top: 28px; }
-@media (min-width: 900px) { .mt-shots { grid-template-columns: minmax(0, 492px) 1fr; } }
-.mt-shots img { width: 100%; height: auto; border-radius: 12px; box-shadow: 0 24px 60px rgba(0,0,0,.4); }
-.mt-shots ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 22px; }
-.mt-shots li b { display: block; margin-bottom: 4px; font-weight: 600; }
-.mt-shots li { max-width: 46ch; line-height: 1.6; color: var(--cs-ink); }
-/* download */
-.mt-download { display: grid; gap: 20px; margin-top: 28px; padding: clamp(22px, 3vw, 36px); border: 1px solid var(--hair-strong); border-radius: 16px; }
-.mt-btn { justify-self: start; display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; border-radius: 999px; background: var(--ember); color: #fff; font-weight: 600; font-size: 1.05rem; transition: filter .25s ease; }
-.mt-btn:hover { filter: brightness(1.08); }
-.mt-btn:active { scale: .96; transition: scale 100ms ease-out; }
-.mt-meta { margin: 0; font-size: .9rem; opacity: .75; }
-.mt-btn img { width: 32px; height: 32px; flex: none; margin: -6px 0 -6px -10px; }
-.mt-only { display: inline-flex; align-items: center; gap: 6px; margin: 0; font-size: .9rem; font-weight: 600; color: var(--cream); }
-.mt-only::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ember); }
-.mt-meta .mt-only { font-size: inherit; }
-.mt-sum { margin: 0; font-size: .78rem; opacity: .6; word-break: break-all; }
-.mt-steps { margin: 28px 0 0; padding-left: 1.3em; display: grid; gap: 14px; max-width: 64ch; line-height: 1.6; }
-.mt-steps code, .mt-download code { font-size: .88em; padding: 2px 6px; border-radius: 6px; background: rgba(var(--ink-rgb), .08); word-break: break-word; }
 </style>
 </head>
 <body>
@@ -578,7 +510,11 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
     </a>
     <a class="nav__extra" href="index.html#skills">
       <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.6 4.4L14 7.5l-4.4 1.6L8 13.5 6.4 9.1 2 7.5l4.4-1.6z" fill="#a896ff"/></svg>
-      Skills
+      Claude Skills
+    </a>
+    <a class="nav__extra" href="index.html#brain-itch">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5a4.5 4.5 0 0 0-2.6 8.2V11.5h5.2V9.7A4.5 4.5 0 0 0 8 1.5zM6 13h4v1.5H6z" fill="#f2c94c"/></svg>
+      Brain Itch
     </a>
     <a href="#contact">
       <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="2" fill="#e5322d"/><path d="M3 5l5 3.5L13 5" stroke="#fff" stroke-width="1.2" fill="none"/></svg>
@@ -595,204 +531,188 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <header class="hero">
     <p class="crumbs">
-      <a href="index.html#brain-itch"><span aria-hidden="true">←</span> Brain itch</a>
+      <a href="index.html#brain-itch"><span aria-hidden="true">←</span> Brain Itch</a>
       <span aria-hidden="true">/</span>
-      <span>Meeting Transcript</span>
+      <span>AURA</span>
     </p>
-
     <ul class="tags" aria-label="Project type">
-      <li class="pill">macOS app</li>
-      <li class="pill">On-device AI</li>
-      <li class="pill">Side project</li>
+      <li class="pill">Home Dashboard</li>
+      <li class="pill">Raspberry Pi</li>
+      <li class="pill">Side Project</li>
       <li class="pill">2026</li>
     </ul>
-
-    <h1 class="hero__name">Meeting Transcript</h1>
-    <div class="mt-hero">
-      <p class="hero__tag">Join a call. Get the words. Nothing leaves your Mac.</p>
-      <div class="mt-hero__cta">
-        <a class="mt-btn" href="assets/downloads/MeetingTranscript-1.6.3.dmg" download><img src="assets/images/brain-itch/transcript-logo.webp" width="32" height="32" alt="">Download Meeting Transcript <span aria-hidden="true">↓</span></a>
-        <p class="mt-meta mt-meta--line"><b class="mt-only">Only for macOS</b><span>Free · v1.6.3 · 6.4 MB</span><span>macOS 14.2+ · Apple Silicon</span></p>
-      </div>
-    </div>
-
+    <h1 class="hero__name">AURA</h1>
+    <p class="hero__tag">One calm screen that answers the day before you ask.</p>
     <dl class="facts">
-      <div><dt>What it is</dt><dd>A menu bar app for macOS</dd></div>
-      <div><dt>Works with</dt><dd>Zoom, Microsoft Teams, Google Meet</dd></div>
-      <div><dt>Runs on</dt><dd>macOS 14.2 or later, Apple Silicon (M1 or newer)</dd></div>
-      <div><dt>Price</dt><dd>Free</dd></div>
-      <div><dt>Version</dt><dd>1.6.3</dd></div>
-      <div class="wide"><dt>Built with</dt><dd>Swift, Core Audio and whisper.cpp, running on the Mac’s own GPU</dd></div>
+      <div><dt>What It Is</dt><dd>A home dashboard on a Raspberry Pi 5</dd></div>
+      <div><dt>Role</dt><dd>Designer and builder</dd></div>
+      <div><dt>Team</dt><dd>Solo</dd></div>
+      <div><dt>Status</dt><dd>Running at home, every day</dd></div>
+      <div class="wide"><dt>Built With</dt><dd>Python and FastAPI on Debian, Home Assistant, Pi-hole, Open-Meteo weather and IBJA price data</dd></div>
     </dl>
   </header>
 
-  <figure class="mt-live reveal" aria-label="The Live Transcript window during a Teams call, with sample text">
-    <div class="mt-live__title" aria-hidden="true"><i></i><i></i><i></i><span>Live Transcript</span></div>
-    <div class="mt-live__status"><span class="mt-live__dot"></span><b>Transcribing</b><span>Teams · Microsoft Teams</span><time>00:04:33</time></div>
-    <ol class="mt-live__lines">
-      <li style="--c:#4c9bff"><time>6:05:04 PM</time><b>Speaker A (Unidentified)</b><p>Let’s lock the scope for the next sprint before we look at designs.</p></li>
-      <li style="--c:#3ecf6e"><time>6:05:12 PM</time><b>Speaker B (Unidentified)</b><p>The API changes need to land by Wednesday, or checkout slips.</p></li>
-      <li style="--c:#e2622e"><time>6:05:19 PM</time><b>You</b><p>Agreed. I’ll share the updated checkout flow by Friday.</p></li>
-      <li style="--c:#c77dff"><time>6:05:27 PM</time><b>Speaker C (Unidentified)</b><p>Then I’ll set up QA for Monday and add the empty states to the test list.</p></li>
-      <li style="--c:#4c9bff"><time>6:05:36 PM</time><b>Speaker A (Unidentified)</b><p>Great. Let’s review all of it in Thursday’s stand-up.</p></li>
-    </ol>
-    <figcaption>Four people, four labels: each voice keeps its own colour. Sample text; other people stay “Unidentified”.</figcaption>
-  </figure>
+  <figure class="shot au-shot au-cover reveal"><a class="au-zoom" href="assets/images/aura/home.webp" target="_blank" rel="noopener" aria-label="Open full-size screenshot"><img src="assets/images/aura/home.webp" width="2000" height="1079" fetchpriority="high" decoding="async" alt="AURA home screen: the time and date, a location, status chips for weather, groceries, ad blocking and internet speed, then cards for weather, commute, today’s meals, groceries with a QR code, before-you-go tips, calendar, Ask AURA and smart home."></a><figcaption>The Home screen. Everything a household checks before the day starts, readable from across the room.</figcaption></figure>
 
-  <!-- 00 — At a glance -->
+  <!-- 00 — At a Glance -->
   <section class="chap chap--glance" aria-labelledby="t-glance">
-    <p class="chapter reveal"><span class="chapter__n">00</span> <span class="chapter__t" id="t-glance">At a glance</span></p>
+    <p class="chapter reveal"><span class="chapter__n">00</span> <span class="chapter__t" id="t-glance">At a Glance</span></p>
     <dl class="glance">
-      <div><dt>The problem</dt><dd>In a meeting you can listen or take notes. Doing both means missing something.</dd></div>
-      <div><dt>The idea</dt><dd>Let the Mac write everything down, quietly, while you stay in the conversation.</dd></div>
-      <div><dt>The promise</dt><dd>No bot joins the call, no audio is saved, and nothing is uploaded. Ever.</dd></div>
+      <div><dt>The Itch</dt><dd>The answers to “what’s today?” lived in too many apps, and on too many phones.</dd></div>
+      <div><dt>The Idea</dt><dd>One shared screen at home that answers the day’s questions at a glance, without anyone unlocking a phone.</dd></div>
+      <div><dt>What It Does</dt><dd>Weather, commute, meals, groceries, festivals, gold prices and network health, plus a “Hey Aura” voice.</dd></div>
     </dl>
   </section>
 
-  <!-- 01 — The itch -->
+  <!-- 01 — The Itch -->
   <section class="chap" aria-labelledby="t-itch">
-    <p class="chapter reveal"><span class="chapter__n">01</span> <span class="chapter__t">The itch</span></p>
-    <h2 class="chap__title reveal" id="t-itch">I kept typing while people were talking.</h2>
+    <p class="chapter reveal"><span class="chapter__n">01</span> <span class="chapter__t">The Itch</span></p>
+    <h2 class="chap__title reveal" id="t-itch">The day’s answers were scattered.</h2>
     <div class="prose reveal">
-      <p class="lead">Design reviews, sprint planning, client calls. Every week, the same trade: listen properly, or write it down.</p>
-      <p>When I typed, I missed the nuance. When I listened, I forgot the details by the next morning. The tools that promised to help either <strong>sent a bot into the call</strong> or <strong>uploaded the audio</strong> to someone else’s server. Neither felt right for client work.</p>
-      <p>So I built the tool I wanted: one that sits in the menu bar, does its job on my own Mac, and gets out of the way.</p>
+      <p class="lead">Will it rain? Is the road clear? What’s for dinner? Do we need bananas? Is today a festival?</p>
+      <p>Each question had its own app, and often its own phone. A shared home needs <strong>one place everyone can glance at</strong>, not five apps only one person can open.</p>
+      <p>So I designed AURA as a calm screen for the home: it sits on a Raspberry Pi, runs all day, and turns many small checks into one look.</p>
     </div>
-    <p class="pull reveal"><span class="pull__label">The rule I built it around</span>Be in the meeting. Let the Mac take the notes.</p>
+    <p class="pull reveal"><span class="pull__label">The Rule I Designed Around</span>If you have to tap, it’s already too slow.</p>
   </section>
 
-  <!-- 02 — How it works -->
-  <section class="chap" aria-labelledby="t-how">
-    <p class="chapter reveal"><span class="chapter__n">02</span> <span class="chapter__t">How it works</span></p>
-    <h2 class="chap__title reveal" id="t-how">Three moments. You only do the first.</h2>
-    <ol class="mt-flow" data-stagger>
-      <li><span class="mt-flow__n">1</span><h3>Join your call</h3><p>Zoom or Teams, in the app or the browser, or Google Meet. About 2 seconds in, a red dot appears in the menu bar.</p></li>
-      <li><span class="mt-flow__n">2</span><h3>It writes as people talk</h3><p>Lines appear live, with a time and a speaker label. You can glance at them, or ignore them completely.</p></li>
-      <li><span class="mt-flow__n">3</span><h3>Leave, and it’s saved</h3><p>About 8 seconds after you hang up, the last words are finished and a text file is saved, sorted by date.</p></li>
+  <!-- 02 — A Day with AURA -->
+  <section class="chap" aria-labelledby="t-day">
+    <p class="chapter reveal"><span class="chapter__n">02</span> <span class="chapter__t">A Day with AURA</span></p>
+    <h2 class="chap__title reveal" id="t-day">From the first chai to lights out.</h2>
+    <ol class="au-day reveal">
+      <li><time>Morning</time><div><h3>“Should I leave now?”</h3><p>The Commute card watches the drive from home to office inside a set window, 8 to 11 AM on workdays. It shows the best time to leave from live traffic, then goes quiet once the window is over.</p></div></li>
+      <li><time>Before you go</time><div><h3>Small nudges, not forecasts</h3><p>AURA turns the weather into advice: <q>Good conditions to cycle</q>, <q>Dress light</q>, or a warning when UV or air quality is bad.</p></div></li>
+      <li><time>Mealtimes</time><div><h3>Nobody asks “what’s for dinner?”</h3><p>Today’s breakfast, lunch and dinner come from the meal plan, with a reminder for tonight’s prep, like soaking sprouts for tomorrow.</p></div></li>
+      <li><time>Shopping</time><div><h3>One list for the whole family</h3><p>The grocery list shows what’s left to buy. Anyone can scan the QR code and edit the list from their own phone.</p></div></li>
+      <li><time>Festivals</time><div><h3>Every festival, in its own script</h3><p>The calendar shows upcoming festivals and today’s lunar day, the tithi, written in Devanagari the way the family reads it.</p></div></li>
+      <li><time>Noon</time><div><h3>Gold and silver, at a glance</h3><p>The Price Tracker checks the daily IBJA benchmark and shows 24K to 14K gold and silver, with the change since yesterday.</p></div></li>
+      <li><time>All day</time><div><h3>A quieter internet</h3><p>Ad blocking runs for every device at home, and a chip shows the current internet speed when Wi-Fi feels slow.</p></div></li>
+      <li><time>Any time</time><div><h3>“Hey Aura”</h3><p>Ask out loud about the weather, whether it will rain before you leave, or your commute.</p></div></li>
     </ol>
   </section>
 
-  <!-- 03 — Find -->
-  <section class="chap" aria-labelledby="t-find">
-    <p class="chapter reveal"><span class="chapter__n">03</span> <span class="chapter__t">Find it later</span></p>
-    <h2 class="chap__title reveal" id="t-find">“What did we decide about the launch?” Just search.</h2>
+  <!-- 03 — Use Cases -->
+  <section class="chap" aria-labelledby="t-cases">
+    <p class="chapter reveal"><span class="chapter__n">03</span> <span class="chapter__t">Use Cases</span></p>
+    <h2 class="chap__title reveal" id="t-cases">Six small moments it makes easier.</h2>
     <div class="prose reveal">
-      <p class="lead">A transcript is only useful if you can find things in it. So search works in the meeting you’re in, and across every meeting you’ve had.</p>
+      <p class="lead">Each one used to mean opening an app, asking someone, or guessing. Now it’s a glance.</p>
     </div>
-    <div class="mt-find">
-      <figure class="mt-live reveal" aria-label="Find inside the Live Transcript window, with sample text">
-        <div class="mt-live__title" aria-hidden="true"><i></i><i></i><i></i><span>Live Transcript</span></div>
-        <div class="mt-search"><span>checkout</span><small>2 of 18 lines</small><kbd>⌘F</kbd></div>
-        <ol class="mt-live__lines">
-          <li style="--c:#3ecf6e"><time>6:05:12 PM</time><b>Speaker B (Unidentified)</b><p>The API changes need to land by Wednesday, or <mark>checkout</mark> slips.</p></li>
-          <li style="--c:#e2622e"><time>6:05:19 PM</time><b>You</b><p>Agreed. I’ll share the updated <mark>checkout</mark> flow by Friday.</p></li>
-        </ol>
-        <figcaption>In a live meeting: ⌘F shows only the lines that match. New lines that match appear too.</figcaption>
-      </figure>
-      <figure class="mt-live reveal" aria-label="Search Past Transcripts window, with sample results">
-        <div class="mt-live__title" aria-hidden="true"><i></i><i></i><i></i><span>Search Past Transcripts</span></div>
-        <div class="mt-search"><span>launch date</span><small>3 meetings</small></div>
-        <ol class="mt-results">
-          <li><h4>Teams Meeting — Sprint planning</h4><small>12 Nov 2026 · 6:05 PM · Speaker A</small><p>Let’s move the <mark>launch date</mark> to the 24th so QA has a full week.</p></li>
-          <li><h4>Zoom Meeting — Design review</h4><small>6 Nov 2026 · 11:30 AM · You</small><p>If the <mark>launch date</mark> holds, the onboarding screens go first.</p></li>
-          <li><h4>Google Meet — Kick-off</h4><small>30 Oct 2026 · 10:00 AM · Speaker B</small><p>Marketing needs the <mark>launch date</mark> two weeks before release.</p></li>
-        </ol>
-        <figcaption>Across meetings: every word must appear in the same turn, so results stay precise.</figcaption>
-      </figure>
+    <div class="au-cases" data-stagger>
+      <article class="au-case">
+        <p class="au-case__n">01</p>
+        <h3>The 8:40 Dash</h3>
+        <dl>
+          <div><dt>The Moment</dt><dd>Rohan has a 9:30 meeting across the city.</dd></div>
+          <div><dt>What AURA Shows</dt><dd>Commute shows heavy traffic building on the usual route, and the best time to leave is now, not after breakfast.</dd></div>
+          <div><dt>The Result</dt><dd>He leaves ten minutes early and walks in on time, without opening a single map.</dd></div>
+        </dl>
+      </article>
+      <article class="au-case">
+        <p class="au-case__n">02</p>
+        <h3>The Forgotten Prep</h3>
+        <dl>
+          <div><dt>The Moment</dt><dd>It’s 9 PM and tomorrow’s breakfast needs soaked sprouts.</dd></div>
+          <div><dt>What AURA Shows</dt><dd>The meal card’s <q>Tonight</q> line flashes a reminder: check that 1.5 cups of sprouts are ready.</dd></div>
+          <div><dt>The Result</dt><dd>The prep is done before bed, and breakfast happens on time.</dd></div>
+        </dl>
+      </article>
+      <article class="au-case">
+        <p class="au-case__n">03</p>
+        <h3>The Grocery Run</h3>
+        <dl>
+          <div><dt>The Moment</dt><dd>Two people are about to shop, each with half a list in their head.</dd></div>
+          <div><dt>What AURA Shows</dt><dd>Groceries shows 62 items with quantities. Either of them scans the QR code and ticks items off from their phone.</dd></div>
+          <div><dt>The Result</dt><dd>One shared list, no double-buying, nothing forgotten.</dd></div>
+        </dl>
+      </article>
+      <article class="au-case">
+        <p class="au-case__n">04</p>
+        <h3>The Festival Week</h3>
+        <dl>
+          <div><dt>The Moment</dt><dd>Guests are coming for Chhath Puja and nobody is sure of the dates.</dd></div>
+          <div><dt>What AURA Shows</dt><dd>The calendar shows the festival, the next holidays, and today’s tithi in Devanagari.</dd></div>
+          <div><dt>The Result</dt><dd>Plans are made around the right day, the way the family is used to reading it.</dd></div>
+        </dl>
+      </article>
+      <article class="au-case">
+        <p class="au-case__n">05</p>
+        <h3>The Gold Question</h3>
+        <dl>
+          <div><dt>The Moment</dt><dd>A parent wants to buy gold for a wedding but doesn’t trust random rate apps.</dd></div>
+          <div><dt>What AURA Shows</dt><dd>Price Tracker shows today’s IBJA rate for 24K down to 14K, and how much it moved since yesterday.</dd></div>
+          <div><dt>The Result</dt><dd>They buy on a day the price dipped, with a benchmark they trust.</dd></div>
+        </dl>
+      </article>
+      <article class="au-case">
+        <p class="au-case__n">06</p>
+        <h3>The Slow Wi-Fi Evening</h3>
+        <dl>
+          <div><dt>The Moment</dt><dd>A video call keeps freezing and someone blames the router.</dd></div>
+          <div><dt>What AURA Shows</dt><dd>The Internet chip shows the live speed and delay, and System shows the Pi and ad blocking are healthy.</dd></div>
+          <div><dt>The Result</dt><dd>The cause is clear in a glance, so no one restarts the router for nothing.</dd></div>
+        </dl>
+      </article>
     </div>
-    <ul class="mt-find__notes reveal">
-      <li><b>Words or a speaker</b>Search “checkout”, or a label like “Speaker B”, to follow one voice through the meeting.</li>
-      <li><b>Every meeting, one box</b>Pick <strong>Search Past Transcripts…</strong> from the menu bar and type, for example, a name and a topic.</li>
-      <li><b>Nothing is indexed</b>Files are read fresh each time. No search index is saved, and only your Mac is searched.</li>
+  </section>
+
+  <!-- 04 — Five Rooms -->
+  <section class="chap" aria-labelledby="t-rooms">
+    <p class="chapter reveal"><span class="chapter__n">04</span> <span class="chapter__t">Five Rooms</span></p>
+    <h2 class="chap__title reveal" id="t-rooms">One home, five views.</h2>
+    <div class="prose reveal">
+      <p class="lead">Home shows a bit of everything. The other four tabs go deeper into one part of the day.</p>
+    </div>
+    <div class="au-rooms">
+      <figure class="shot au-shot reveal"><a class="au-zoom" href="assets/images/aura/daily-planning.webp" target="_blank" rel="noopener" aria-label="Open full-size screenshot"><img src="assets/images/aura/daily-planning.webp" width="2000" height="1081" loading="lazy" decoding="async" alt="Daily planning tab: calendar with Chhath Puja, Guru Nanak Jayanti and today’s tithi; today’s meals; the grocery list; commute; and before-you-go tips."></a><figcaption><b>Daily Planning</b> · calendar, meals, groceries, commute and tips together.</figcaption></figure>
+      <figure class="shot au-shot reveal"><a class="au-zoom" href="assets/images/aura/price-tracker.webp" target="_blank" rel="noopener" aria-label="Open full-size screenshot"><img src="assets/images/aura/price-tracker.webp" width="2000" height="1082" loading="lazy" decoding="async" alt="Price Tracker tab: 24K gold per 10 g with 22K to 14K rates and silver per kg, each with the change since yesterday."></a><figcaption><b>Price Tracker</b> · IBJA gold and silver rates, checked daily at noon.</figcaption></figure>
+      <figure class="shot au-shot reveal"><a class="au-zoom" href="assets/images/aura/smart-home.webp" target="_blank" rel="noopener" aria-label="Open full-size screenshot"><img src="assets/images/aura/smart-home.webp" width="2000" height="1086" loading="lazy" decoding="async" alt="Smart home tab: a smart home card waiting for devices, Ask AURA ready, and the weather with a five-day forecast."></a><figcaption><b>Smart Home</b> · Home Assistant, voice and weather.</figcaption></figure>
+      <figure class="shot au-shot reveal"><a class="au-zoom" href="assets/images/aura/system.webp" target="_blank" rel="noopener" aria-label="Open full-size screenshot"><img src="assets/images/aura/system.webp" width="2000" height="1082" loading="lazy" decoding="async" alt="System tab: Raspberry Pi health with CPU temperature, memory, storage and network, plus network protection running."></a><figcaption><b>System</b> · the Pi’s health and network protection.</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- 05 — Design Choices -->
+  <section class="chap" aria-labelledby="t-design">
+    <p class="chapter reveal"><span class="chapter__n">05</span> <span class="chapter__t">Design Choices</span></p>
+    <h2 class="chap__title reveal" id="t-design">Built to be glanced at, not used.</h2>
+    <div data-stagger class="grid grid--3">
+      <div class="card"><h3>Status first</h3><p>A row of chips up top answers the four most common questions: weather, groceries, ad blocking and internet speed.</p></div>
+      <div class="card"><h3>Readable from the sofa</h3><p>Big time, large numbers and dark glass cards over a quiet mountain backdrop, so it reads from across the room.</p></div>
+      <div class="card"><h3>Honest states</h3><p>It says <q>Commute window over</q>, <q>today’s update hasn’t arrived</q> or <q>No devices yet</q> instead of showing stale or empty data.</p></div>
+      <div class="card"><h3>Made for this home</h3><p>Indian festivals, the tithi in Devanagari, rupee prices per karat and home-cooked meal plans.</p></div>
+      <div class="card"><h3>Local first</h3><p>Everything runs on the Pi at home. Weather and price data come from open sources, with credit shown on the card.</p></div>
+      <div class="card"><h3>Tabs, not menus</h3><p>Five tabs cover the whole day, and every card has one arrow to open the full view.</p></div>
+    </div>
+  </section>
+
+  <!-- 06 — How It’s Built -->
+  <section class="chap" aria-labelledby="t-built">
+    <p class="chapter reveal"><span class="chapter__n">06</span> <span class="chapter__t">How It’s Built</span></p>
+    <h2 class="chap__title reveal" id="t-built">A small computer doing a big job.</h2>
+    <div class="prose reveal">
+      <p class="lead">AURA runs on a Raspberry Pi 5 that never switches off.</p>
+      <p>A Python and FastAPI app serves the dashboard. Home Assistant connects smart-home devices, Pi-hole handles ad blocking for the whole network, Open-Meteo provides the weather, and the IBJA benchmark provides gold and silver rates.</p>
+    </div>
+    <ul class="au-stack reveal" aria-label="Technology">
+      <li>Raspberry Pi 5</li><li>Debian</li><li>Python + FastAPI</li><li>Home Assistant</li><li>Pi-hole</li><li>Open-Meteo</li><li>IBJA rates</li><li>“Hey Aura” wake word</li>
     </ul>
   </section>
 
-  <!-- 04 — Put it to work -->
-  <section class="chap" aria-labelledby="t-work">
-    <p class="chapter reveal"><span class="chapter__n">04</span> <span class="chapter__t">Put it to work</span></p>
-    <h2 class="chap__title reveal" id="t-work">The meeting ends. The work starts.</h2>
+  <!-- 07 — What’s Next -->
+  <section class="chap" aria-labelledby="t-next">
+    <p class="chapter reveal"><span class="chapter__n">07</span> <span class="chapter__t">What’s Next</span></p>
+    <h2 class="chap__title reveal" id="t-next">Still growing, one itch at a time.</h2>
     <div class="prose reveal">
-      <p class="lead">Every transcript is clean, timestamped text. Hand it to your own AI agent, like Claude, and let it do the follow-up.</p>
-      <p>Ask it to <strong>check what was agreed and turn it into work</strong>. One file in, three useful things out.</p>
-    </div>
-    <div data-stagger class="grid grid--3">
-      <div class="card"><h3>To-dos</h3><p>Every action, who said they’d do it and by when, ready for your task list.</p></div>
-      <div class="card"><h3>Minutes of meeting</h3><p>Decisions, open questions and next steps in a short summary you can share.</p></div>
-      <div class="card"><h3>Project documents</h3><p>Requirements, user stories, release notes or a design brief for project development.</p></div>
+      <p><strong>Smart-home devices.</strong> Home Assistant is connected and ready for lights and switches.</p>
+      <p><strong>A smarter voice.</strong> “Hey Aura” already answers weather and commute questions, and it will learn more over time.</p>
     </div>
   </section>
 
-  <!-- 05 — Privacy -->
-  <section class="chap" aria-labelledby="t-privacy">
-    <p class="chapter reveal"><span class="chapter__n">05</span> <span class="chapter__t">Private by design</span></p>
-    <h2 class="chap__title reveal" id="t-privacy">Your meetings stay on your Mac.</h2>
-    <div class="mt-shots">
-      <figure class="mt-set reveal" aria-label="Meeting Transcript settings, Transcription tab">
-        <div class="mt-set__title" aria-hidden="true"><i></i><i></i><i></i><span>Transcription</span></div>
-        <div class="mt-set__tabs" aria-hidden="true"><span>⚙︎<br>General</span><span class="is-on">▮▮▮<br>Transcription</span><span>⛉<br>Privacy</span></div>
-        <div class="mt-set__group">
-          <div class="mt-set__row"><span>Whisper model</span><b>Large v3 Turbo · 574 MB · recommended ⌃</b></div>
-          <div class="mt-set__row"><span>Language</span><b>English + Hindi (recommended) ⌃</b></div>
-        </div>
-        <p class="mt-set__hint">Larger models are more accurate but slower. Recommended is based on this Mac’s memory.</p>
-        <div class="mt-set__group">
-          <div class="mt-set__row"><span>Label speakers (Speaker A, Speaker B…)</span><i class="mt-toggle"></i></div>
-          <div class="mt-set__row"><span>Update text every</span><span class="mt-slider"><i></i></span><b>20 s</b></div>
-          <div class="mt-set__row mt-set__row--top"><span>Vocabulary</span><b class="mt-set__vocab">Meeting about product, design and engineering: Figma, prototype, wireframe, UX, UI, API, sprint, roadmap, stakeholder.</b></div>
-        </div>
-        <p class="mt-set__hint">Speaker labels are anonymous; rename them in the live transcript. A word you fix twice is learned.</p>
-        <div class="mt-set__group">
-          <div class="mt-set__row"><span>Include my microphone</span><i class="mt-toggle"></i></div>
-          <div class="mt-set__row"><span>Ignore my mic while muted in the meeting</span><i class="mt-toggle"></i></div>
-        </div>
-      </figure>
-      <ul class="reveal">
-        <li><b>On-device speech recognition</b>Whisper runs on your Mac’s own chip. Audio never leaves it.</li>
-        <li><b>No names, no voice profiles</b>Your lines say “You”. Everyone else is “Speaker A (Unidentified)”, “Speaker B” and so on. The app never guesses who someone is. Add a name yourself only if you want to.</li>
-        <li><b>No audio saved</b>Sound is held in memory for a few seconds, turned into text, then thrown away. Only text is saved.</li>
-        <li><b>Nothing without consent</b>Give a one-time promise that people know they’re being transcribed, or tick a box before each call. A red dot shows while it works.</li>
-      </ul>
-    </div>
-    <p class="note reveal"><b>Please be fair</b>Always tell the people in your meeting that it is being transcribed, and follow the rules at your workplace.</p>
-  </section>
-
-  <!-- 06 — The details -->
-  <section class="chap" aria-labelledby="t-help">
-    <p class="chapter reveal"><span class="chapter__n">06</span> <span class="chapter__t">The small things</span></p>
-    <h2 class="chap__title reveal" id="t-help">Small touches that make it trustworthy.</h2>
-    <div data-stagger class="grid grid--3">
-      <div class="card"><h3>English and Hindi</h3><p>Hindi stays in Devanagari and English stays English. Nothing is translated or reworded.</p></div>
-      <div class="card"><h3>Your words, spelled right</h3><p>Add your team’s terms, like Figma or sprint. Fix a word twice and it’s learned.</p></div>
-      <div class="card"><h3>Your own voice</h3><p>Your mic is transcribed as “You”, and ignored while you’re muted in the call.</p></div>
-      <div class="card"><h3>Share your way</h3><p>Export as Markdown, subtitles (SRT), Word or PDF. Files stay put until you share them.</p></div>
-      <div class="card"><h3>Never loses much</h3><p>The file is rewritten about every 20 seconds, so even a crash costs only a few lines.</p></div>
-      <div class="card"><h3>Picks the right model</h3><p>Large v3 Turbo is chosen for your Mac: accurate with accents and noise, and still fast.</p></div>
-    </div>
-  </section>
-
-  <!-- 07 — Download -->
-  <section class="chap" id="download" aria-labelledby="t-download">
-    <p class="chapter reveal"><span class="chapter__n">07</span> <span class="chapter__t">Download</span></p>
-    <h2 class="chap__title reveal" id="t-download">Try it in your next meeting.</h2>
-    <div class="mt-download reveal">
-      <a class="mt-btn" href="assets/downloads/MeetingTranscript-1.6.3.dmg" download><img src="assets/images/brain-itch/transcript-logo.webp" width="32" height="32" alt="">Download Meeting Transcript <span aria-hidden="true">↓</span></a>
-      <p class="mt-only">Only for macOS. It does not run on Windows, Linux, iPhone or Android.</p>
-      <p class="mt-meta">Version 1.6.3 · DMG · 6.4 MB · macOS 14.2 or later · Apple Silicon (M1 or newer) · about 0.6 GB free space for the speech model</p>
-      <p class="mt-sum">SHA-256: e729f4c858b7af93054de61d6099ca7e184856eb6b1a86df4736d3117cfe326d</p>
-    </div>
-    <ol class="mt-steps reveal">
-      <li>Open the DMG and drag <strong>Meeting Transcript</strong> into Applications.</li>
-      <li>The app is not notarised by Apple yet, so macOS blocks the first launch. Open it once, then go to <strong>System Settings › Privacy &amp; Security</strong> and click <strong>Open Anyway</strong>.</li>
-      <li>Click the icon in the menu bar. Under <strong>Automatic transcription</strong>, give consent, keep <strong>Include my voice</strong> on and press <strong>Turn On</strong>. The speech models download once (about 590 MB).</li>
-      <li>Allow the microphone and audio-recording prompts. Then just join a call.</li>
-    </ol>
-    <p class="note reveal"><b>Good to know</b>Transcripts are saved in <code>Documents/Meeting Transcript</code>, sorted by date. Use headphones so the app can tell your voice from the call.</p>
-  </section>
-
-  <aside class="next" aria-label="Back to projects">
-    <p class="next__label">Back to</p>
+  <aside class="next" aria-label="Back to side projects">
+    <p class="next__label">Back To</p>
     <a class="next__link" href="index.html#brain-itch">
-      <span class="next__title">Brain itch</span>
+      <span class="next__title">Brain Itch</span>
     </a>
     <p class="next__story">More side projects I built because the idea wouldn’t leave me alone.</p>
   </aside>
@@ -922,7 +842,6 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 </script>
 <script src="assets/case-study.js" defer></script>
 <script src="assets/theme.js" defer></script>
-<script src="assets/music.js" defer></script>
 <!-- Vercel Web Analytics: page views only, no cookies. The script is served by Vercel
      itself, so it only loads on the deployed site (it is a harmless 404 when run locally). -->
 <script>

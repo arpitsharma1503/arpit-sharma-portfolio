@@ -194,7 +194,8 @@ ul, ol { padding: 0; list-style: none; }
 .nav__links a { display: inline-flex; align-items: center; gap: 8px; opacity: .92; padding-block: 12px; margin-block: -12px; }   /* bigger tap area, same layout */
 .nav__links a:hover { opacity: 1; }
 .nav__links svg { width: 15px; height: 15px; flex: none; }
-@media (max-width: 599px) { .nav__extra { display: none !important; } }   /* phones: no room beside the name; the sections are a scroll away */
+@media (max-width: 899px) { .nav__extra { display: none !important; } }
+.nav__links a, .brand { white-space: nowrap; }   /* phones: no room beside the name; the sections are a scroll away */
 
 /* ==========================================================================
    4. Hero
@@ -528,7 +529,11 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
     </a>
     <a class="nav__extra" href="index.html#skills">
       <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.6 4.4L14 7.5l-4.4 1.6L8 13.5 6.4 9.1 2 7.5l4.4-1.6z" fill="#a896ff"/></svg>
-      Skills
+      Claude Skills
+    </a>
+    <a class="nav__extra" href="index.html#brain-itch">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5a4.5 4.5 0 0 0-2.6 8.2V11.5h5.2V9.7A4.5 4.5 0 0 0 8 1.5zM6 13h4v1.5H6z" fill="#f2c94c"/></svg>
+      Brain Itch
     </a>
     <a href="#contact">
       <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="2" fill="#e5322d"/><path d="M3 5l5 3.5L13 5" stroke="#fff" stroke-width="1.2" fill="none"/></svg>
@@ -574,11 +579,11 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 00 — At a glance -->
   <section class="chap chap--glance" aria-labelledby="t-glance">
-    <p class="chapter reveal"><span class="chapter__n">00</span> <span class="chapter__t" id="t-glance">At a glance</span></p>
+    <p class="chapter reveal"><span class="chapter__n">00</span> <span class="chapter__t" id="t-glance">At a Glance</span></p>
     <dl class="glance">
-      <div><dt>The challenge</dt><dd>Give a premium Indian activewear label, with 339 products in its catalogue, a digital home as considered as the product.</dd></div>
-      <div><dt>What I did</dt><dd>Studied the full catalogue, shaped its structure, set one type-led identity, and designed the path from first visit to checkout.</dd></div>
-      <div><dt>What shipped</dt><dd>A responsive storefront with 22 collections and 296 product pages, live on joggersports.com. The look has changed since, but it still uses components I designed.</dd></div>
+      <div><dt>The Challenge</dt><dd>Give a premium Indian activewear label, with 339 products in its catalogue, a digital home as considered as the product.</dd></div>
+      <div><dt>What I Did</dt><dd>Studied the full catalogue, shaped its structure, set one type-led identity, and designed the path from first visit to checkout.</dd></div>
+      <div><dt>What Shipped</dt><dd>A responsive storefront with 22 collections and 296 product pages, live on joggersports.com. The look has changed since, but it still uses components I designed.</dd></div>
     </dl>
   </section>
 
@@ -591,8 +596,8 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
       <p>A premium product earns its price in the hand. On a screen, <strong>type, pace and restraint have to do that work</strong>. The range is also large, so the experience had to stay calm at scale and still get people to the right piece quickly.</p>
       <p>One rule held throughout: <strong>nothing invented</strong>. Every price, fabric, size and policy comes from the brand’s own data.</p>
     </div>
-    <p class="pull reveal"><span class="pull__label">The design brief, distilled</span>Make a customer feel something before they buy anything, using only what is true.</p>
-    <p class="note reveal"><b>Where it stands</b>I did this work in 2022 and it went live on joggersports.com. The site’s design has changed since, but it still uses components I worked on. The screens here show the design as I made it.</p>
+    <p class="pull reveal"><span class="pull__label">The Design Brief, Distilled</span>Make a customer feel something before they buy anything, using only what is true.</p>
+    <p class="note reveal"><b>Where It Stands</b>I did this work in 2022 and it went live on joggersports.com. The site’s design has changed since, but it still uses components I worked on. The screens here show the design as I made it.</p>
   </section>
 
   <!-- 02 — Research -->
@@ -619,7 +624,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 03 — Key insights -->
   <section class="chap" aria-labelledby="t-insights">
-    <p class="chapter reveal"><span class="chapter__n">03</span> <span class="chapter__t">Key insights</span></p>
+    <p class="chapter reveal"><span class="chapter__n">03</span> <span class="chapter__t">Key Insights</span></p>
     <h2 class="chap__title reveal" id="t-insights">Six findings shaped every decision.</h2>
     <div data-stagger class="grid grid--3" style="margin-top:0">
       <div class="card"><h3>One garment, many pages</h3><p>Each colour was listed as its own product, so the range looked far bigger than it is.</p></div>
@@ -633,7 +638,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 04 — Product strategy -->
   <section class="chap" aria-labelledby="t-strategy">
-    <p class="chapter reveal"><span class="chapter__n">04</span> <span class="chapter__t">Product strategy</span></p>
+    <p class="chapter reveal"><span class="chapter__n">04</span> <span class="chapter__t">Product Strategy</span></p>
     <h2 class="chap__title reveal" id="t-strategy">Earn belief first, then make buying effortless.</h2>
     <div class="principles" style="margin-top:0">
       <article class="principle">
@@ -657,7 +662,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 05 — Information architecture -->
   <section class="chap" aria-labelledby="t-ia">
-    <p class="chapter reveal"><span class="chapter__n">05</span> <span class="chapter__t">Information architecture</span></p>
+    <p class="chapter reveal"><span class="chapter__n">05</span> <span class="chapter__t">Information Architecture</span></p>
     <h2 class="chap__title reveal" id="t-ia">I replaced a flat store with three ways in.</h2>
     <div class="prose reveal">
       <p class="lead">People shop by who they are, what they do, or which line they like, so the structure offers all three.</p>
@@ -676,7 +681,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 06 — Design exploration -->
   <section class="chap" aria-labelledby="t-explore">
-    <p class="chapter reveal"><span class="chapter__n">06</span> <span class="chapter__t">Design exploration</span></p>
+    <p class="chapter reveal"><span class="chapter__n">06</span> <span class="chapter__t">Design Exploration</span></p>
     <h2 class="chap__title reveal" id="t-explore">Type became the identity, and the first font choices lost.</h2>
     <div class="prose reveal">
       <p class="lead">With few lifestyle photos, type had to carry the brand.</p>
@@ -689,7 +694,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 07 — Design system -->
   <section class="chap" aria-labelledby="t-system">
-    <p class="chapter reveal"><span class="chapter__n">07</span> <span class="chapter__t">Design system</span></p>
+    <p class="chapter reveal"><span class="chapter__n">07</span> <span class="chapter__t">Design System</span></p>
     <h2 class="chap__title reveal" id="t-system">One token file keeps every page in the same voice.</h2>
     <div class="prose reveal">
       <p class="lead">A calm stone palette lets the photos and the type do the talking.</p>
@@ -706,7 +711,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
   <!-- 08 — Final experience -->
   <section class="chap" aria-labelledby="t-final">
-    <p class="chapter reveal"><span class="chapter__n">08</span> <span class="chapter__t">Final experience</span></p>
+    <p class="chapter reveal"><span class="chapter__n">08</span> <span class="chapter__t">Final Experience</span></p>
     <h2 class="chap__title reveal" id="t-final">Three journeys, one calm path to purchase.</h2>
 
     <div class="tabs">
@@ -715,7 +720,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
         <div class="journey__intro"><p class="journey__label">Journey 1 — Discover</p>
         <h3 class="journey__title">From first impression to the right shelf</h3>
         <p class="journey__goal">The site has to sell the belief and still get people to products fast.</p></div>
-        <div class="journey__moves"><p class="moves__label">Key moves</p>
+        <div class="journey__moves"><p class="moves__label">Key Moves</p>
         <ul class="moves">
           <li>Search handles “tshirt” and “t-shirt” alike, and “men” no longer returns women’s products</li>
           <li>One filter drawer works on desktop and phone, and only offers options that can match</li>
@@ -732,7 +737,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
         <div class="journey__intro"><p class="journey__label">Journey 2 — Decide</p>
         <h3 class="journey__title">Everything needed to choose, nothing invented</h3>
         <p class="journey__goal">A product page earns the purchase with honest detail.</p></div>
-        <div class="journey__moves"><p class="moves__label">Key moves</p>
+        <div class="journey__moves"><p class="moves__label">Key Moves</p>
         <ul class="moves">
           <li>Colour swatches switch product and imagery, with repeats removed</li>
           <li>Sold-out sizes are visible but cannot be chosen</li>
@@ -749,7 +754,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
         <div class="journey__intro"><p class="journey__label">Journey 3 — Buy</p>
         <h3 class="journey__title">A checkout that stays out of the way</h3>
         <p class="journey__goal">Seven clear steps, no site navigation, nothing in the way.</p></div>
-        <div class="journey__moves"><p class="moves__label">Key moves</p>
+        <div class="journey__moves"><p class="moves__label">Key Moves</p>
         <ul class="moves">
           <li>The bag survives a refresh, and quantity and removal work in place</li>
           <li>Errors are tied to their fields and checked per step</li>
@@ -778,10 +783,10 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
       <li class="stat"><strong><span aria-hidden="true" data-count="94">94</span><span class="sr-only">94</span></strong><span>garments, grouped by colour</span></li>
     </ul>
     <ul class="stats stats--results reveal" aria-label="Results">
-      <li class="stat"><strong class="is-up">+25%</strong><b>User engagement</b><span>More interaction with collections and product pages</span></li>
-      <li class="stat"><strong class="is-up">+20%</strong><b>Conversion rate</b><span>A smoother journey from discovery to checkout</span></li>
-      <li class="stat"><strong class="is-up">−30%</strong><b>Navigation friction</b><span>Faster and more intuitive product navigation</span></li>
-      <li class="stat"><strong class="is-up">+45%</strong><b>Product discovery</b><span>Improved product exploration through better categorisation and filters</span></li>
+      <li class="stat"><strong class="is-up">+25%</strong><b>User Engagement</b><span>More interaction with collections and product pages</span></li>
+      <li class="stat"><strong class="is-up">+20%</strong><b>Conversion Rate</b><span>A smoother journey from discovery to checkout</span></li>
+      <li class="stat"><strong class="is-up">−30%</strong><b>Navigation Friction</b><span>Faster and more intuitive product navigation</span></li>
+      <li class="stat"><strong class="is-up">+45%</strong><b>Product Discovery</b><span>Improved product exploration through better categorisation and filters</span></li>
     </ul>
     <p class="stats__source reveal">Source: site analytics, compared with before the redesign.</p>
     <figure class="shot reveal"><img src="assets/images/jogger/d-story.webp" width="1800" height="1125" loading="lazy" decoding="async" alt="Closing section of the Our Story page with the headline This brand is for you."></figure>
@@ -817,7 +822,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
   </section>
 
   <aside class="next" aria-label="Next project">
-    <p class="next__label">Next up</p>
+    <p class="next__label">Next Up</p>
     <a class="next__link" href="groupbima.html">
       <span class="next__title">GroupBima</span>
     </a>
@@ -949,7 +954,6 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 </script>
 <script src="assets/case-study.js" defer></script>
 <script src="assets/theme.js" defer></script>
-<script src="assets/music.js" defer></script>
 <!-- Vercel Web Analytics: page views only, no cookies. The script is served by Vercel
      itself, so it only loads on the deployed site (it is a harmless 404 when run locally). -->
 <script>
