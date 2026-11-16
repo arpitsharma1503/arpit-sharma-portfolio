@@ -473,7 +473,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
 
 <style>
 /* AURA page */
-.au-cover { margin: clamp(32px, 6vh, 64px) var(--edge) 0; border-radius: 16px; box-shadow: 0 30px 80px rgba(0,0,0,.35); }
+.au-cover { margin: clamp(32px, 6vh, 64px) var(--edge) 0; border: 0; } /* image has its own device frame and shadow */
 .au-shot { border-radius: 14px; }
 .au-zoom { display: block; cursor: zoom-in; }
 .au-zoom img { transition: transform .5s cubic-bezier(.2,.8,.2,1); }
@@ -552,7 +552,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
     </dl>
   </header>
 
-  <figure class="shot au-shot au-cover reveal"><a class="au-zoom" href="assets/images/aura/home.webp" target="_blank" rel="noopener" aria-label="Open full-size screenshot"><img src="assets/images/aura/home.webp" width="2000" height="1079" fetchpriority="high" decoding="async" alt="AURA home screen: the time and date, a location, status chips for weather, groceries, ad blocking and internet speed, then cards for weather, commute, today’s meals, groceries with a QR code, before-you-go tips, calendar, Ask AURA and smart home."></a><figcaption>The Home screen. Everything a household checks before the day starts, readable from across the room.</figcaption></figure>
+  <figure class="shot au-shot au-cover reveal"><a class="au-zoom" href="assets/images/aura/home.webp" target="_blank" rel="noopener" aria-label="Open full-size screenshot"><img src="assets/images/aura/home.webp" width="2000" height="1182" fetchpriority="high" decoding="async" alt="AURA home screen: a large weather card with the hourly forecast, feels-like, rain, humidity and air quality; an analog and digital clock; today’s calendar with a birthday and the tithi; and cards for groceries, today’s meals, commute and smart home."></a><figcaption>The Home screen. Everything a household checks before the day starts, readable from across the room.</figcaption></figure>
 
   <!-- 00 — At a Glance -->
   <section class="chap chap--glance" aria-labelledby="t-glance">
@@ -665,10 +665,10 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
       <p class="lead">Home shows a bit of everything. The other four tabs go deeper into one part of the day.</p>
     </div>
     <div class="au-rooms">
-      <figure class="shot au-shot reveal"><a class="au-zoom" href="assets/images/aura/daily-planning.webp" target="_blank" rel="noopener" aria-label="Open full-size screenshot"><img src="assets/images/aura/daily-planning.webp" width="2000" height="1081" loading="lazy" decoding="async" alt="Daily planning tab: calendar with Chhath Puja, Guru Nanak Jayanti and today’s tithi; today’s meals; the grocery list; commute; and before-you-go tips."></a><figcaption><b>Daily Planning</b> · calendar, meals, groceries, commute and tips together.</figcaption></figure>
-      <figure class="shot au-shot reveal"><a class="au-zoom" href="assets/images/aura/price-tracker.webp" target="_blank" rel="noopener" aria-label="Open full-size screenshot"><img src="assets/images/aura/price-tracker.webp" width="2000" height="1082" loading="lazy" decoding="async" alt="Price Tracker tab: 24K gold per 10 g with 22K to 14K rates and silver per kg, each with the change since yesterday."></a><figcaption><b>Price Tracker</b> · IBJA gold and silver rates, checked daily at noon.</figcaption></figure>
-      <figure class="shot au-shot reveal"><a class="au-zoom" href="assets/images/aura/smart-home.webp" target="_blank" rel="noopener" aria-label="Open full-size screenshot"><img src="assets/images/aura/smart-home.webp" width="2000" height="1086" loading="lazy" decoding="async" alt="Smart home tab: a smart home card waiting for devices, Ask AURA ready, and the weather with a five-day forecast."></a><figcaption><b>Smart Home</b> · Home Assistant, voice and weather.</figcaption></figure>
-      <figure class="shot au-shot reveal"><a class="au-zoom" href="assets/images/aura/system.webp" target="_blank" rel="noopener" aria-label="Open full-size screenshot"><img src="assets/images/aura/system.webp" width="2000" height="1082" loading="lazy" decoding="async" alt="System tab: Raspberry Pi health with CPU temperature, memory, storage and network, plus network protection running."></a><figcaption><b>System</b> · the Pi’s health and network protection.</figcaption></figure>
+      <figure class="shot au-shot reveal"><a class="au-zoom" href="assets/images/aura/daily-planning.webp" target="_blank" rel="noopener" aria-label="Open full-size screenshot"><img src="assets/images/aura/daily-planning.webp" width="2000" height="1182" loading="lazy" decoding="async" alt="Daily planning tab: today’s calendar with a birthday, book club, a weekend trip and a dentist visit, plus the tithi; today’s meals; the grocery list with a QR code; the best time to leave with a traffic chart; and before-you-go tips."></a><figcaption><b>Daily Planning</b> · calendar, meals, groceries, commute and tips together.</figcaption></figure>
+      <figure class="shot au-shot reveal"><a class="au-zoom" href="assets/images/aura/price-tracker.webp" target="_blank" rel="noopener" aria-label="Open full-size screenshot"><img src="assets/images/aura/price-tracker.webp" width="2000" height="1182" loading="lazy" decoding="async" alt="Price Tracker tab: 24K gold per 10 g with 22K to 14K rates and silver per kg, each with the change since yesterday."></a><figcaption><b>Price Tracker</b> · IBJA gold and silver rates, checked daily at noon.</figcaption></figure>
+      <figure class="shot au-shot reveal"><a class="au-zoom" href="assets/images/aura/smart-home.webp" target="_blank" rel="noopener" aria-label="Open full-size screenshot"><img src="assets/images/aura/smart-home.webp" width="2000" height="1182" loading="lazy" decoding="async" alt="Smart home tab: 10 of 10 devices online, listed room by room, Ask AURA ready, and the weather with a five-day forecast."></a><figcaption><b>Smart Home</b> · Home Assistant, voice and weather.</figcaption></figure>
+      <figure class="shot au-shot reveal"><a class="au-zoom" href="assets/images/aura/system.webp" target="_blank" rel="noopener" aria-label="Open full-size screenshot"><img src="assets/images/aura/system.webp" width="2000" height="1182" loading="lazy" decoding="async" alt="System tab: Raspberry Pi health with CPU temperature, memory, storage and network, network protection active, Ask AURA ready and a smart home summary."></a><figcaption><b>System</b> · the Pi’s health and network protection.</figcaption></figure>
     </div>
   </section>
 
@@ -677,7 +677,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
     <p class="chapter reveal"><span class="chapter__n">05</span> <span class="chapter__t">Design Choices</span></p>
     <h2 class="chap__title reveal" id="t-design">Look once, know your day.</h2>
     <div data-stagger class="grid grid--3">
-      <div class="card"><h3>Status first</h3><p>A row of chips up top answers the four most common questions: weather, groceries, ad blocking and internet speed.</p></div>
+      <div class="card"><h3>Status first</h3><p>A slim bar up top answers the quick questions on every screen: what to take before you go, the internet speed and the time.</p></div>
       <div class="card"><h3>Readable from the sofa</h3><p>Big time, large numbers and dark glass cards over a quiet mountain backdrop, so it reads from across the room.</p></div>
       <div class="card"><h3>Honest states</h3><p>It says <q>Commute window over</q>, <q>today’s update hasn’t arrived</q> or <q>No devices yet</q> instead of showing stale or empty data.</p></div>
       <div class="card"><h3>Made for this home</h3><p>Indian festivals, the tithi in Devanagari, rupee prices per karat and home-cooked meal plans.</p></div>
@@ -704,7 +704,7 @@ a.project:active { scale: .985; transition: scale 100ms ease-out; }
     <p class="chapter reveal"><span class="chapter__n">07</span> <span class="chapter__t">What’s Next</span></p>
     <h2 class="chap__title reveal" id="t-next">Still growing, one itch at a time.</h2>
     <div class="prose reveal">
-      <p><strong>Smart-home devices.</strong> Home Assistant is connected and ready for lights and switches.</p>
+      <p><strong>Smarter routines.</strong> Ten devices across seven rooms are online with three scenes. Next come routines that run on their own, like lights off when everyone leaves.</p>
       <p><strong>A smarter voice.</strong> “Hey Aura” already answers weather and commute questions, and it will learn more over time.</p>
     </div>
   </section>
